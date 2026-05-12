@@ -32,7 +32,7 @@ export default function Footer() {
     setCurrentYear(new Date().getFullYear());
   }, []);
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = (e: React.FormEvent<HTMLFormElement>) => {  // ✅ FIXED
     e.preventDefault();
     if (subscriberEmail) {
       setEmailSubscribed(true);
