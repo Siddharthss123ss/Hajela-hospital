@@ -13,7 +13,8 @@ import {
   Shield,
   Award,
   ChevronRight,
-  Send
+  Send,
+  CheckCircle  // ← YEH ADD KARO
 } from "lucide-react";
 import {
   FaFacebookF,
