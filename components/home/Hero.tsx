@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative h-screen overflow-hidden">
+    <section className="relative h-[100svh] overflow-hidden bg-black">
 
       {/* VIDEO */}
 
@@ -11,146 +11,43 @@ export default function Hero() {
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-full object-cover"
+        preload="auto"
+        className="
+        absolute
+        inset-0
+        w-full
+        h-full
+        object-cover
+        md:object-center
+        object-[65%_center]
+        scale-105
+        brightness-[0.9]
+        "
       >
-        <source src="/videos/hero.mp4" type="video/mp4" />
+        <source src="/videos/hero1.mp4" type="video/mp4" />
       </video>
 
-      {/* DARK OVERLAY */}
+      {/* LIGHT OVERLAY */}
 
-      <div className="absolute inset-0 bg-black/60"></div>
+      <div className="absolute inset-0 bg-black/25"></div>
 
-      {/* CONTENT */}
+      {/* TOP GRADIENT */}
 
       <div
         className="
-        relative
-        z-20
-        h-full
-        flex
-        items-center
-        justify-center
-        text-center
-        px-6
+        absolute
+        top-0
+        left-0
+        w-full
+        h-28
+        bg-gradient-to-b
+        from-black/70
+        to-transparent
+        z-10
         "
-      >
+      />
 
-        <div className="max-w-4xl">
-
-          {/* TAG */}
-
-          <p
-            className="
-            text-cyan-300
-            font-semibold
-            tracking-[4px]
-            uppercase
-            mb-5
-            text-sm
-            sm:text-base
-            "
-          >
-            Hajela Hospital Bhopal
-          </p>
-
-          {/* HEADING */}
-
-          <h1
-            className="
-            text-4xl
-            sm:text-5xl
-            lg:text-7xl
-            font-bold
-            leading-tight
-            text-white
-            "
-          >
-            Advanced Healthcare
-
-            <span className="block text-cyan-400">
-              For Better Living
-            </span>
-
-          </h1>
-
-          {/* TEXT */}
-
-          <p
-            className="
-            mt-6
-            text-base
-            sm:text-lg
-            text-slate-200
-            leading-relaxed
-            max-w-2xl
-            mx-auto
-            "
-          >
-            Experience world-class healthcare services with
-            advanced technology, expert doctors, and compassionate care.
-          </p>
-
-          {/* BUTTONS */}
-
-          <div
-            className="
-            mt-10
-            flex
-            flex-col
-            sm:flex-row
-            gap-4
-            justify-center
-            "
-          >
-
-            {/* APPOINTMENT BUTTON */}
-
-            <Link
-              href="/appointment"
-              className="
-              bg-gradient-to-r
-              from-blue-700
-              to-cyan-500
-              text-white
-              px-8
-              py-4
-              rounded-full
-              hover:scale-105
-              transition-all
-              duration-300
-              shadow-2xl
-              "
-            >
-              Book Appointment
-            </Link>
-
-            {/* SERVICES BUTTON */}
-
-            <Link
-              href="/departments"
-              className="
-              border
-              border-white
-              text-white
-              px-8
-              py-4
-              rounded-full
-              hover:bg-white
-              hover:text-black
-              transition-all
-              duration-300
-              "
-            >
-              Explore Services
-            </Link>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      {/* BOTTOM FADE */}
+      {/* BOTTOM GRADIENT */}
 
       <div
         className="
@@ -160,10 +57,109 @@ export default function Hero() {
         w-full
         h-40
         bg-gradient-to-t
-        from-black/80
+        from-black/70
+        via-black/20
         to-transparent
+        z-10
         "
-      ></div>
+      />
+
+      {/* PATIENT PORTAL */}
+
+      <div
+        className="
+        absolute
+        top-24
+        right-4
+        z-30
+        "
+      >
+        <Link
+          href="/appointment"
+          className="
+          bg-gradient-to-r
+          from-blue-700
+          to-cyan-500
+          text-white
+          text-sm
+          font-semibold
+          px-5
+          py-2.5
+          rounded-md
+          shadow-xl
+          hover:scale-105
+          transition-all
+          duration-300
+          "
+        >
+          ⚡ Patient Portal
+        </Link>
+      </div>
+
+      {/* BOTTOM BUTTONS */}
+
+      <div
+        className="
+        absolute
+        bottom-10
+        left-1/2
+        -translate-x-1/2
+        z-30
+        flex
+        flex-col
+        sm:flex-row
+        gap-4
+        w-full
+        px-6
+        sm:w-auto
+        sm:px-0
+        "
+      >
+
+        <Link
+          href="/appointment"
+          className="
+          bg-gradient-to-r
+          from-blue-700
+          to-cyan-500
+          text-white
+          text-center
+          font-semibold
+          px-8
+          py-4
+          rounded-full
+          shadow-2xl
+          hover:scale-105
+          transition-all
+          duration-300
+          "
+        >
+          Book Appointment
+        </Link>
+
+        <Link
+          href="/departments"
+          className="
+          bg-white/10
+          backdrop-blur-md
+          border
+          border-white/20
+          text-white
+          text-center
+          font-semibold
+          px-8
+          py-4
+          rounded-full
+          hover:bg-white
+          hover:text-black
+          transition-all
+          duration-300
+          "
+        >
+          Explore Services
+        </Link>
+
+      </div>
 
     </section>
   );

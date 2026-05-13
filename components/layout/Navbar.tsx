@@ -1,191 +1,500 @@
 "use client";
 
 import Link from "next/link";
+import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
 
 export default function Navbar() {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [galleryOpen, setGalleryOpen] = useState(false);
-  const [mobileGalleryOpen, setMobileGalleryOpen] = useState(false);
+
+  const [open, setOpen] = useState(false);
+
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+
+      setScrolled(window.scrollY > 10);
+
     };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () =>
+      window.removeEventListener("scroll", handleScroll);
+
   }, []);
 
   return (
+
     <header
       className={`
-      fixed top-0 left-0 w-full z-50 transition-all duration-300
+      fixed
+      top-0
+      left-0
+      w-full
+      z-50
+      transition-all
+      duration-300
       ${
         scrolled
-          ? "bg-slate-950/90 backdrop-blur-xl shadow-xl py-3"
-          : "bg-transparent py-5"
+          ? "bg-black/55 backdrop-blur-lg border-b border-white/10"
+          : "bg-gradient-to-b from-black/60 to-black/10"
       }
       `}
     >
-      <div className="container-custom flex items-center justify-between">
-        
-        {/* LOGO */}
-        <Link href="/">
-          <h1 className="text-2xl lg:text-3xl font-bold text-white">
-            Hajela Hospital
-          </h1>
+
+      <div
+        className="
+        max-w-[1450px]
+        mx-auto
+        h-[62px]
+        px-4
+        lg:px-8
+        flex
+        items-center
+        justify-between
+        "
+      >
+
+        {/* LEFT */}
+
+        <Link
+          href="/"
+          className="flex items-center gap-2"
+        >
+
+          {/* LOGO */}
+
+          <img
+            src="/images/Logo.avif"
+            alt="Hajela Hospital"
+            className="
+            w-9
+            h-9
+            sm:w-10
+            sm:h-10
+            object-contain
+            rounded-full
+            bg-white
+            p-1
+            shadow-lg
+            "
+          />
+
+          {/* TEXT */}
+
+          <div className="leading-tight">
+
+            <h1
+              className="
+              text-white
+              font-bold
+              text-[14px]
+              sm:text-[20px]
+              tracking-wide
+              "
+            >
+              HAJELA HOSPITAL
+            </h1>
+
+            <div className="flex items-center gap-2 flex-wrap">
+
+              <p
+                className="
+                text-green-400
+                text-[7px]
+                sm:text-[11px]
+                "
+              >
+                Advanced Medical Care
+              </p>
+
+              <span className="text-white/40 text-[9px]">
+                •
+              </span>
+
+              <p
+                className="
+                text-white/70
+                text-[7px]
+                sm:text-[10px]
+                "
+              >
+                Since 1995
+              </p>
+
+            </div>
+
+          </div>
+
         </Link>
 
+        {/* CENTER BADGES */}
+
+        <div
+          className="
+          hidden
+          2xl:flex
+          items-center
+          gap-3
+          "
+        >
+
+          {/* NABH */}
+
+          <div
+            className="
+            flex
+            items-center
+            gap-2
+            bg-white/10
+            border
+            border-white/10
+            rounded-full
+            px-3
+            py-1.5
+            backdrop-blur-xl
+            "
+          >
+
+            <img
+              src="/images/nabh-logo.png"
+              alt="NABH"
+              className="
+              w-7
+              h-7
+              object-contain
+              "
+            />
+
+            <div>
+
+              <p
+                className="
+                text-white
+                text-[10px]
+                font-semibold
+                "
+              >
+                NABH Accredited
+              </p>
+
+              <p
+                className="
+                text-white/60
+                text-[8px]
+                "
+              >
+                Quality Care
+              </p>
+
+            </div>
+
+          </div>
+
+          {/* GREEN */}
+
+          <div
+            className="
+            flex
+            items-center
+            gap-2
+            bg-emerald-500/10
+            border
+            border-emerald-400/20
+            rounded-full
+            px-3
+            py-1.5
+            backdrop-blur-xl
+            "
+          >
+
+            <img
+              src="/images/green.avif"
+              alt="Green"
+              className="
+              w-6
+              h-6
+              object-contain
+              "
+            />
+
+            <div>
+
+              <p
+                className="
+                text-emerald-300
+                text-[10px]
+                font-semibold
+                "
+              >
+                Green Certified
+              </p>
+
+              <p
+                className="
+                text-white/60
+                text-[8px]
+                "
+              >
+                First Green Hospital
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
         {/* DESKTOP MENU */}
-        <nav className="hidden lg:flex items-center gap-10 text-white font-medium">
-          <Link href="/" className="hover:text-cyan-400 transition-all">
+
+        <nav
+          className="
+          hidden
+          lg:flex
+          items-center
+          gap-6
+          text-white
+          text-[14px]
+          font-medium
+          "
+        >
+
+          <Link
+            href="/"
+            className="
+            hover:text-cyan-400
+            transition-all
+            "
+          >
             Home
           </Link>
-          <Link href="/about" className="hover:text-cyan-400 transition-all">
+
+          <Link
+            href="/about"
+            className="
+            hover:text-cyan-400
+            transition-all
+            "
+          >
             About
           </Link>
-          <Link href="/departments" className="hover:text-cyan-400 transition-all">
+
+          <Link
+            href="/departments"
+            className="
+            hover:text-cyan-400
+            transition-all
+            "
+          >
             Departments
           </Link>
-          <Link href="/doctors" className="hover:text-cyan-400 transition-all">
+
+          <Link
+            href="/doctors"
+            className="
+            hover:text-cyan-400
+            transition-all
+            "
+          >
             Doctors
           </Link>
 
-          {/* GALLERY DROPDOWN */}
-          <div className="relative">
-            <button
-              onClick={() => setGalleryOpen(!galleryOpen)}
-              className="flex items-center gap-2 hover:text-cyan-400 transition-all"
-            >
-              Gallery
-              <ChevronDown
-                size={18}
-                className={`transition-all duration-300 ${galleryOpen ? "rotate-180" : ""}`}
-              />
-            </button>
-
-            <div
-              className={`
-              absolute top-14 left-0 w-64 rounded-3xl overflow-hidden bg-white shadow-2xl border border-slate-100
-              transition-all duration-300
-              ${galleryOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-3"}
-              `}
-            >
-              <Link
-                href="/gallery/photos"
-                className="block px-6 py-5 text-slate-800 hover:bg-slate-50 border-b border-slate-100 transition-all"
-                onClick={() => setGalleryOpen(false)}
-              >
-                Event Images
-              </Link>
-              <Link
-                href="/gallery/videos"
-                className="block px-6 py-5 text-slate-800 hover:bg-slate-50 border-b border-slate-100 transition-all"
-                onClick={() => setGalleryOpen(false)}
-              >
-                Video Gallery
-              </Link>
-              <Link
-                href="/gallery/news-events"
-                className="block px-6 py-5 text-slate-800 hover:bg-slate-50 transition-all"
-                onClick={() => setGalleryOpen(false)}
-              >
-                News & Events
-              </Link>
-            </div>
-          </div>
-
-          <Link href="/contact" className="hover:text-cyan-400 transition-all">
+          <Link
+            href="/contact"
+            className="
+            hover:text-cyan-400
+            transition-all
+            "
+          >
             Contact
           </Link>
+
         </nav>
 
-        {/* APPOINTMENT BUTTON */}
-        <Link
-          href="/appointment"
-          className="hidden lg:flex items-center justify-center bg-gradient-to-r from-blue-700 to-cyan-500 text-white px-7 py-3 rounded-full hover:scale-105 transition-all duration-300"
-        >
-          Appointment
-        </Link>
+        {/* RIGHT */}
 
-        {/* MOBILE BUTTON */}
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden text-white">
-          {mobileOpen ? <X size={32} /> : <Menu size={32} />}
-        </button>
-      </div>
+        <div className="flex items-center gap-3">
 
-      {/* MOBILE OVERLAY */}
-      <div
-        className={`
-        fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-all duration-300 lg:hidden
-        ${mobileOpen ? "opacity-100 visible" : "opacity-0 invisible"}
-        `}
-        onClick={() => setMobileOpen(false)}
-      ></div>
+          {/* PATIENT PORTAL */}
 
-      {/* MOBILE DRAWER */}
-      <div
-        className={`
-        fixed top-0 left-0 h-screen w-[80%] max-w-[320px] bg-slate-950 z-50 shadow-2xl transition-all duration-300 lg:hidden flex flex-col
-        ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
-        `}
-      >
-        {/* TOP */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10">
-          <h2 className="text-2xl font-bold text-white">Hajela Hospital</h2>
-          <button onClick={() => setMobileOpen(false)} className="text-white">
-            <X size={30} />
-          </button>
-        </div>
-
-        {/* MENU */}
-        <div className="flex flex-col gap-6 p-6 text-white text-lg">
-          <Link href="/" onClick={() => setMobileOpen(false)}>Home</Link>
-          <Link href="/about" onClick={() => setMobileOpen(false)}>About</Link>
-          <Link href="/departments" onClick={() => setMobileOpen(false)}>Departments</Link>
-          <Link href="/doctors" onClick={() => setMobileOpen(false)}>Doctors</Link>
-
-          {/* MOBILE GALLERY */}
-          <div>
-            <button
-              onClick={() => setMobileGalleryOpen(!mobileGalleryOpen)}
-              className="flex items-center gap-2 text-cyan-400 font-semibold"
-            >
-              Gallery
-              <ChevronDown
-                size={18}
-                className={`transition-all duration-300 ${mobileGalleryOpen ? "rotate-180" : ""}`}
-              />
-            </button>
-            <div
-              className={`overflow-hidden transition-all duration-300 ${
-                mobileGalleryOpen ? "max-h-60 mt-4" : "max-h-0"
-              }`}
-            >
-              <div className="flex flex-col gap-4 pl-4 text-slate-300 text-base">
-                <Link href="/gallery/photos" onClick={() => setMobileOpen(false)}>Event Images</Link>
-                <Link href="/gallery/videos" onClick={() => setMobileOpen(false)}>Video Gallery</Link>
-                <Link href="/gallery/news-events" onClick={() => setMobileOpen(false)}>News & Events</Link>
-              </div>
-            </div>
-          </div>
-
-          <Link href="/contact" onClick={() => setMobileOpen(false)}>Contact</Link>
-        </div>
-
-        {/* MOBILE APPOINTMENT */}
-        <div className="mt-auto p-6">
           <Link
             href="/appointment"
-            onClick={() => setMobileOpen(false)}
-            className="w-full flex items-center justify-center bg-gradient-to-r from-blue-700 to-cyan-500 text-white py-4 rounded-2xl font-semibold"
+            className="
+            hidden
+            lg:flex
+            items-center
+            justify-center
+            bg-gradient-to-r
+            from-blue-700
+            to-cyan-500
+            text-white
+            px-4
+            py-2
+            rounded-full
+            text-[13px]
+            font-semibold
+            shadow-xl
+            hover:scale-105
+            transition-all
+            duration-300
+            "
           >
-            Appointment
+            ⚡ Patient Portal
           </Link>
+
+          {/* MOBILE BUTTON */}
+
+          <button
+            onClick={() => setOpen(!open)}
+            className="lg:hidden text-white"
+          >
+
+            {
+              open
+                ? <X size={26} />
+                : <Menu size={26} />
+            }
+
+          </button>
+
         </div>
+
       </div>
+
+      {/* MOBILE MENU */}
+
+      <div
+        className={`
+        lg:hidden
+        overflow-hidden
+        transition-all
+        duration-500
+        ${
+          open
+            ? "max-h-[450px]"
+            : "max-h-0"
+        }
+        `}
+      >
+
+        <div
+          className="
+          bg-black/95
+          backdrop-blur-xl
+          px-6
+          py-6
+          flex
+          flex-col
+          gap-5
+          text-white
+          "
+        >
+
+          <Link href="/">Home</Link>
+
+          <Link href="/about">About</Link>
+
+          <Link href="/departments">Departments</Link>
+
+          <Link href="/doctors">Doctors</Link>
+
+          <Link href="/contact">Contact</Link>
+
+          {/* MOBILE BADGES */}
+
+          <div className="flex gap-3 mt-2">
+
+            {/* NABH */}
+
+            <div
+              className="
+              flex-1
+              bg-white/5
+              rounded-2xl
+              p-3
+              border
+              border-white/10
+              "
+            >
+
+              <img
+                src="/images/nabh.png"
+                alt="NABH"
+                className="
+                w-10
+                h-10
+                object-contain
+                mb-2
+                "
+              />
+
+              <p className="text-xs">
+                NABH Accredited
+              </p>
+
+            </div>
+
+            {/* GREEN */}
+
+            <div
+              className="
+              flex-1
+              bg-emerald-500/10
+              rounded-2xl
+              p-3
+              border
+              border-emerald-400/20
+              "
+            >
+
+              <img
+                src="/images/green.avif"
+                alt="Green"
+                className="
+                w-9
+                h-9
+                object-contain
+                mb-2
+                "
+              />
+
+              <p
+                className="
+                text-xs
+                text-emerald-300
+                "
+              >
+                Green Certified
+              </p>
+
+            </div>
+
+          </div>
+
+          {/* BUTTON */}
+
+          <Link
+            href="/appointment"
+            className="
+            mt-2
+            bg-gradient-to-r
+            from-blue-700
+            to-cyan-500
+            py-3
+            rounded-xl
+            text-center
+            font-semibold
+            "
+          >
+            ⚡ Patient Portal
+          </Link>
+
+        </div>
+
+      </div>
+
     </header>
   );
 }
