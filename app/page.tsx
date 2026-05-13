@@ -6,7 +6,7 @@ import Stats from "@/components/home/Stats";
 import Departments from "@/components/home/Departments";
 import About from "@/components/home/About";
 import Doctors from "@/components/home/Doctors";
-import WhyChoose from "@/components/home/WhyChoose";
+import WhyChoose from "@/components/home/technology";
 import Testimonials from "@/components/home/Testimonials";
 import Appointment from "@/components/home/Appointment";
 import Emergency from "@/components/home/Emergency";
