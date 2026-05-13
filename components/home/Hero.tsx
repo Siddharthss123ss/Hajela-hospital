@@ -2,7 +2,14 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative h-[100svh] overflow-hidden bg-black">
+    <section
+      className="
+      relative
+      h-[100svh]
+      overflow-hidden
+      bg-black
+      "
+    >
 
       {/* VIDEO */}
 
@@ -18,20 +25,44 @@ export default function Hero() {
         w-full
         h-full
         object-cover
+        object-[68%_center]
         md:object-center
-        object-[65%_center]
-        scale-105
-        brightness-[0.9]
+        scale-[1.04]
+        brightness-110
+        contrast-110
+        saturate-[1.2]
         "
       >
-        <source src="/videos/hero1.mp4" type="video/mp4" />
+        <source
+          src="/videos/hero1.mp4"
+          type="video/mp4"
+        />
       </video>
 
-      {/* LIGHT OVERLAY */}
+      {/* PREMIUM OVERLAY */}
 
-      <div className="absolute inset-0 bg-black/25"></div>
+      <div
+        className="
+        absolute
+        inset-0
+        bg-black/30
+        "
+      ></div>
 
-      {/* TOP GRADIENT */}
+      {/* CINEMATIC LIGHT */}
+
+      <div
+        className="
+        absolute
+        inset-0
+        bg-gradient-to-r
+        from-black/55
+        via-transparent
+        to-black/35
+        "
+      ></div>
+
+      {/* TOP PREMIUM GLOW */}
 
       <div
         className="
@@ -39,15 +70,15 @@ export default function Hero() {
         top-0
         left-0
         w-full
-        h-28
+        h-36
         bg-gradient-to-b
         from-black/70
+        via-black/20
         to-transparent
-        z-10
         "
-      />
+      ></div>
 
-      {/* BOTTOM GRADIENT */}
+      {/* BOTTOM FADE */}
 
       <div
         className="
@@ -55,48 +86,15 @@ export default function Hero() {
         bottom-0
         left-0
         w-full
-        h-40
+        h-52
         bg-gradient-to-t
-        from-black/70
-        via-black/20
+        from-black/90
+        via-black/40
         to-transparent
-        z-10
         "
-      />
+      ></div>
 
-      {/* PATIENT PORTAL */}
-
-      <div
-        className="
-        absolute
-        top-24
-        right-4
-        z-30
-        "
-      >
-        <Link
-          href="/appointment"
-          className="
-          bg-gradient-to-r
-          from-blue-700
-          to-cyan-500
-          text-white
-          text-sm
-          font-semibold
-          px-5
-          py-2.5
-          rounded-md
-          shadow-xl
-          hover:scale-105
-          transition-all
-          duration-300
-          "
-        >
-          ⚡ Patient Portal
-        </Link>
-      </div>
-
-      {/* BOTTOM BUTTONS */}
+      {/* PREMIUM BUTTONS */}
 
       <div
         className="
@@ -110,48 +108,80 @@ export default function Hero() {
         sm:flex-row
         gap-4
         w-full
-        px-6
+        px-5
         sm:w-auto
         sm:px-0
         "
       >
 
+        {/* BUTTON 1 */}
+
         <Link
           href="/appointment"
           className="
+          group
+          relative
+          overflow-hidden
           bg-gradient-to-r
           from-blue-700
+          via-blue-600
           to-cyan-500
           text-white
           text-center
           font-semibold
-          px-8
-          py-4
+          text-sm
+          sm:text-base
+          px-7
+          sm:px-8
+          py-3.5
           rounded-full
-          shadow-2xl
+          shadow-[0_8px_30px_rgba(6,182,212,0.45)]
           hover:scale-105
           transition-all
           duration-300
           "
         >
-          Book Appointment
+
+          <span className="relative z-10">
+            Book Appointment
+          </span>
+
+          <div
+            className="
+            absolute
+            inset-0
+            bg-white/20
+            translate-y-full
+            group-hover:translate-y-0
+            transition-all
+            duration-300
+            "
+          ></div>
+
         </Link>
+
+        {/* BUTTON 2 */}
 
         <Link
           href="/departments"
           className="
           bg-white/10
-          backdrop-blur-md
+          backdrop-blur-xl
           border
           border-white/20
           text-white
           text-center
           font-semibold
-          px-8
-          py-4
+          text-sm
+          sm:text-base
+          px-7
+          sm:px-8
+          py-3.5
           rounded-full
+          shadow-xl
           hover:bg-white
           hover:text-black
+          hover:scale-105
           transition-all
           duration-300
           "
@@ -160,6 +190,16 @@ export default function Hero() {
         </Link>
 
       </div>
+
+      {/* SUBTLE PREMIUM SHINE */}
+
+      <div
+        className="
+        absolute
+        inset-0
+        bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.12),transparent_30%)]
+        "
+      ></div>
 
     </section>
   );
