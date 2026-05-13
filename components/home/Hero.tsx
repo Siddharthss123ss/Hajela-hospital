@@ -13,31 +13,51 @@ export default function Hero() {
 
       {/* VIDEO */}
 
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        className="
-        absolute
-        inset-0
-        w-full
-        h-full
-        object-cover
-        object-[68%_center]
-        md:object-center
-        scale-[1.04]
-        brightness-110
-        contrast-110
-        saturate-[1.2]
-        "
-      >
-        <source
-          src="/videos/hero1.mp4"
-          type="video/mp4"
-        />
-      </video>
+     {/* DESKTOP VIDEO */}
+
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="auto"
+  className="
+  hidden
+  md:block
+  absolute
+  inset-0
+  w-full
+  h-full
+  object-cover
+  object-center
+  brightness-[0.9]
+  scale-[1.02]
+  "
+>
+  <source src="/videos/hero1.mp4" type="video/mp4" />
+</video>
+
+{/* MOBILE VIDEO */}
+
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="auto"
+  className="
+  md:hidden
+  absolute
+  inset-0
+  w-full
+  h-full
+  object-cover
+  object-center
+  brightness-[0.96]
+  "
+>
+  <source src="/videos/hero-mobile.mp4.mp4" type="video/mp4" />
+</video>
 
       {/* PREMIUM OVERLAY */}
 

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+
 import {
   Menu,
   X,
@@ -46,13 +47,13 @@ export default function Navbar() {
       duration-500
       ${
         scrolled
-          ? "bg-black/55 backdrop-blur-xl border-b border-white/10"
-          : "bg-gradient-to-b from-black/70 via-black/30 to-transparent"
+          ? "bg-black/45 backdrop-blur-2xl border-b border-white/10"
+          : "bg-gradient-to-b from-black/80 via-black/30 to-transparent"
       }
       `}
     >
 
-      {/* PREMIUM LIGHT EFFECT */}
+      {/* LIGHT EFFECT */}
 
       <div
         className="
@@ -64,7 +65,7 @@ export default function Navbar() {
         to-blue-500/5
         pointer-events-none
         "
-      ></div>
+      />
 
       <div
         className="
@@ -78,7 +79,7 @@ export default function Navbar() {
 
         <div
           className="
-          h-[68px]
+          h-[76px]
           flex
           items-center
           justify-between
@@ -92,25 +93,22 @@ export default function Navbar() {
             className="
             flex
             items-center
-            gap-2
+            gap-3
             shrink-0
+            z-50
             "
           >
 
-            {/* MAIN LOGO */}
+            {/* LOGO */}
 
             <div
               className="
-              w-10
-              h-10
-              sm:w-11
-              sm:h-11
+              w-12
+              h-12
               rounded-full
               overflow-hidden
               bg-white
-              shadow-xl
-              border
-              border-white/20
+              shadow-[0_0_25px_rgba(255,255,255,0.2)]
               shrink-0
               "
             >
@@ -134,10 +132,11 @@ export default function Navbar() {
               <h1
                 className="
                 text-white
-                font-extrabold
-                text-[13px]
-                sm:text-[20px]
+                font-black
+                text-[14px]
+                sm:text-[28px]
                 tracking-wide
+                leading-none
                 "
               >
                 HAJELA HOSPITAL
@@ -148,6 +147,7 @@ export default function Navbar() {
                 flex
                 items-center
                 gap-2
+                mt-1
                 flex-wrap
                 "
               >
@@ -155,28 +155,23 @@ export default function Navbar() {
                 <p
                   className="
                   text-green-400
-                  text-[7px]
-                  sm:text-[11px]
-                  font-medium
+                  text-[8px]
+                  sm:text-[13px]
+                  font-semibold
                   "
                 >
                   Advanced Medical Care
                 </p>
 
-                <span
-                  className="
-                  text-white/40
-                  text-[8px]
-                  "
-                >
+                <span className="text-white/30 text-[10px]">
                   •
                 </span>
 
                 <p
                   className="
                   text-white/70
-                  text-[7px]
-                  sm:text-[10px]
+                  text-[8px]
+                  sm:text-[12px]
                   "
                 >
                   Since 1995
@@ -193,7 +188,7 @@ export default function Navbar() {
           <div
             className="
             hidden
-            2xl:flex
+            xl:flex
             items-center
             gap-3
             "
@@ -211,17 +206,18 @@ export default function Navbar() {
               border
               border-white/10
               rounded-full
-              px-3
-              py-1.5
+              px-4
+              py-2
+              shadow-xl
               "
             >
 
               <img
-                src="/images/nabh-logo.png"
+                src="/images/nabh.png"
                 alt="NABH"
                 className="
-                w-7
-                h-7
+                w-8
+                h-8
                 object-contain
                 "
               />
@@ -231,7 +227,7 @@ export default function Navbar() {
                 <p
                   className="
                   text-white
-                  text-[10px]
+                  text-[11px]
                   font-semibold
                   "
                 >
@@ -241,7 +237,7 @@ export default function Navbar() {
                 <p
                   className="
                   text-white/60
-                  text-[8px]
+                  text-[9px]
                   "
                 >
                   Quality Healthcare
@@ -263,17 +259,18 @@ export default function Navbar() {
               border
               border-emerald-400/20
               rounded-full
-              px-3
-              py-1.5
+              px-4
+              py-2
+              shadow-xl
               "
             >
 
               <img
-                src="/images/green.avif"
-                alt="Green"
+                src="/images/Green.avif"
+                alt="Green Hospital"
                 className="
-                w-6
-                h-6
+                w-7
+                h-7
                 object-contain
                 "
               />
@@ -283,7 +280,7 @@ export default function Navbar() {
                 <p
                   className="
                   text-emerald-300
-                  text-[10px]
+                  text-[11px]
                   font-semibold
                   "
                 >
@@ -293,7 +290,7 @@ export default function Navbar() {
                 <p
                   className="
                   text-white/60
-                  text-[8px]
+                  text-[9px]
                   "
                 >
                   First Green Hospital
@@ -323,7 +320,6 @@ export default function Navbar() {
               href="/"
               className="
               hover:text-cyan-400
-              hover:drop-shadow-[0_0_12px_rgba(34,211,238,0.7)]
               transition-all
               "
             >
@@ -334,7 +330,6 @@ export default function Navbar() {
               href="/about"
               className="
               hover:text-cyan-400
-              hover:drop-shadow-[0_0_12px_rgba(34,211,238,0.7)]
               transition-all
               "
             >
@@ -345,7 +340,6 @@ export default function Navbar() {
               href="/departments"
               className="
               hover:text-cyan-400
-              hover:drop-shadow-[0_0_12px_rgba(34,211,238,0.7)]
               transition-all
               "
             >
@@ -356,7 +350,6 @@ export default function Navbar() {
               href="/doctors"
               className="
               hover:text-cyan-400
-              hover:drop-shadow-[0_0_12px_rgba(34,211,238,0.7)]
               transition-all
               "
             >
@@ -374,7 +367,6 @@ export default function Navbar() {
                 items-center
                 gap-1
                 hover:text-cyan-400
-                hover:drop-shadow-[0_0_12px_rgba(34,211,238,0.7)]
                 transition-all
                 "
               >
@@ -429,7 +421,6 @@ export default function Navbar() {
                   text-slate-800
                   hover:bg-slate-50
                   border-b
-                  border-slate-100
                   "
                   onClick={() => setGalleryOpen(false)}
                 >
@@ -445,7 +436,6 @@ export default function Navbar() {
                   text-slate-800
                   hover:bg-slate-50
                   border-b
-                  border-slate-100
                   "
                   onClick={() => setGalleryOpen(false)}
                 >
@@ -474,7 +464,6 @@ export default function Navbar() {
               href="/contact"
               className="
               hover:text-cyan-400
-              hover:drop-shadow-[0_0_12px_rgba(34,211,238,0.7)]
               transition-all
               "
             >
@@ -487,7 +476,7 @@ export default function Navbar() {
 
           <div className="flex items-center gap-3">
 
-            {/* DESKTOP BUTTON */}
+            {/* DESKTOP PORTAL */}
 
             <Link
               href="/appointment"
@@ -514,30 +503,6 @@ export default function Navbar() {
               ⚡ Patient Portal
             </Link>
 
-            {/* MOBILE PORTAL */}
-
-            <Link
-              href="/appointment"
-              className="
-              lg:hidden
-              absolute
-              left-1/2
-              -translate-x-1/2
-              bg-gradient-to-r
-              from-blue-700
-              to-cyan-500
-              text-white
-              px-4
-              py-2
-              rounded-full
-              text-[11px]
-              font-semibold
-              shadow-xl
-              "
-            >
-              ⚡ Patient Portal
-            </Link>
-
             {/* MOBILE MENU */}
 
             <button
@@ -545,13 +510,14 @@ export default function Navbar() {
               className="
               lg:hidden
               text-white
+              z-50
               "
             >
 
               {
                 mobileOpen
-                  ? <X size={26} />
-                  : <Menu size={26} />
+                  ? <X size={30} />
+                  : <Menu size={30} />
               }
 
             </button>
@@ -559,6 +525,42 @@ export default function Navbar() {
           </div>
 
         </div>
+
+      </div>
+
+      {/* MOBILE PATIENT PORTAL */}
+
+      <div
+        className="
+        lg:hidden
+        fixed
+        top-[88px]
+        left-1/2
+        -translate-x-1/2
+        z-[60]
+        "
+      >
+
+        <Link
+          href="/appointment"
+          className="
+          bg-gradient-to-r
+          from-blue-700
+          to-cyan-500
+          text-white
+          px-4
+          py-2
+          rounded-full
+          text-[10px]
+          font-semibold
+          shadow-[0_10px_40px_rgba(37,99,235,0.45)]
+          border
+          border-white/10
+          backdrop-blur-xl
+          "
+        >
+          ⚡ Patient Portal
+        </Link>
 
       </div>
 
@@ -581,7 +583,7 @@ export default function Navbar() {
         }
         `}
         onClick={() => setMobileOpen(false)}
-      ></div>
+      />
 
       {/* MOBILE DRAWER */}
 
@@ -753,7 +755,7 @@ export default function Navbar() {
 
           {/* BADGES */}
 
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-3 pt-4">
 
             {/* NABH */}
 
@@ -802,8 +804,8 @@ export default function Navbar() {
                 src="/images/Green.avif"
                 alt="Green"
                 className="
-                w-9
-                h-9
+                w-10
+                h-10
                 object-contain
                 mb-2
                 "
