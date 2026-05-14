@@ -1,16 +1,43 @@
 @import "tailwindcss";
 
-/* SMOOTH SCROLL */
+/* =========================
+   ROOT
+========================= */
 
-html {
-  scroll-behavior: smooth;
+:root {
+
+  --primary:
+    #06b6d4;
+
+  --secondary:
+    #2563eb;
+
+  --dark:
+    #020617;
+
+  --text:
+    #0f172a;
+
 }
 
-/* BODY */
+/* =========================
+   SMOOTH SCROLL
+========================= */
+
+html {
+
+  scroll-behavior: smooth;
+
+}
+
+/* =========================
+   BODY
+========================= */
 
 body {
-  background: #f8fafc;
-  color: #0f172a;
+
+  color: var(--text);
+
   font-family:
     Inter,
     Arial,
@@ -19,40 +46,60 @@ body {
 
   overflow-x: hidden;
 
-  /* PREMIUM TEXT */
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8fafc;
 
   /* PREMIUM BACKGROUND */
 
   background-image:
+
     radial-gradient(
       circle at top right,
       rgba(34, 211, 238, 0.08),
-      transparent 28%
+      transparent 25%
     ),
 
     radial-gradient(
       circle at bottom left,
       rgba(59, 130, 246, 0.08),
       transparent 30%
+    ),
+
+    linear-gradient(
+      to bottom,
+      #ffffff,
+      #f8fafc
     );
 
   background-attachment: fixed;
+
+  /* PREMIUM FONT RENDERING */
+
+  -webkit-font-smoothing: antialiased;
+
+  -moz-osx-font-smoothing: grayscale;
+
 }
 
-/* PREMIUM CONTAINER */
+/* =========================
+   CONTAINER
+========================= */
 
 .container-custom {
+
   width: 92%;
+
   max-width: 1400px;
+
   margin-inline: auto;
+
 }
 
-/* PREMIUM GRADIENT TEXT */
+/* =========================
+   PREMIUM GRADIENT TEXT
+========================= */
 
 .gradient-text {
+
   background:
     linear-gradient(
       90deg,
@@ -62,110 +109,273 @@ body {
     );
 
   -webkit-background-clip: text;
+
   -webkit-text-fill-color: transparent;
+
 }
 
-/* PREMIUM GLASS EFFECT */
+/* =========================
+   GLASS EFFECT
+========================= */
 
 .glass {
-  background: rgba(255, 255, 255, 0.08);
 
-  backdrop-filter: blur(18px);
+  background:
+    rgba(255, 255, 255, 0.08);
 
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter:
+    blur(18px);
 
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter:
+    blur(18px);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.12);
+
 }
 
-/* PREMIUM BUTTON SHADOW */
-
-.btn-glow {
-  box-shadow:
-    0 10px 35px rgba(6, 182, 212, 0.35);
-}
-
-/* PREMIUM CARD */
+/* =========================
+   PREMIUM CARD
+========================= */
 
 .premium-card {
-  background: rgba(255, 255, 255, 0.72);
 
-  backdrop-filter: blur(18px);
+  background:
+    rgba(255, 255, 255, 0.72);
 
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter:
+    blur(20px);
 
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter:
+    blur(20px);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.18);
 
   box-shadow:
     0 10px 40px rgba(15, 23, 42, 0.08);
 
   transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    border 0.4s ease;
+
 }
 
 .premium-card:hover {
-  transform: translateY(-6px);
+
+  transform:
+    translateY(-8px);
+
+  border:
+    1px solid rgba(6, 182, 212, 0.2);
 
   box-shadow:
-    0 18px 50px rgba(15, 23, 42, 0.12);
+    0 20px 60px rgba(15, 23, 42, 0.14);
+
 }
 
-/* PREMIUM SCROLLBAR */
+/* =========================
+   PREMIUM BUTTON GLOW
+========================= */
+
+.btn-glow {
+
+  box-shadow:
+    0 10px 35px rgba(6, 182, 212, 0.35);
+
+}
+
+/* =========================
+   IMAGE EFFECT
+========================= */
+
+img {
+
+  image-rendering: auto;
+
+  transition:
+    transform 0.7s ease,
+    filter 0.5s ease;
+
+}
+
+/* =========================
+   VIDEO QUALITY
+========================= */
+
+video {
+
+  will-change: transform;
+
+  transform:
+    translateZ(0);
+
+}
+
+/* =========================
+   SECTION SPACING
+========================= */
+
+section {
+
+  position: relative;
+
+}
+
+/* =========================
+   PREMIUM SCROLLBAR
+========================= */
 
 ::-webkit-scrollbar {
+
   width: 8px;
+
 }
 
 ::-webkit-scrollbar-track {
-  background: #e2e8f0;
+
+  background:
+    #020617;
+
 }
 
 ::-webkit-scrollbar-thumb {
+
   background:
     linear-gradient(
       to bottom,
-      #2563eb,
-      #06b6d4
+      #06b6d4,
+      #2563eb
     );
 
-  border-radius: 999px;
+  border-radius:
+    999px;
+
 }
 
-/* PREMIUM SELECTION */
+/* =========================
+   PREMIUM TEXT SELECTION
+========================= */
 
 ::selection {
-  background: rgba(6, 182, 212, 0.25);
-  color: #0f172a;
+
+  background:
+    rgba(6, 182, 212, 0.25);
+
+  color:
+    white;
+
 }
 
-/* IMAGE QUALITY */
+/* =========================
+   TAP HIGHLIGHT REMOVE
+========================= */
 
-img {
-  image-rendering: auto;
+* {
+
+  -webkit-tap-highlight-color:
+    transparent;
+
 }
 
-/* VIDEO QUALITY */
+/* =========================
+   PREMIUM FADE ANIMATION
+========================= */
 
-video {
-  will-change: transform;
+.fade-up {
+
+  animation:
+    fadeUp 0.9s ease forwards;
+
 }
 
-/* PREMIUM SECTION SPACING */
+@keyframes fadeUp {
 
-section {
-  position: relative;
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(50px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+  }
+
 }
 
-/* MOBILE OPTIMIZATION */
+/* =========================
+   FLOAT ANIMATION
+========================= */
+
+.float {
+
+  animation:
+    floating 5s ease-in-out infinite;
+
+}
+
+@keyframes floating {
+
+  0% {
+
+    transform:
+      translateY(0px);
+
+  }
+
+  50% {
+
+    transform:
+      translateY(-10px);
+
+  }
+
+  100% {
+
+    transform:
+      translateY(0px);
+
+  }
+
+}
+
+/* =========================
+   PREMIUM GLOW
+========================= */
+
+.glow-cyan {
+
+  box-shadow:
+    0 0 40px rgba(6, 182, 212, 0.25);
+
+}
+
+/* =========================
+   MOBILE OPTIMIZATION
+========================= */
 
 @media (max-width: 768px) {
 
   body {
-    background-attachment: scroll;
+
+    background-attachment:
+      scroll;
+
   }
 
   .container-custom {
+
     width: 94%;
+
   }
 
 }

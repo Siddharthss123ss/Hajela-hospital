@@ -1,7 +1,9 @@
 import Link from "next/link";
 
 export default function Hero() {
+
   return (
+
     <section
       className="
       relative
@@ -11,89 +13,124 @@ export default function Hero() {
       "
     >
 
-      {/* VIDEO */}
+      {/* DESKTOP VIDEO */}
 
-     {/* DESKTOP VIDEO */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster="/images/poster.jpg"
+        className="
+        hidden
+        md:block
 
-<video
-  autoPlay
-  muted
-  loop
-  playsInline
-  preload="auto"
-  className="
-  hidden
-  md:block
-  absolute
-  inset-0
-  w-full
-  h-full
-  object-cover
-  object-center
-  brightness-[0.9]
-  scale-[1.02]
-  "
->
-  <source src="/videos/hero1.mp4" type="video/mp4" />
-</video>
+        absolute
+        inset-0
 
-{/* MOBILE VIDEO */}
+        w-full
+        h-full
 
-<video
-  autoPlay
-  muted
-  loop
-  playsInline
-  preload="auto"
-  className="
-  md:hidden
-  absolute
-  inset-0
-  w-full
-  h-full
-  object-cover
-  object-center
-  brightness-[0.96]
-  "
->
-  <source src="/videos/hero-mobile.mp4.mp4" type="video/mp4" />
-</video>
+        object-cover
+        object-center
 
-      {/* PREMIUM OVERLAY */}
+        scale-[1.03]
+
+        brightness-[1.12]
+        contrast-[1.08]
+        saturate-[1.18]
+
+        transition-all
+        duration-700
+        "
+      >
+
+        <source
+          src="/videos/hero1.mp4"
+          type="video/mp4"
+        />
+
+      </video>
+
+      {/* MOBILE VIDEO */}
+
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster="/images/poster.jpg"
+        className="
+        md:hidden
+
+        absolute
+        inset-0
+
+        w-full
+        h-full
+
+        object-cover
+        object-center
+
+        scale-[1.02]
+
+        brightness-[1.15]
+        contrast-[1.05]
+        saturate-[1.2]
+
+        transition-all
+        duration-700
+        "
+      >
+
+        <source
+          src="/videos/hero-mobile.mp4"
+          type="video/mp4"
+        />
+
+      </video>
+
+      {/* LIGHT OVERLAY */}
 
       <div
         className="
         absolute
         inset-0
-        bg-black/30
+
+        bg-black/8
         "
       ></div>
 
-      {/* CINEMATIC LIGHT */}
+      {/* SIDE CINEMATIC SHADE */}
 
       <div
         className="
         absolute
         inset-0
+
         bg-gradient-to-r
-        from-black/55
+        from-black/25
         via-transparent
-        to-black/35
+        to-black/15
         "
       ></div>
 
-      {/* TOP PREMIUM GLOW */}
+      {/* TOP SHADE */}
 
       <div
         className="
         absolute
         top-0
         left-0
+
         w-full
-        h-36
+        h-28
+
         bg-gradient-to-b
-        from-black/70
-        via-black/20
+        from-black/35
+        via-black/5
         to-transparent
         "
       ></div>
@@ -105,16 +142,40 @@ export default function Hero() {
         absolute
         bottom-0
         left-0
+
         w-full
-        h-52
+        h-44
+
         bg-gradient-to-t
-        from-black/90
-        via-black/40
+        from-black/70
+        via-black/15
         to-transparent
         "
       ></div>
 
-      {/* PREMIUM BUTTONS */}
+      {/* CYAN GLOW */}
+
+      <div
+        className="
+        absolute
+        inset-0
+
+        bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.16),transparent_28%)]
+        "
+      ></div>
+
+      {/* BLUE GLOW */}
+
+      <div
+        className="
+        absolute
+        inset-0
+
+        bg-[radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.10),transparent_30%)]
+        "
+      ></div>
+
+      {/* BUTTONS */}
 
       <div
         className="
@@ -122,19 +183,24 @@ export default function Hero() {
         bottom-10
         left-1/2
         -translate-x-1/2
+
         z-30
+
         flex
         flex-col
         sm:flex-row
+
         gap-4
+
         w-full
         px-5
+
         sm:w-auto
         sm:px-0
         "
       >
 
-        {/* BUTTON 1 */}
+        {/* BOOK BUTTON */}
 
         <Link
           href="/appointment"
@@ -142,37 +208,51 @@ export default function Hero() {
           group
           relative
           overflow-hidden
+
           bg-gradient-to-r
           from-blue-700
           via-blue-600
           to-cyan-500
+
           text-white
           text-center
+
           font-semibold
           text-sm
           sm:text-base
+
           px-7
           sm:px-8
+
           py-3.5
+
           rounded-full
-          shadow-[0_8px_30px_rgba(6,182,212,0.45)]
+
+          shadow-[0_10px_40px_rgba(6,182,212,0.45)]
+
           hover:scale-105
+
           transition-all
           duration-300
           "
         >
 
           <span className="relative z-10">
+
             Book Appointment
+
           </span>
 
           <div
             className="
             absolute
             inset-0
+
             bg-white/20
+
             translate-y-full
             group-hover:translate-y-0
+
             transition-all
             duration-300
             "
@@ -180,46 +260,48 @@ export default function Hero() {
 
         </Link>
 
-        {/* BUTTON 2 */}
+        {/* SERVICES BUTTON */}
 
         <Link
           href="/departments"
           className="
           bg-white/10
+
           backdrop-blur-xl
+
           border
           border-white/20
+
           text-white
           text-center
+
           font-semibold
           text-sm
           sm:text-base
+
           px-7
           sm:px-8
+
           py-3.5
+
           rounded-full
+
           shadow-xl
+
           hover:bg-white
           hover:text-black
           hover:scale-105
+
           transition-all
           duration-300
           "
         >
+
           Explore Services
+
         </Link>
 
       </div>
-
-      {/* SUBTLE PREMIUM SHINE */}
-
-      <div
-        className="
-        absolute
-        inset-0
-        bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.12),transparent_30%)]
-        "
-      ></div>
 
     </section>
   );

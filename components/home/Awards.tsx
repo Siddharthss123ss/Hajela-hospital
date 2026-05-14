@@ -3,26 +3,42 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const awards = [
+const featuredAwards = [
   {
-    title: "Best Healthcare Excellence Award",
-    image: "/awards/award1.jpg",
+    title: "Oscar Award For Best Hospital",
+    subtitle: "Six Sigma Healthcare Excellence",
+    image: "/awards/oscar.jpg",
   },
 
   {
-    title: "NABH Accredited Hospital",
-    image: "/awards/award2.jpg",
+    title: "Kayastha Leadership Award",
+    subtitle: "Presented with Vishwas Sarang",
+    image: "/awards/KAYASTHA.jpg",
   },
 
   {
-    title: "Green Hospital Certification",
-    image: "/awards/award3.jpg",
+    title: "NABH Certification Ceremony",
+    subtitle: "Quality & Patient Safety Recognition",
+    image: "/awards/nabh.jpg",
   },
 
   {
-    title: "Trusted Healthcare Award",
-    image: "/awards/award4.jpg",
+    title: "FMPCCI Healthcare Award",
+    subtitle: "Outstanding Healthcare Achievement",
+    image: "/awards/fmpcci.jpg",
   },
+
+  // {
+  //   title: "Healthcare Excellence Trophy",
+  //   subtitle: "Award for Clinical Operations 2026",
+  //   image: "/awards/award5.jpg",
+  // },
+
+  // {
+  //   title: "Patient Friendly Hospital",
+  //   subtitle: "AHPI Excellence Award 2022",
+  //   image: "/awards/award6.jpg",
+  // },
 ];
 
 export default function Awards() {
@@ -33,10 +49,12 @@ export default function Awards() {
       className="
       relative
       py-24
-      bg-gradient-to-b
-      from-slate-950
-      to-black
       overflow-hidden
+
+      bg-gradient-to-b
+      from-[#020617]
+      via-black
+      to-[#020617]
       "
     >
 
@@ -48,10 +66,27 @@ export default function Awards() {
         top-0
         left-1/2
         -translate-x-1/2
-        w-[700px]
-        h-[700px]
+
+        w-[850px]
+        h-[850px]
+
         bg-cyan-500/10
-        blur-[140px]
+        blur-[160px]
+        rounded-full
+        "
+      ></div>
+
+      <div
+        className="
+        absolute
+        bottom-0
+        right-0
+
+        w-[400px]
+        h-[400px]
+
+        bg-blue-600/10
+        blur-[120px]
         rounded-full
         "
       ></div>
@@ -66,93 +101,158 @@ export default function Awards() {
             className="
             text-cyan-400
             uppercase
-            tracking-[4px]
+            tracking-[5px]
             font-semibold
             text-sm
             mb-4
             "
           >
-            Recognition & Excellence
+            Recognition & Legacy
           </p>
 
           <h2
             className="
             text-4xl
+            md:text-5xl
             lg:text-6xl
+
             font-black
             text-white
+
             leading-tight
             "
           >
-            Awards & Achievements
+
+            Awards & Certifications
+
           </h2>
 
           <p
             className="
             mt-6
+
             max-w-3xl
             mx-auto
+
             text-slate-300
-            leading-relaxed
             text-sm
             sm:text-base
+
+            leading-relaxed
             "
           >
-            Hajela Hospital is recognized for excellence in patient care,
-            advanced healthcare services, and modern medical technology.
+            Hajela Hospital has been nationally recognized for
+            excellence in healthcare, patient care, hospital
+            operations, cleanliness, leadership, and advanced
+            medical services.
           </p>
 
         </div>
 
-        {/* CARDS */}
+        {/* GRID */}
 
         <div
           className="
           grid
-          sm:grid-cols-2
-          xl:grid-cols-4
-          gap-7
+          md:grid-cols-2
+          xl:grid-cols-3
+          gap-8
           "
         >
 
-          {awards.map((item, index) => (
+          {featuredAwards.map((item, index) => (
 
             <div
               key={index}
+
               className="
               group
+              relative
+
               overflow-hidden
-              rounded-[28px]
-              bg-white/5
+              rounded-[32px]
+
               border
               border-white/10
+
+              bg-white/[0.06]
               backdrop-blur-2xl
+
               hover:-translate-y-3
               hover:border-cyan-400/30
+
               transition-all
               duration-500
-              shadow-[0_10px_40px_rgba(0,0,0,0.25)]
+
+              shadow-[0_20px_70px_rgba(0,0,0,0.45)]
               "
             >
 
               {/* IMAGE */}
 
-              <div className="overflow-hidden">
+              <div className="relative overflow-hidden">
 
                 <Image
                   src={item.image}
                   alt={item.title}
-                  width={600}
-                  height={500}
+                  width={700}
+                  height={600}
                   className="
                   w-full
+
                   h-[260px]
+                  sm:h-[320px]
+
                   object-cover
+
                   group-hover:scale-110
+
                   transition-all
                   duration-700
                   "
                 />
+
+                {/* OVERLAY */}
+
+                <div
+                  className="
+                  absolute
+                  inset-0
+
+                  bg-gradient-to-t
+                  from-black/90
+                  via-black/20
+                  to-transparent
+                  "
+                ></div>
+
+                {/* TOP BADGE */}
+
+                <div
+                  className="
+                  absolute
+                  top-4
+                  left-4
+
+                  px-4
+                  py-1.5
+
+                  rounded-full
+
+                  bg-cyan-400/15
+                  backdrop-blur-xl
+
+                  border
+                  border-cyan-300/20
+
+                  text-cyan-200
+                  text-xs
+                  font-semibold
+                  tracking-wide
+                  "
+                >
+                  HAJELA HOSPITAL
+                </div>
 
               </div>
 
@@ -163,23 +263,43 @@ export default function Awards() {
                 <h3
                   className="
                   text-white
-                  text-xl
+                  text-2xl
                   font-bold
+
                   leading-snug
                   "
                 >
                   {item.title}
                 </h3>
 
+                <p
+                  className="
+                  mt-3
+
+                  text-slate-400
+                  text-sm
+
+                  leading-relaxed
+                  "
+                >
+                  {item.subtitle}
+                </p>
+
+                {/* LINE */}
+
                 <div
                   className="
                   mt-5
-                  w-16
+
+                  w-20
                   h-[3px]
+
                   rounded-full
+
                   bg-gradient-to-r
                   from-cyan-400
-                  to-blue-600
+                  via-blue-500
+                  to-cyan-300
                   "
                 ></div>
 
@@ -198,21 +318,55 @@ export default function Awards() {
           <Link
             href="/awards"
             className="
+            group
+            relative
+            overflow-hidden
+
             bg-gradient-to-r
             from-blue-700
+            via-blue-600
             to-cyan-500
+
             text-white
-            px-8
+
+            px-9
             py-4
+
             rounded-full
+
             font-semibold
-            shadow-[0_10px_40px_rgba(34,211,238,0.35)]
+            text-base
+
+            shadow-[0_15px_50px_rgba(34,211,238,0.35)]
+
             hover:scale-105
+
             transition-all
             duration-300
             "
           >
-            View All Awards
+
+            <span className="relative z-10">
+
+              View All Awards
+
+            </span>
+
+            <div
+              className="
+              absolute
+              inset-0
+
+              bg-white/20
+
+              translate-y-full
+              group-hover:translate-y-0
+
+              transition-all
+              duration-300
+              "
+            ></div>
+
           </Link>
 
         </div>

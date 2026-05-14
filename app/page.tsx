@@ -13,37 +13,60 @@ import Emergency from "@/components/home/Emergency";
 import Footer from "@/components/layout/Footer";
 import CallButton from "@/components/ui/CallButton";
 import Awards from "@/components/home/Awards";
+import Reveal from "@/components/common/Reveal";
 
 export default function Home() {
   return (
     <>
-     <Navbar />
 
-<Hero />
+  <Navbar />
 
-<Stats />
+  <Reveal>
+    <Hero />
+  </Reveal>
 
-<Departments />
+  <Reveal delay={0.1}>
+    <Stats />
+  </Reveal>
 
-<About />
+  <Reveal delay={0.2}>
+    <Departments />
+  </Reveal>
 
-<Technology />
+  <Reveal delay={0.3}>
+    <About />
+  </Reveal>
 
-<Awards />
+  <Reveal delay={0.4}>
+    <Technology />
+  </Reveal>
 
-<Doctors />
+  <Reveal delay={0.5}>
+    <Awards />
+  </Reveal>
 
-<Testimonials />
+  <Reveal delay={0.6}>
+    <Doctors />
+  </Reveal>
 
-<Appointment />
+  <Reveal delay={0.7}>
+    <Testimonials />
+  </Reveal>
 
-<Emergency />
+  <Reveal delay={0.8}>
+    <Appointment />
+  </Reveal>
 
-<Footer />
+  <Reveal delay={0.9}>
+    <Emergency />
+  </Reveal>
 
-<WhatsappButton />
+  <Footer />
 
-<ScrollTop />
+  <WhatsappButton />
+
+  <ScrollTop />
+
     </>
   );
 }

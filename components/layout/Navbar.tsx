@@ -478,30 +478,14 @@ export default function Navbar() {
 
             {/* DESKTOP PORTAL */}
 
-            <Link
-              href="/appointment"
-              className="
-              hidden
-              lg:flex
-              items-center
-              justify-center
-              bg-gradient-to-r
-              from-blue-700
-              to-cyan-500
-              text-white
-              px-5
-              py-2.5
-              rounded-full
-              text-[13px]
-              font-semibold
-              shadow-[0_8px_30px_rgba(37,99,235,0.45)]
-              hover:scale-105
-              transition-all
-              duration-300
-              "
-            >
-              ⚡ Patient Portal
-            </Link>
+           <Link
+  href="/appointment"
+  className="
+  hidden
+  "
+>
+  ⚡ Patient Portal
+</Link>
 
             {/* MOBILE MENU */}
 
@@ -530,39 +514,53 @@ export default function Navbar() {
 
       {/* MOBILE PATIENT PORTAL */}
 
-      <div
-        className="
-        lg:hidden
-        fixed
-        top-[88px]
-        left-1/2
-        -translate-x-1/2
-        z-[60]
-        "
-      >
+<div
+  className="
+  md:hidden
+  fixed
+  top-[95px]
+  left-1/2
+  -translate-x-1/2
+  z-[60]
+  "
+>
 
-        <Link
-          href="/appointment"
-          className="
-          bg-gradient-to-r
-          from-blue-700
-          to-cyan-500
-          text-white
-          px-4
-          py-2
-          rounded-full
-          text-[10px]
-          font-semibold
-          shadow-[0_10px_40px_rgba(37,99,235,0.45)]
-          border
-          border-white/10
-          backdrop-blur-xl
-          "
-        >
-          ⚡ Patient Portal
-        </Link>
+  <Link
+    href="/appointment"
+    className="
+    bg-gradient-to-r
+    from-blue-700
+    to-cyan-500
 
-      </div>
+    text-white
+
+    px-4
+    py-2
+
+    rounded-full
+
+    text-[10px]
+    font-semibold
+
+    shadow-[0_10px_40px_rgba(37,99,235,0.45)]
+
+    border
+    border-white/10
+
+    backdrop-blur-xl
+
+    hover:scale-105
+
+    transition-all
+    duration-300
+    "
+  >
+
+    ⚡ Patient Portal
+
+  </Link>
+
+</div>
 
       {/* MOBILE OVERLAY */}
 
