@@ -626,12 +626,12 @@ export default function AboutPage() {
       "
     >
       Hajela Hospital has received several
-      prestigious recognitions including
-      NABH Accreditation, Healthcare
+      prestigious recognitions including 1st
+      Fully NABH Accreditation, Healthcare
       Excellence Awards, Green Hospital
       Certifications, and the Oscar Award
       for Best Green Hospital — reflecting
-      its commitment towards innovation,
+      his commitment towards innovation,
       sustainability, and compassionate care.
     </p>
 

@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
   Menu,
   X,
   ChevronDown,
+  CalendarDays,
 } from "lucide-react";
 
 export default function Navbar() {
@@ -17,60 +18,29 @@ export default function Navbar() {
 
   const [mobileGalleryOpen, setMobileGalleryOpen] = useState(false);
 
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-
-    const handleScroll = () => {
-
-      setScrolled(window.scrollY > 10);
-
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () =>
-      window.removeEventListener("scroll", handleScroll);
-
-  }, []);
-
   return (
 
     <header
-      className={`
+      className="
       fixed
       top-0
       left-0
       w-full
+
       z-50
-      transition-all
-      duration-500
-      ${
-        scrolled
-          ? "bg-black/45 backdrop-blur-2xl border-b border-white/10"
-          : "bg-gradient-to-b from-black/80 via-black/30 to-transparent"
-      }
-      `}
+
+      bg-white
+
+      border-b
+      border-slate-200
+      "
     >
 
-      {/* LIGHT EFFECT */}
-
       <div
         className="
-        absolute
-        inset-0
-        bg-gradient-to-r
-        from-cyan-500/5
-        via-transparent
-        to-blue-500/5
-        pointer-events-none
-        "
-      />
-
-      <div
-        className="
-        max-w-[1500px]
+        max-w-[1450px]
         mx-auto
+
         px-4
         sm:px-6
         lg:px-8
@@ -79,7 +49,8 @@ export default function Navbar() {
 
         <div
           className="
-          h-[76px]
+          h-[82px]
+
           flex
           items-center
           justify-between
@@ -90,12 +61,14 @@ export default function Navbar() {
 
           <Link
             href="/"
+
             className="
             flex
             items-center
+
             gap-3
+
             shrink-0
-            z-50
             "
           >
 
@@ -103,22 +76,28 @@ export default function Navbar() {
 
             <div
               className="
-              w-12
-              h-12
+              w-[58px]
+              h-[58px]
+
               rounded-full
+
               overflow-hidden
+
+              border
+              border-slate-200
+
               bg-white
-              shadow-[0_0_25px_rgba(255,255,255,0.2)]
-              shrink-0
               "
             >
 
               <img
                 src="/images/Logo.avif"
                 alt="Hajela Hospital"
+
                 className="
                 w-full
                 h-full
+
                 object-cover
                 "
               />
@@ -131,12 +110,14 @@ export default function Navbar() {
 
               <h1
                 className="
-                text-white
+                text-slate-900
+
                 font-black
-                text-[14px]
+
+                text-[15px]
                 sm:text-[28px]
-                tracking-wide
-                leading-none
+
+                tracking-tight
                 "
               >
                 HAJELA HOSPITAL
@@ -146,32 +127,36 @@ export default function Navbar() {
                 className="
                 flex
                 items-center
+
                 gap-2
+
                 mt-1
-                flex-wrap
                 "
               >
 
                 <p
                   className="
-                  text-green-400
-                  text-[8px]
+                  text-cyan-700
+
+                  text-[10px]
                   sm:text-[13px]
-                  font-semibold
+
+                  font-medium
                   "
                 >
                   Advanced Medical Care
                 </p>
 
-                <span className="text-white/30 text-[10px]">
+                <span className="text-slate-300">
                   •
                 </span>
 
                 <p
                   className="
-                  text-white/70
-                  text-[8px]
-                  sm:text-[12px]
+                  text-slate-500
+
+                  text-[10px]
+                  sm:text-[13px]
                   "
                 >
                   Since 1995
@@ -183,13 +168,15 @@ export default function Navbar() {
 
           </Link>
 
-          {/* CENTER BADGES */}
+          {/* CENTER CERTIFICATES */}
 
           <div
             className="
             hidden
             xl:flex
+
             items-center
+
             gap-3
             "
           >
@@ -200,24 +187,29 @@ export default function Navbar() {
               className="
               flex
               items-center
-              gap-2
-              bg-white/10
-              backdrop-blur-xl
-              border
-              border-white/10
+
+              gap-3
+
               rounded-full
+
+              border
+              border-slate-200
+
+              bg-slate-50
+
               px-4
               py-2
-              shadow-xl
               "
             >
 
               <img
                 src="/images/nabh.png"
                 alt="NABH"
+
                 className="
-                w-8
-                h-8
+                w-9
+                h-9
+
                 object-contain
                 "
               />
@@ -226,9 +218,11 @@ export default function Navbar() {
 
                 <p
                   className="
-                  text-white
-                  text-[11px]
+                  text-[12px]
+
                   font-semibold
+
+                  text-slate-800
                   "
                 >
                   NABH Accredited
@@ -236,8 +230,9 @@ export default function Navbar() {
 
                 <p
                   className="
-                  text-white/60
-                  text-[9px]
+                  text-[10px]
+
+                  text-slate-500
                   "
                 >
                   Quality Healthcare
@@ -253,24 +248,29 @@ export default function Navbar() {
               className="
               flex
               items-center
-              gap-2
-              bg-emerald-500/10
-              backdrop-blur-xl
-              border
-              border-emerald-400/20
+
+              gap-3
+
               rounded-full
+
+              border
+              border-emerald-100
+
+              bg-emerald-50
+
               px-4
               py-2
-              shadow-xl
               "
             >
 
               <img
                 src="/images/Green.avif"
                 alt="Green Hospital"
+
                 className="
-                w-7
-                h-7
+                w-8
+                h-8
+
                 object-contain
                 "
               />
@@ -279,9 +279,11 @@ export default function Navbar() {
 
                 <p
                   className="
-                  text-emerald-300
-                  text-[11px]
+                  text-[12px]
+
                   font-semibold
+
+                  text-emerald-700
                   "
                 >
                   Green Certified
@@ -289,8 +291,9 @@ export default function Navbar() {
 
                 <p
                   className="
-                  text-white/60
-                  text-[9px]
+                  text-[10px]
+
+                  text-emerald-500
                   "
                 >
                   First Green Hospital
@@ -308,51 +311,32 @@ export default function Navbar() {
             className="
             hidden
             lg:flex
+
             items-center
-            gap-6
-            text-white
-            text-[14px]
+
+            gap-8
+
+            text-[15px]
+
             font-medium
+
+            text-slate-700
             "
           >
 
-            <Link
-              href="/"
-              className="
-              hover:text-cyan-400
-              transition-all
-              "
-            >
+            <Link href="/" className="hover:text-cyan-700 transition-all">
               Home
             </Link>
 
-            <Link
-              href="/about"
-              className="
-              hover:text-cyan-400
-              transition-all
-              "
-            >
+            <Link href="/about" className="hover:text-cyan-700 transition-all">
               About
             </Link>
 
-            <Link
-              href="/departments"
-              className="
-              hover:text-cyan-400
-              transition-all
-              "
-            >
+            <Link href="/departments" className="hover:text-cyan-700 transition-all">
               Departments
             </Link>
 
-            <Link
-              href="/doctors"
-              className="
-              hover:text-cyan-400
-              transition-all
-              "
-            >
+            <Link href="/doctors" className="hover:text-cyan-700 transition-all">
               Doctors
             </Link>
 
@@ -362,11 +346,15 @@ export default function Navbar() {
 
               <button
                 onClick={() => setGalleryOpen(!galleryOpen)}
+
                 className="
                 flex
                 items-center
+
                 gap-1
-                hover:text-cyan-400
+
+                hover:text-cyan-700
+
                 transition-all
                 "
               >
@@ -375,6 +363,7 @@ export default function Navbar() {
 
                 <ChevronDown
                   size={16}
+
                   className={`
                   transition-all
                   duration-300
@@ -395,15 +384,23 @@ export default function Navbar() {
                 absolute
                 top-12
                 left-0
+
                 w-60
+
                 rounded-2xl
+
                 overflow-hidden
+
                 bg-white
-                shadow-2xl
+
                 border
-                border-slate-100
+                border-slate-200
+
+                shadow-xl
+
                 transition-all
                 duration-300
+
                 ${
                   galleryOpen
                     ? "opacity-100 visible translate-y-0"
@@ -414,59 +411,58 @@ export default function Navbar() {
 
                 <Link
                   href="/gallery/photos"
+
                   className="
                   block
+
                   px-5
                   py-4
-                  text-slate-800
-                  hover:bg-slate-50
+
                   border-b
+
+                  hover:bg-slate-50
                   "
-                  onClick={() => setGalleryOpen(false)}
                 >
                   Event Images
                 </Link>
 
                 <Link
                   href="/gallery/videos"
+
                   className="
                   block
+
                   px-5
                   py-4
-                  text-slate-800
-                  hover:bg-slate-50
+
                   border-b
+
+                  hover:bg-slate-50
                   "
-                  onClick={() => setGalleryOpen(false)}
                 >
                   Video Gallery
                 </Link>
 
                 <Link
                   href="/gallery/news-events"
+
                   className="
                   block
+
                   px-5
                   py-4
-                  text-slate-800
+
                   hover:bg-slate-50
                   "
-                  onClick={() => setGalleryOpen(false)}
                 >
-                  News & Events
+                  News
                 </Link>
 
               </div>
 
             </div>
 
-            <Link
-              href="/contact"
-              className="
-              hover:text-cyan-400
-              transition-all
-              "
-            >
+            <Link href="/contact" className="hover:text-cyan-700 transition-all">
               Contact
             </Link>
 
@@ -474,34 +470,60 @@ export default function Navbar() {
 
           {/* RIGHT */}
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
 
-            {/* DESKTOP PORTAL */}
+            {/* APPOINTMENT BUTTON */}
 
-           <Link
-  href="/appointment"
-  className="
-  hidden
-  "
->
-  ⚡ Patient Portal
-</Link>
+            <Link
+              href="/appointment"
+
+              className="
+              hidden
+              lg:flex
+
+              items-center
+
+              gap-2
+
+              bg-[#00658a]
+
+              text-white
+
+              font-semibold
+
+              px-6
+              py-3
+
+              rounded-sm
+
+              hover:bg-[#004f6d]
+
+              transition-all
+              "
+            >
+
+              <CalendarDays size={18} />
+
+              Appointment
+
+            </Link>
 
             {/* MOBILE MENU */}
 
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
+
               className="
               lg:hidden
-              text-white
-              z-50
+
+              text-slate-700
               "
             >
 
               {
                 mobileOpen
-                  ? <X size={30} />
-                  : <Menu size={30} />
+                  ? <X size={34} />
+                  : <Menu size={34} />
               }
 
             </button>
@@ -512,127 +534,71 @@ export default function Navbar() {
 
       </div>
 
-      {/* MOBILE PATIENT PORTAL */}
-
-<div
-  className="
-  md:hidden
-  fixed
-  top-[95px]
-  left-1/2
-  -translate-x-1/2
-  z-[60]
-  "
->
-
-  <Link
-    href="/appointment"
-    className="
-    bg-gradient-to-r
-    from-blue-700
-    to-cyan-500
-
-    text-white
-
-    px-4
-    py-2
-
-    rounded-full
-
-    text-[10px]
-    font-semibold
-
-    shadow-[0_10px_40px_rgba(37,99,235,0.45)]
-
-    border
-    border-white/10
-
-    backdrop-blur-xl
-
-    hover:scale-105
-
-    transition-all
-    duration-300
-    "
-  >
-
-    ⚡ Patient Portal
-
-  </Link>
-
-</div>
-
-      {/* MOBILE OVERLAY */}
+      {/* MOBILE MENU */}
 
       <div
         className={`
-        fixed
-        inset-0
-        bg-black/60
-        backdrop-blur-sm
-        z-40
-        transition-all
-        duration-300
         lg:hidden
-        ${
-          mobileOpen
-            ? "opacity-100 visible"
-            : "opacity-0 invisible"
-        }
-        `}
-        onClick={() => setMobileOpen(false)}
-      />
 
-      {/* MOBILE DRAWER */}
-
-      <div
-        className={`
         fixed
         top-0
-        left-0
+        right-0
+
         h-screen
         w-[82%]
         max-w-[320px]
-        bg-slate-950
+
+        bg-white
+
         z-50
-        shadow-2xl
+
         transition-all
         duration-300
-        lg:hidden
-        flex
-        flex-col
+
+        shadow-2xl
+
         ${
           mobileOpen
             ? "translate-x-0"
-            : "-translate-x-full"
+            : "translate-x-full"
         }
         `}
       >
 
         {/* TOP */}
 
-        <div className="p-5 border-b border-white/10">
+        <div
+          className="
+          flex
+          items-center
+          justify-between
 
-          <div className="flex items-center justify-between">
+          p-5
 
-            <h2
-              className="
-              text-xl
-              font-bold
-              text-white
-              "
-            >
-              Hajela Hospital
-            </h2>
+          border-b
+          border-slate-200
+          "
+        >
 
-            <button
-              onClick={() => setMobileOpen(false)}
-              className="text-white"
-            >
-              <X size={28} />
-            </button>
+          <h2
+            className="
+            text-xl
 
-          </div>
+            font-bold
+
+            text-slate-900
+            "
+          >
+            Hajela Hospital
+          </h2>
+
+          <button
+            onClick={() => setMobileOpen(false)}
+          >
+
+            <X size={30} />
+
+          </button>
 
         </div>
 
@@ -642,40 +608,48 @@ export default function Navbar() {
           className="
           flex
           flex-col
-          gap-6
+
           p-6
-          text-white
+
+          text-slate-700
+
           text-lg
+
+          font-medium
           "
         >
 
-          <Link href="/" onClick={() => setMobileOpen(false)}>
+          <Link href="/" className="py-4 border-b border-slate-100">
             Home
           </Link>
 
-          <Link href="/about" onClick={() => setMobileOpen(false)}>
+          <Link href="/about" className="py-4 border-b border-slate-100">
             About
           </Link>
 
-          <Link href="/departments" onClick={() => setMobileOpen(false)}>
+          <Link href="/departments" className="py-4 border-b border-slate-100">
             Departments
           </Link>
 
-          <Link href="/doctors" onClick={() => setMobileOpen(false)}>
+          <Link href="/doctors" className="py-4 border-b border-slate-100">
             Doctors
           </Link>
 
           {/* MOBILE GALLERY */}
 
-          <div>
+          <div className="border-b border-slate-100">
 
             <button
               onClick={() => setMobileGalleryOpen(!mobileGalleryOpen)}
+
               className="
+              w-full
+
               flex
               items-center
-              gap-2
-              text-cyan-400
+              justify-between
+
+              py-4
               "
             >
 
@@ -683,6 +657,7 @@ export default function Navbar() {
 
               <ChevronDown
                 size={18}
+
                 className={`
                 transition-all
                 duration-300
@@ -699,11 +674,13 @@ export default function Navbar() {
             <div
               className={`
               overflow-hidden
+
               transition-all
               duration-300
+
               ${
                 mobileGalleryOpen
-                  ? "max-h-60 mt-4"
+                  ? "max-h-60 pb-4"
                   : "max-h-0"
               }
               `}
@@ -713,32 +690,27 @@ export default function Navbar() {
                 className="
                 flex
                 flex-col
+
                 gap-4
+
                 pl-4
-                text-slate-300
+
                 text-base
+
+                text-slate-500
                 "
               >
 
-                <Link
-                  href="/gallery/photos"
-                  onClick={() => setMobileOpen(false)}
-                >
+                <Link href="/gallery/photos">
                   Event Images
                 </Link>
 
-                <Link
-                  href="/gallery/videos"
-                  onClick={() => setMobileOpen(false)}
-                >
+                <Link href="/gallery/videos">
                   Video Gallery
                 </Link>
 
-                <Link
-                  href="/gallery/news-events"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  News & Events
+                <Link href="/gallery/news-events">
+                  News
                 </Link>
 
               </div>
@@ -747,85 +719,74 @@ export default function Navbar() {
 
           </div>
 
-          <Link href="/contact" onClick={() => setMobileOpen(false)}>
+          <Link href="/contact" className="py-4 border-b border-slate-100">
             Contact
           </Link>
 
-          {/* BADGES */}
+          {/* MOBILE BUTTON */}
 
-          <div className="flex gap-3 pt-4">
+          <Link
+            href="/appointment"
 
-            {/* NABH */}
+            className="
+            mt-8
 
-            <div
-              className="
-              flex-1
-              bg-white/5
-              rounded-2xl
-              p-3
-              border
-              border-white/10
-              "
-            >
+            flex
+            items-center
+            justify-center
 
-              <img
-                src="/images/nabh.png"
-                alt="NABH"
-                className="
-                w-10
-                h-10
-                object-contain
-                mb-2
-                "
-              />
+            gap-2
 
-              <p className="text-xs">
-                NABH Accredited
-              </p>
+            bg-[#00658a]
 
-            </div>
+            text-white
 
-            {/* GREEN */}
+            py-4
 
-            <div
-              className="
-              flex-1
-              bg-emerald-500/10
-              rounded-2xl
-              p-3
-              border
-              border-emerald-400/20
-              "
-            >
+            rounded-sm
 
-              <img
-                src="/images/Green.avif"
-                alt="Green"
-                className="
-                w-10
-                h-10
-                object-contain
-                mb-2
-                "
-              />
+            font-semibold
+            "
+          >
 
-              <p
-                className="
-                text-xs
-                text-emerald-300
-                "
-              >
-                Green Certified
-              </p>
+            <CalendarDays size={18} />
 
-            </div>
+            Appointment
 
-          </div>
+          </Link>
 
         </div>
 
       </div>
 
+      {/* OVERLAY */}
+
+      <div
+        onClick={() => setMobileOpen(false)}
+
+        className={`
+        lg:hidden
+
+        fixed
+        inset-0
+
+        bg-black/40
+
+        z-40
+
+        transition-all
+        duration-300
+
+        ${
+          mobileOpen
+            ? "opacity-100 visible"
+            : "opacity-0 invisible"
+        }
+        `}
+      />
+
     </header>
+
   );
+
 }

@@ -14,55 +14,65 @@ import {
   Star,
 } from "lucide-react";
 
-
 const testimonials = [
 
   {
     name: "Rahul Sharma",
     role: "Cardiology Patient",
 
-    image:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400",
-
     review:
-      "Exceptional healthcare experience with advanced medical facilities and highly professional doctors. The staff was extremely supportive and treatment quality exceeded expectations.",
+      "Excellent healthcare experience with experienced doctors, supportive staff and advanced medical facilities. The treatment process was smooth and professional.",
   },
 
   {
     name: "Priya Verma",
-    role: "Neurology Patient",
-
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400",
+    role: "Maternity Patient",
 
     review:
-      "Hajela Hospital provided world-class patient care with modern infrastructure and compassionate support. Emergency services were quick and very efficient.",
+      "The doctors and nursing staff provided exceptional care throughout the treatment journey. The hospital environment felt modern and safe.",
   },
 
   {
     name: "Amit Singh",
-    role: "Orthopedic Patient",
-
-    image:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400",
+    role: "Orthopaedic Patient",
 
     review:
-      "Doctors explained every procedure clearly and the treatment process was smooth from consultation to recovery. One of the best hospitals in Bhopal.",
+      "Highly satisfied with the orthopedic treatment and recovery support. The doctors explained every procedure clearly and professionally.",
   },
 
   {
     name: "Sneha Kapoor",
-    role: "Maternity Patient",
-
-    image:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400",
+    role: "ENT Patient",
 
     review:
-      "The maternity care team was incredibly caring and professional. The hospital environment felt premium, safe, and comfortable throughout the treatment journey.",
+      "The ENT specialists were extremely experienced and supportive. My treatment and consultation experience was excellent throughout.",
+  },
+
+  {
+    name: "Vikas Tiwari",
+    role: "Emergency Care Patient",
+
+    review:
+      "Emergency services were very fast and efficient. Doctors handled the situation professionally and provided immediate treatment.",
+  },
+
+  {
+    name: "Anjali Mehra",
+    role: "IVF Patient",
+
+    review:
+      "The IVF and infertility team was highly professional and compassionate. The entire process was handled with care and confidence.",
+  },
+
+  {
+    name: "Rohit Jain",
+    role: "General Surgery Patient",
+
+    review:
+      "Excellent surgical care with advanced facilities and professional staff. The hospital management and doctors were very cooperative.",
   },
 
 ];
-
 
 export default function Testimonials() {
 
@@ -72,18 +82,16 @@ export default function Testimonials() {
       className="
       relative
 
-      py-28
+      py-24
+      lg:py-28
 
       overflow-hidden
 
-      bg-gradient-to-br
-      from-slate-950
-      via-blue-950
-      to-cyan-900
+      bg-white
       "
     >
 
-      {/* PREMIUM GLOW */}
+      {/* SOFT BG */}
 
       <div
         className="
@@ -92,31 +100,12 @@ export default function Testimonials() {
         left-1/2
         -translate-x-1/2
 
-        w-[900px]
-        h-[900px]
+        w-[700px]
+        h-[700px]
 
         rounded-full
 
-        bg-cyan-400/10
-
-        blur-[180px]
-        "
-      ></div>
-
-      {/* LIGHT EFFECT */}
-
-      <div
-        className="
-        absolute
-        bottom-0
-        right-0
-
-        w-[500px]
-        h-[500px]
-
-        rounded-full
-
-        bg-blue-500/10
+        bg-cyan-100/40
 
         blur-[140px]
         "
@@ -126,11 +115,11 @@ export default function Testimonials() {
 
         {/* HEADING */}
 
-        <div className="text-center mb-20">
+        <div className="text-center mb-16 lg:mb-20">
 
           <p
             className="
-            text-cyan-300
+            text-cyan-600
 
             uppercase
 
@@ -153,19 +142,33 @@ export default function Testimonials() {
 
             font-black
 
-            text-white
+            text-slate-900
 
             leading-tight
             "
           >
-            What Our Patients Say
+
+            Trusted By
+            <span
+              className="
+              bg-gradient-to-r
+              from-cyan-500
+              to-blue-700
+
+              bg-clip-text
+              text-transparent
+              "
+            >
+              {" "}Thousands of Patients
+            </span>
+
           </h2>
 
           <p
             className="
             mt-6
 
-            text-slate-300
+            text-slate-600
 
             max-w-3xl
 
@@ -177,9 +180,9 @@ export default function Testimonials() {
             sm:text-base
             "
           >
-            Thousands of patients trust Hajela Hospital
-            for advanced healthcare, compassionate doctors,
-            and world-class medical services.
+            Hajela Hospital is trusted for compassionate care,
+            experienced doctors, advanced treatments and
+            world-class healthcare services in Bhopal.
           </p>
 
         </div>
@@ -192,15 +195,17 @@ export default function Testimonials() {
 
           autoplay={{
 
-            delay: 3500,
+            delay: 2500,
 
             disableOnInteraction: false,
 
           }}
 
+          speed={900}
+
           loop={true}
 
-          spaceBetween={30}
+          spaceBetween={28}
 
           breakpoints={{
 
@@ -208,11 +213,11 @@ export default function Testimonials() {
               slidesPerView: 1.1,
             },
 
-            768: {
+            640: {
               slidesPerView: 2,
             },
 
-            1200: {
+            1024: {
               slidesPerView: 3,
             },
 
@@ -227,138 +232,57 @@ export default function Testimonials() {
               <div
                 className="
                 group
-                relative
 
-                overflow-hidden
+                h-full
 
-                rounded-[38px]
+                rounded-[30px]
 
                 border
-                border-white/10
+                border-slate-200
 
-                bg-white/[0.08]
-
-                backdrop-blur-2xl
+                bg-white
 
                 p-8
 
-                min-h-[420px]
+                min-h-[320px]
 
-                shadow-[0_10px_60px_rgba(0,0,0,0.25)]
+                shadow-[0_10px_40px_rgba(15,23,42,0.06)]
 
-                hover:-translate-y-4
+                hover:shadow-[0_20px_60px_rgba(15,23,42,0.10)]
 
-                hover:shadow-[0_30px_90px_rgba(6,182,212,0.20)]
+                hover:-translate-y-1
 
                 transition-all
-                duration-700
+                duration-500
                 "
               >
 
-                {/* PREMIUM GLOW */}
+                {/* QUOTE */}
 
                 <div
                   className="
-                  absolute
-                  -top-20
-                  -right-20
+                  w-14
+                  h-14
 
-                  w-56
-                  h-56
+                  rounded-2xl
 
-                  rounded-full
-
-                  bg-cyan-400/10
-
-                  blur-3xl
-
-                  opacity-0
-
-                  group-hover:opacity-100
-
-                  transition-all
-                  duration-700
-                  "
-                ></div>
-
-                {/* QUOTE ICON */}
-
-                <div
-                  className="
-                  absolute
-                  top-8
-                  right-8
-
-                  text-cyan-300/20
-                  "
-                >
-
-                  <Quote size={60} />
-
-                </div>
-
-                {/* PROFILE */}
-
-                <div
-                  className="
-                  relative
-                  z-10
+                  bg-cyan-50
 
                   flex
                   items-center
+                  justify-center
 
-                  gap-4
-
-                  mb-7
+                  mb-6
                   "
                 >
 
-                  <img
-                    src={item.image}
-                    alt={item.name}
+                  <Quote
+                    size={28}
 
                     className="
-                    w-20
-                    h-20
-
-                    rounded-full
-
-                    object-cover
-
-                    border-4
-                    border-cyan-400/30
-
-                    shadow-[0_10px_30px_rgba(6,182,212,0.25)]
+                    text-cyan-600
                     "
                   />
-
-                  <div>
-
-                    <h3
-                      className="
-                      text-2xl
-
-                      font-bold
-
-                      text-white
-                      "
-                    >
-                      {item.name}
-                    </h3>
-
-                    <p
-                      className="
-                      text-cyan-300
-
-                      mt-1
-
-                      text-sm
-                      "
-                    >
-                      {item.role}
-                    </p>
-
-                  </div>
 
                 </div>
 
@@ -366,9 +290,6 @@ export default function Testimonials() {
 
                 <div
                   className="
-                  relative
-                  z-10
-
                   flex
 
                   gap-1
@@ -381,6 +302,7 @@ export default function Testimonials() {
 
                     <Star
                       key={i}
+
                       size={18}
 
                       className="
@@ -397,26 +319,20 @@ export default function Testimonials() {
 
                 <p
                   className="
-                  relative
-                  z-10
-
-                  text-slate-200
+                  text-slate-600
 
                   leading-relaxed
 
-                  text-[16px]
+                  text-[15px]
                   "
                 >
                   "{item.review}"
                 </p>
 
-                {/* PREMIUM LINE */}
+                {/* LINE */}
 
                 <div
                   className="
-                  relative
-                  z-10
-
                   mt-8
 
                   w-16
@@ -425,15 +341,42 @@ export default function Testimonials() {
                   rounded-full
 
                   bg-gradient-to-r
-                  from-cyan-400
-                  to-blue-500
-
-                  group-hover:w-28
-
-                  transition-all
-                  duration-500
+                  from-cyan-500
+                  to-blue-700
                   "
                 ></div>
+
+                {/* USER */}
+
+                <div className="mt-7">
+
+                  <h3
+                    className="
+                    text-2xl
+
+                    font-black
+
+                    text-slate-900
+                    "
+                  >
+                    {item.name}
+                  </h3>
+
+                  <p
+                    className="
+                    mt-2
+
+                    text-cyan-700
+
+                    font-medium
+
+                    text-sm
+                    "
+                  >
+                    {item.role}
+                  </p>
+
+                </div>
 
               </div>
 

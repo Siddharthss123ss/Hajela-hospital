@@ -27,7 +27,7 @@ const stats = [
   },
 
   {
-    number: "25+",
+    number: "30+",
     text: "Years Experience",
     icon: ShieldCheck,
   },

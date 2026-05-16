@@ -12,56 +12,80 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 
 import {
-  HeartPulse,
-  Brain,
+  Ear,
   Bone,
   Baby,
   Activity,
   Microscope,
+  HeartHandshake,
+  Scan,
+  Stethoscope,
 } from "lucide-react";
 
 const departments = [
 
   {
-    title: "Cardiology",
-    icon: HeartPulse,
+    title: "ENT & Voice Disorders",
+    icon: Ear,
+
     desc:
-      "Advanced heart care and modern cardiac treatment solutions.",
+      "Advanced diagnosis and treatment for ear, nose, throat, sinus, allergy, and professional voice disorders with modern ENT care.",
   },
 
   {
-    title: "Neurology",
-    icon: Brain,
+    title: "Cochlear Implant Centre",
+    icon: HeartHandshake,
+
     desc:
-      "Specialized neurological healthcare with expert consultation.",
+      "Specialized cochlear implant treatments helping patients restore hearing abilities with expert surgical excellence and rehabilitation support.",
   },
 
   {
-    title: "Orthopaedics",
+    title: "Orthopaedics & Joint Replacement",
     icon: Bone,
+
     desc:
-      "Advanced joint replacement surgery and orthopedic care.",
+      "Comprehensive orthopedic care including trauma management, fracture treatment, spine care, and advanced joint replacement surgeries.",
   },
 
   {
-    title: "Pediatrics",
+    title: "Pediatrics & NICU",
     icon: Baby,
+
     desc:
-      "Comprehensive healthcare services for children and newborns.",
+      "Dedicated child healthcare services with advanced NICU support, newborn care, vaccinations, and pediatric specialists.",
   },
 
   {
-    title: "Emergency Care",
+    title: "24/7 Emergency & Trauma Care",
     icon: Activity,
+
     desc:
-      "24/7 emergency medical support with rapid response team.",
+      "Round-the-clock emergency services with rapid response trauma care, ICU support, ambulance facilities, and critical care specialists.",
   },
 
   {
-    title: "Diagnostics",
+    title: "Advanced Diagnostics",
     icon: Microscope,
+
     desc:
-      "Advanced pathology, MRI, CT Scan and radiology services.",
+      "Modern pathology, laboratory testing, radiology, ultrasound, CT Scan, and imaging services for accurate medical diagnosis.",
+  },
+
+  {
+    title: "IVF & Infertility Centre",
+    icon: HeartHandshake,
+
+    desc:
+      "Advanced fertility treatments including IVF, ICSI, infertility consultation, reproductive healthcare, and personalized fertility solutions.",
+  },
+
+  {
+    title: "Radiology & Imaging Centre",
+    icon: Scan,
+
+    desc:
+      "High-quality digital imaging services with modern radiology equipment for fast, precise, and reliable diagnostic results.",
   },
 
 ];
@@ -73,7 +97,9 @@ export default function Departments() {
     <section
       className="
       relative
+
       py-24
+      lg:py-28
 
       overflow-hidden
 
@@ -84,7 +110,7 @@ export default function Departments() {
       "
     >
 
-      {/* PREMIUM BACKGROUND GLOW */}
+      {/* SOFT GLOW */}
 
       <div
         className="
@@ -140,7 +166,21 @@ export default function Departments() {
             leading-tight
             "
           >
-            Medical Departments
+
+            Specialized
+            <span
+              className="
+              bg-gradient-to-r
+              from-cyan-500
+              to-blue-700
+
+              bg-clip-text
+              text-transparent
+              "
+            >
+              {" "}Medical Departments
+            </span>
+
           </h2>
 
           <p
@@ -159,9 +199,9 @@ export default function Departments() {
             sm:text-base
             "
           >
-            Delivering world-class healthcare services with
-            expert doctors, advanced medical technology,
-            and patient-focused treatment.
+            Hajela Hospital provides advanced healthcare,
+            modern medical technology, experienced specialists,
+            and compassionate treatment services for every patient.
           </p>
 
         </div>
@@ -215,77 +255,31 @@ export default function Departments() {
                 group
                 relative
 
+                h-full
+
                 overflow-hidden
 
                 rounded-[34px]
 
                 border
-                border-white/20
+                border-slate-200/70
 
-                bg-white/70
-
-                backdrop-blur-2xl
+                bg-white
 
                 p-8
 
-                min-h-[300px]
+                min-h-[340px]
 
-                shadow-[0_10px_50px_rgba(15,23,42,0.08)]
+                shadow-[0_10px_50px_rgba(15,23,42,0.06)]
 
-                hover:shadow-[0_25px_80px_rgba(6,182,212,0.18)]
+                hover:shadow-[0_20px_60px_rgba(15,23,42,0.10)]
 
-                hover:-translate-y-4
+                hover:-translate-y-1
 
                 transition-all
-                duration-700
+                duration-500
                 "
               >
-
-                {/* GLOW */}
-
-                <div
-                  className="
-                  absolute
-                  -top-20
-                  -right-20
-
-                  w-56
-                  h-56
-
-                  rounded-full
-
-                  bg-cyan-400/10
-
-                  blur-3xl
-
-                  opacity-0
-
-                  group-hover:opacity-100
-
-                  transition-all
-                  duration-700
-                  "
-                ></div>
-
-                {/* LIGHT BORDER */}
-
-                <div
-                  className="
-                  absolute
-                  inset-0
-
-                  rounded-[34px]
-
-                  border
-
-                  border-transparent
-
-                  group-hover:border-cyan-300/30
-
-                  transition-all
-                  duration-700
-                  "
-                ></div>
 
                 {/* ICON */}
 
@@ -301,22 +295,20 @@ export default function Departments() {
 
                   bg-gradient-to-br
                   from-cyan-500
-                  via-blue-600
-                  to-slate-900
+                  to-blue-700
 
                   flex
                   items-center
                   justify-center
 
-                  shadow-[0_15px_40px_rgba(6,182,212,0.35)]
-
                   mb-7
 
-                  group-hover:scale-110
-                  group-hover:rotate-6
+                  shadow-lg
+
+                  group-hover:scale-105
 
                   transition-all
-                  duration-500
+                  duration-300
                   "
                 >
 
@@ -367,7 +359,7 @@ export default function Departments() {
                   {dept.desc}
                 </p>
 
-                {/* PREMIUM LINE */}
+                {/* LINE */}
 
                 <div
                   className="
@@ -385,10 +377,10 @@ export default function Departments() {
                   from-cyan-500
                   to-blue-700
 
-                  group-hover:w-28
+                  group-hover:w-24
 
                   transition-all
-                  duration-500
+                  duration-300
                   "
                 ></div>
 
@@ -408,16 +400,17 @@ export default function Departments() {
             href="/departments"
 
             className="
-            group
-            relative
+            inline-flex
 
-            overflow-hidden
+            items-center
+            justify-center
 
-            rounded-full
+            gap-2
+
+            rounded-2xl
 
             bg-gradient-to-r
             from-blue-700
-            via-blue-600
             to-cyan-500
 
             px-9
@@ -427,7 +420,7 @@ export default function Departments() {
 
             font-semibold
 
-            shadow-[0_10px_40px_rgba(6,182,212,0.35)]
+            shadow-lg
 
             hover:scale-105
 
@@ -436,27 +429,14 @@ export default function Departments() {
             "
           >
 
-            <span className="relative z-10">
-
-              View All Departments
-
-            </span>
-
-            <div
+            <Stethoscope
               className="
-              absolute
-              inset-0
-
-              bg-white/20
-
-              translate-y-full
-
-              group-hover:translate-y-0
-
-              transition-all
-              duration-300
+              w-5
+              h-5
               "
-            ></div>
+            />
+
+            View All Departments
 
           </Link>
 

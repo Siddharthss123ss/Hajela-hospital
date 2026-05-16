@@ -1,9 +1,8 @@
 "use client";
 
 import {
-  HeartPulse,
-  Ambulance,
-  Brain,
+
+  Ear,
   Baby,
   Activity,
   Microscope,
@@ -11,64 +10,110 @@ import {
   Stethoscope,
   Hospital,
   ScanHeart,
+  HeartHandshake,
+  Bone,
+  HeartPulse,
+  Ambulance,
+
 } from "lucide-react";
 
 const services = [
 
-  "Hospital",
-  "Ambulance Service",
-  "Anesthesiology",
-  "Cardiology",
-  "Diagnostic Imaging",
-  "Emergency Care",
-  "Gastroenterology",
-  "General Checkups",
-  "General Surgery",
-  "Hospice Care",
-  "Laboratory Services",
-  "Maternity Care",
-  "Mental Health Care",
-  "Neurology",
-  "Nursing Services",
-  "Orthopedics",
-  "Outpatient Services",
-  "Pediatrics",
-  "Pharmacy Services",
-  "Physical Therapy",
-  "Psychiatry",
-  "Psychology",
-  "X-ray & Radiology Services",
-  "Orthopedic & Joint Replacement Surgery",
-  "ENT Specialist",
-  "Infertility Specialist",
-  "NICU for New Born & Paediatrics",
-  "Paediatrician",
-  "General Medicine",
-  "ICU & CCU",
-  "Trauma Centre",
-  "Imaging Centre",
-  "NABH Hospital in Bhopal",
-  "Gynecologist",
-  "Child Birth through Normal & Caesarean Procedure",
-  "IVF & Infertility Clinic",
-  "Ultrasound",
-  "Otolaryngology Clinic",
-  "ENT Specialist for Ear, Nose & Throat Diseases",
+  {
+    title: "ENT & Voice Disorders",
+    icon: Ear,
 
-];
+    desc:
+      "Advanced ENT treatments for ear, nose, throat, sinus, allergy, hearing and professional voice disorders with modern technology.",
+  },
 
-const icons = [
+  {
+    title: "Cochlear Implant Centre",
+    icon: HeartHandshake,
 
-  HeartPulse,
-  Ambulance,
-  Brain,
-  Baby,
-  Activity,
-  Microscope,
-  ShieldPlus,
-  Stethoscope,
-  Hospital,
-  ScanHeart,
+    desc:
+      "Specialized cochlear implant surgeries and hearing restoration services with expert ENT surgeons and rehabilitation support.",
+  },
+
+  {
+    title: "Orthopaedics & Joint Replacement",
+    icon: Bone,
+
+    desc:
+      "Comprehensive orthopedic care including trauma management, fracture treatment and advanced joint replacement surgeries.",
+  },
+
+  {
+    title: "IVF & Infertility Centre",
+    icon: HeartPulse,
+
+    desc:
+      "Advanced fertility solutions including IVF, ICSI, infertility consultation and reproductive healthcare support.",
+  },
+
+  {
+    title: "Pediatrics & NICU",
+    icon: Baby,
+
+    desc:
+      "Complete child healthcare services with advanced NICU support, vaccinations, newborn care and pediatric specialists.",
+  },
+
+  {
+    title: "Emergency & Trauma Care",
+    icon: Activity,
+
+    desc:
+      "24/7 emergency medical support with ICU backup, trauma specialists, ambulance services and rapid critical care response.",
+  },
+
+  {
+    title: "Radiology & Imaging",
+    icon: ScanHeart,
+
+    desc:
+      "Advanced imaging services including ultrasound, digital X-ray, radiology and precise diagnostic scanning facilities.",
+  },
+
+  {
+    title: "Advanced Diagnostics",
+    icon: Microscope,
+
+    desc:
+      "Modern pathology and laboratory services ensuring fast, accurate and reliable medical diagnosis for patients.",
+  },
+
+  {
+    title: "General Medicine",
+    icon: Stethoscope,
+
+    desc:
+      "Comprehensive healthcare consultations and treatment plans for fever, infections, chronic diseases and preventive care.",
+  },
+
+  {
+    title: "ICU & Critical Care",
+    icon: ShieldPlus,
+
+    desc:
+      "Advanced ICU and CCU facilities with expert intensivists, ventilator support and round-the-clock monitoring systems.",
+  },
+
+  {
+    title: "Maternity & Women Care",
+    icon: HeartHandshake,
+
+    desc:
+      "Specialized gynecology and maternity care including normal delivery, cesarean procedures and women wellness programs.",
+  },
+
+  {
+    title: "Hospital & Ambulance Services",
+    icon: Ambulance,
+
+    desc:
+      "Complete hospital care with ambulance support, patient assistance, emergency transport and modern healthcare infrastructure.",
+  },
 
 ];
 
@@ -79,6 +124,7 @@ export default function DepartmentsPage() {
     <main
       className="
       relative
+
       pt-32
       pb-24
 
@@ -87,13 +133,13 @@ export default function DepartmentsPage() {
       bg-gradient-to-b
       from-slate-50
       via-white
-      to-cyan-50/40
+      to-cyan-50/30
 
       min-h-screen
       "
     >
 
-      {/* PREMIUM BACKGROUND GLOW */}
+      {/* SOFT GLOW */}
 
       <div
         className="
@@ -149,7 +195,21 @@ export default function DepartmentsPage() {
             leading-tight
             "
           >
-            All Medical Services
+
+            Specialized
+            <span
+              className="
+              bg-gradient-to-r
+              from-cyan-500
+              to-blue-700
+
+              bg-clip-text
+              text-transparent
+              "
+            >
+              {" "}Medical Services
+            </span>
+
           </h1>
 
           <p
@@ -168,9 +228,10 @@ export default function DepartmentsPage() {
             sm:text-base
             "
           >
-            Advanced healthcare services with experienced
-            specialists, world-class infrastructure,
-            emergency support and modern medical technology.
+            Hajela Hospital provides advanced healthcare,
+            modern medical infrastructure, emergency care,
+            IVF services, trauma support and specialized
+            treatments with experienced doctors and surgeons.
           </p>
 
         </div>
@@ -189,204 +250,145 @@ export default function DepartmentsPage() {
           "
         >
 
-          {services.map((service, index) => {
+          {services.map((service, index) => (
 
-            const Icon =
-              icons[index % icons.length];
+            <div
+              key={index}
 
-            return (
+              className="
+              group
+              relative
+
+              overflow-hidden
+
+              rounded-[34px]
+
+              border
+              border-slate-200/70
+
+              bg-white
+
+              p-8
+
+              min-h-[320px]
+
+              shadow-[0_10px_50px_rgba(15,23,42,0.06)]
+
+              hover:shadow-[0_20px_60px_rgba(15,23,42,0.10)]
+
+              hover:-translate-y-1
+
+              transition-all
+              duration-500
+
+              cursor-pointer
+              "
+            >
+
+              {/* ICON */}
 
               <div
-                key={index}
-
                 className="
-                group
                 relative
+                z-10
 
-                overflow-hidden
+                w-20
+                h-20
 
-                rounded-[34px]
+                rounded-[24px]
 
-                border
-                border-white/20
+                bg-gradient-to-br
+                from-cyan-500
+                to-blue-700
 
-                bg-white/70
+                flex
+                items-center
+                justify-center
 
-                backdrop-blur-2xl
+                mb-7
 
-                p-8
+                shadow-lg
 
-                min-h-[260px]
-
-                shadow-[0_10px_50px_rgba(15,23,42,0.08)]
-
-                hover:shadow-[0_25px_80px_rgba(6,182,212,0.18)]
-
-                hover:-translate-y-4
+                group-hover:scale-105
 
                 transition-all
-                duration-700
-
-                cursor-pointer
+                duration-300
                 "
               >
 
-                {/* PREMIUM GLOW */}
-
-                <div
-                  className="
-                  absolute
-                  -top-20
-                  -right-20
-
-                  w-56
-                  h-56
-
-                  rounded-full
-
-                  bg-cyan-400/10
-
-                  blur-3xl
-
-                  opacity-0
-
-                  group-hover:opacity-100
-
-                  transition-all
-                  duration-700
-                  "
-                ></div>
-
-                {/* BORDER LIGHT */}
-
-                <div
-                  className="
-                  absolute
-                  inset-0
-
-                  rounded-[34px]
-
-                  border
-
-                  border-transparent
-
-                  group-hover:border-cyan-300/30
-
-                  transition-all
-                  duration-700
-                  "
-                ></div>
-
-                {/* ICON */}
-
-                <div
-                  className="
-                  relative
-                  z-10
-
-                  w-20
-                  h-20
-
-                  rounded-[24px]
-
-                  bg-gradient-to-br
-                  from-cyan-500
-                  via-blue-600
-                  to-slate-900
-
-                  flex
-                  items-center
-                  justify-center
-
-                  shadow-[0_15px_40px_rgba(6,182,212,0.35)]
-
-                  mb-7
-
-                  group-hover:scale-110
-                  group-hover:rotate-6
-
-                  transition-all
-                  duration-500
-                  "
-                >
-
-                  <Icon
-                    size={34}
-                    className="text-white"
-                  />
-
-                </div>
-
-                {/* TITLE */}
-
-                <h2
-                  className="
-                  relative
-                  z-10
-
-                  text-[22px]
-
-                  font-black
-
-                  text-slate-900
-
-                  leading-snug
-                  "
-                >
-                  {service}
-                </h2>
-
-                {/* DESCRIPTION */}
-
-                <p
-                  className="
-                  relative
-                  z-10
-
-                  mt-4
-
-                  text-slate-600
-
-                  text-sm
-
-                  leading-relaxed
-                  "
-                >
-                  Premium healthcare service with
-                  experienced specialists and
-                  advanced medical technology.
-                </p>
-
-                {/* PREMIUM LINE */}
-
-                <div
-                  className="
-                  relative
-                  z-10
-
-                  mt-8
-
-                  w-16
-                  h-[4px]
-
-                  rounded-full
-
-                  bg-gradient-to-r
-                  from-cyan-500
-                  to-blue-700
-
-                  group-hover:w-28
-
-                  transition-all
-                  duration-500
-                  "
-                ></div>
+                <service.icon
+                  size={34}
+                  className="text-white"
+                />
 
               </div>
 
-            );
+              {/* TITLE */}
 
-          })}
+              <h2
+                className="
+                relative
+                z-10
+
+                text-[24px]
+
+                font-black
+
+                text-slate-900
+
+                leading-snug
+                "
+              >
+                {service.title}
+              </h2>
+
+              {/* DESCRIPTION */}
+
+              <p
+                className="
+                relative
+                z-10
+
+                mt-4
+
+                text-slate-600
+
+                text-sm
+
+                leading-relaxed
+                "
+              >
+                {service.desc}
+              </p>
+
+              {/* LINE */}
+
+              <div
+                className="
+                relative
+                z-10
+
+                mt-8
+
+                w-16
+                h-[4px]
+
+                rounded-full
+
+                bg-gradient-to-r
+                from-cyan-500
+                to-blue-700
+
+                group-hover:w-24
+
+                transition-all
+                duration-300
+                "
+              ></div>
+
+            </div>
+
+          ))}
 
         </div>
 

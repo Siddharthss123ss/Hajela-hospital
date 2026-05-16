@@ -5,10 +5,16 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  Swiper,
+  SwiperSlide,
+} from "swiper/react";
+
 import { Autoplay } from "swiper/modules";
 
-import { ChevronRight } from "lucide-react";
+import {
+  ChevronRight,
+} from "lucide-react";
 
 import "swiper/css";
 
@@ -48,8 +54,6 @@ const doctors = [
     degree: "MBBS, MD Obstetrics & Gynecology",
     experience: "14+ Years",
     image: "/doctors/supriya.png",
-    website: "https://www.supriyahajela.in/",
-    
   },
 
   {
@@ -58,7 +62,7 @@ const doctors = [
     role: "ENT Specialist",
     degree: "MBBS, MS ENT, DNB ENT",
     experience: "10+ Years",
-    image: "/doctors/anupriya.png",
+    image: "/doctors/Anupriya.jpg",
   },
 
   {
@@ -77,6 +81,114 @@ const doctors = [
     degree: "MBBS, MS Orthopaedics, Fellowship in Joint Replacement",
     experience: "10+ Years",
     image: "/doctors/tanmay.png",
+  },
+
+  {
+    slug: "dr-aneesa-zutshi",
+    name: "Dr. Aneesa Zutshi",
+    role: "Anaesthesiologist",
+    degree: "MBBS, MD Anaesthesiology",
+    experience: "45+ Years",
+    image: "/doctors/aneesha.jpg",
+  },
+
+  {
+    slug: "dr-deepak-zutshi",
+    name: "Dr. Deepak Zutshi",
+    role: "Anaesthesiologist",
+    degree: "MBBS, MD Anaesthesiology",
+    experience: "45+ Years",
+    image: "/doctors/deepak.jpg",
+  },
+
+  {
+    slug: "dr-ss-velury",
+    name: "Dr. S S Velury",
+    role: "Paediatrician",
+    degree: "MBBS, MD Paediatrics",
+    experience: "32+ Years",
+    image: "/doctors/velury.webp",
+  },
+
+  {
+    slug: "dr-amit-ganguly",
+    name: "Dr. Amit Ganguly",
+    role: "ENT Specialist",
+    degree: "MBBS, MS ENT",
+    experience: "25+ Years",
+    image: "/doctors/amit.png",
+  },
+
+  {
+    slug: "dr-jyoti-valecha",
+    name: "Dr. Jyoti Valecha",
+    role: "Radiologist",
+    degree: "MBBS, MD Radiodiagnosis",
+    experience: "23+ Years",
+    image: "/doctors/jyoti.webp",
+  },
+
+  {
+    slug: "dr-dhananjay-mishra",
+    name: "Dr. Dhananjay Mishra",
+    role: "Internal Medicine Specialist",
+    degree: "MBBS, MD General Medicine",
+    experience: "21+ Years",
+    image: "/doctors/dhananjay.png",
+  },
+
+  {
+    slug: "dr-sameer-zutshi",
+    name: "Dr. Sameer Zutshi",
+    role: "Anaesthesiologist",
+    degree: "MBBS, MD Anaesthesiology",
+    experience: "20+ Years",
+    image: "/doctors/sameer.webp",
+  },
+
+  {
+    slug: "dr-pravin-dandekar",
+    name: "Dr. Pravin Gulab Dandekar",
+    role: "Internal Medicine Specialist",
+    degree: "MBBS, MD General Medicine",
+    experience: "17+ Years",
+    image: "/doctors/praveen.png",
+  },
+
+  {
+    slug: "dr-amit-jain",
+    name: "Dr. Amit Jain",
+    role: "Urologist",
+    degree: "MBBS, MS General Surgery, MCh Urology",
+    experience: "14+ Years",
+    image: "/doctors/amit-jain.png",
+  },
+
+  {
+    slug: "dr-juned-hasan",
+    name: "Dr. Juned Hasan",
+    role: "Internal Medicine Specialist",
+    degree: "MBBS, MD General Medicine",
+    experience: "8+ Years",
+    image: "/doctors/juneed.png",
+  },
+
+  {
+    slug: "dr-surjeet-singh-rajput",
+    name: "Dr. Surjeet Singh Rajput",
+    role: "Internal Medicine Specialist",
+    degree: "MBBS, MD General Medicine",
+    experience: "10+ Years",
+    image: "/doctors/surjeet.png",
+  },
+
+  {
+    slug: "dr-sandeep-jain",
+    name: "Dr. Sandeep Jain",
+    role: "Laparoscopic & Gastrointestinal Surgeon",
+    degree: "MBBS, MS General Surgery, MCh Surgical Gastroenterology",
+    experience: "10+ Years",
+    image: "/doctors/sandeep.png",
   },
 
 ];
@@ -101,7 +213,7 @@ export default function Doctors() {
       "
     >
 
-      {/* PREMIUM BG GLOW */}
+      {/* BG */}
 
       <div
         className="
@@ -113,7 +225,8 @@ export default function Doctors() {
         w-[700px]
         h-[700px]
 
-        bg-cyan-500/5
+        bg-blue-100/30
+
         blur-[140px]
 
         rounded-full
@@ -155,7 +268,7 @@ export default function Doctors() {
             "
           >
 
-            Meet Our
+            Trusted
             <span
               className="
               bg-gradient-to-r
@@ -166,7 +279,7 @@ export default function Doctors() {
               text-transparent
               "
             >
-              {" "}Expert Doctors
+              {" "}Medical Specialists
             </span>
 
           </h2>
@@ -186,9 +299,9 @@ export default function Doctors() {
             md:text-base
             "
           >
-            Our experienced medical specialists provide advanced,
-            compassionate and patient-focused healthcare with
-            world-class treatment standards.
+            Our experienced doctors provide advanced,
+            compassionate and patient-focused healthcare
+            with world-class treatment standards.
           </p>
 
         </div>
@@ -196,14 +309,25 @@ export default function Doctors() {
         {/* SLIDER */}
 
         <Swiper
+
           modules={[Autoplay]}
+
           spaceBetween={28}
+
           slidesPerView={1}
+
           loop={true}
+
+          speed={900}
+
           autoplay={{
-            delay: 3000,
+
+            delay: 2200,
+
             disableOnInteraction: false,
+
           }}
+
           breakpoints={{
 
             640: {
@@ -219,9 +343,10 @@ export default function Doctors() {
             },
 
           }}
+
         >
 
-          {doctors.slice(0, 7).map((doctor, index) => (
+          {doctors.map((doctor, index) => (
 
             <SwiperSlide key={index}>
 
@@ -242,8 +367,9 @@ export default function Doctors() {
 
                 shadow-[0_10px_40px_rgba(15,23,42,0.06)]
 
-                hover:shadow-[0_20px_60px_rgba(15,23,42,0.12)]
-                hover:-translate-y-2
+                hover:shadow-[0_20px_60px_rgba(15,23,42,0.10)]
+
+                hover:-translate-y-1
 
                 transition-all
                 duration-500
@@ -256,8 +382,8 @@ export default function Doctors() {
                   className="
                   relative
 
-                  h-[320px]
-                  sm:h-[340px]
+                  h-[380px]
+                  sm:h-[420px]
 
                   overflow-hidden
 
@@ -273,14 +399,12 @@ export default function Doctors() {
                     object-cover
                     object-top
 
-                    group-hover:scale-105
+                    group-hover:scale-[1.02]
 
                     transition-all
                     duration-700
                     "
                   />
-
-                  {/* SOFT OVERLAY */}
 
                   <div
                     className="
@@ -288,7 +412,7 @@ export default function Doctors() {
                     inset-0
 
                     bg-gradient-to-t
-                    from-black/20
+                    from-black/15
                     via-transparent
                     to-transparent
                     "
@@ -299,8 +423,6 @@ export default function Doctors() {
                 {/* CONTENT */}
 
                 <div className="p-6 lg:p-7">
-
-                  {/* EXPERIENCE */}
 
                   <div
                     className="
@@ -328,8 +450,6 @@ export default function Doctors() {
                     {doctor.experience} Experience
                   </div>
 
-                  {/* NAME */}
-
                   <h3
                     className="
                     mt-5
@@ -346,8 +466,6 @@ export default function Doctors() {
                     {doctor.name}
                   </h3>
 
-                  {/* ROLE */}
-
                   <p
                     className="
                     mt-2
@@ -360,8 +478,6 @@ export default function Doctors() {
                   >
                     {doctor.role}
                   </p>
-
-                  {/* DEGREE */}
 
                   <p
                     className="
@@ -379,8 +495,6 @@ export default function Doctors() {
                     {doctor.degree}
                   </p>
 
-                  {/* LINE */}
-
                   <div
                     className="
                     mt-5
@@ -395,8 +509,6 @@ export default function Doctors() {
                     to-blue-700
                     "
                   ></div>
-
-                  {/* BUTTON */}
 
                   <Link
                     href={`/doctors/${doctor.slug}`}
@@ -448,52 +560,66 @@ export default function Doctors() {
               </div>
 
             </SwiperSlide>
+            
 
           ))}
 
+          {/* BUTTON */}
+
+<div className="flex justify-center mt-16">
+
+  <Link
+    href="/doctors"
+
+    className="
+    inline-flex
+
+    items-center
+    justify-center
+
+    gap-2
+
+    bg-gradient-to-r
+    from-cyan-600
+    to-blue-700
+
+    text-white
+
+    px-9
+    py-4
+
+    rounded-2xl
+
+    font-bold
+
+    shadow-lg
+
+    hover:scale-105
+
+    transition-all
+    duration-300
+    "
+  >
+
+    View All Doctors
+
+    <ChevronRight
+      className="
+      w-5
+      h-5
+      "
+    />
+
+  </Link>
+
+</div>
+
         </Swiper>
-
-        {/* BUTTON */}
-
-        <div className="flex justify-center mt-16">
-
-          <Link
-            href="/doctors"
-            className="
-            inline-flex
-
-            items-center
-            justify-center
-
-            bg-gradient-to-r
-            from-cyan-600
-            to-blue-700
-
-            text-white
-
-            px-8
-            py-4
-
-            rounded-full
-
-            font-bold
-
-            shadow-[0_10px_40px_rgba(6,182,212,0.25)]
-
-            hover:scale-105
-
-            transition-all
-            duration-300
-            "
-          >
-            Browse All Specialists
-          </Link>
-
-        </div>
 
       </div>
 
     </section>
 
   );
+
 }

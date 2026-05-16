@@ -308,7 +308,7 @@ export default function About() {
                 tracking-tight
                 "
               >
-                29
+                30
                 <span className="text-cyan-200">
                   +
                 </span>
