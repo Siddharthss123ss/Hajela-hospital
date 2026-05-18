@@ -15,12 +15,12 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     if (!validate_data(appointment_schema, body)) {
-      return NextResponse.json({ error: "Form sahi se bharein" }, { status: 400 });
+      return NextResponse.json({ error: "fill the form correctly" }, { status: 400 });
     }
 
     const new_booking = await appointment.create(body);
     return NextResponse.json(new_booking, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: "Booking failed" }, { status: 500 });
+    return NextResponse.json({ error: "booking failed" }, { status: 500 });
   }
 }

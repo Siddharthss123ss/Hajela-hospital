@@ -22,6 +22,6 @@ export async function GET() {
       reviews: pending_reviews
     });
   } catch (error) {
-    return NextResponse.json({ error: "Stats fetch fail ho gaya" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to load dashboard statistics" }, { status: 500 });
   }
 }

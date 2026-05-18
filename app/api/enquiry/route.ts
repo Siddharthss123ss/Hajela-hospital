@@ -17,13 +17,13 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     
-    if (!body.full_name || !body.phone || !body.message) {
-      return NextResponse.json({ error: "Zaroori fields missing hain" }, { status: 400 });
+    if (!body.full_name || !body.phone || !body.message || !body.email || !body.subject) {
+      return NextResponse.json({ error: "Required fields are missing" }, { status: 400 });
     }
 
     const new_enquiry = await enquiry.create(body);
     return NextResponse.json({ message: "Inquiry submitted successfully", id: new_enquiry._id }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: "Inquiry send nahi ho payi" }, { status: 500 });
+    return NextResponse.json({ error: "Inquiry could not be sent" }, { status: 500 });
   }
 }

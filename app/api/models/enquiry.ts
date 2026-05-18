@@ -7,7 +7,8 @@ export interface IEnquiry extends Document {
   subject: string;
   message: string;
   status: 'new' | 'read' | 'replied';
-  created_at: Date;
+  admin_response?: string;
+  replied_at?: Date;
 }
 
 const EnquirySchema = new Schema<IEnquiry>({
@@ -37,6 +38,13 @@ const EnquirySchema = new Schema<IEnquiry>({
     enum: ['new', 'read', 'replied'], 
     default: 'new' 
   },
+  admin_response: {
+    type: String,
+    default: ""
+  },
+  replied_at: {
+    type: Date
+  }
 }, { timestamps: true });
 
 EnquirySchema.index({ status: 1, createdAt: -1 });

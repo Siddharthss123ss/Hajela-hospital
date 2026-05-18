@@ -22,3 +22,13 @@ export async function PUT(req: Request) {
   const updated = await review.findByIdAndUpdate(id, { is_approved }, { new: true });
   return NextResponse.json(updated);
 }
+
+export async function GET() {
+  await db_connect();
+  try {
+    const data = await review.find({}).populate('doctor_id').sort({ createdAt: -1 });
+    return NextResponse.json(data);
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 });
+  }
+}
