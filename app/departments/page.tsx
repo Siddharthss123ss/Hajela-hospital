@@ -1,123 +1,26 @@
 "use client";
 
-import {
+import Link from "next/link";
 
-  Ear,
-  Baby,
-  Activity,
-  Microscope,
-  ShieldPlus,
-  Stethoscope,
-  Hospital,
-  ScanHeart,
-  HeartHandshake,
-  Bone,
-  HeartPulse,
-  Ambulance,
+import { departments } from "@/data/departments";
 
-} from "lucide-react";
+import Image from "next/image";
 
-const services = [
+import { Search } from "lucide-react";
 
-  {
-    title: "ENT & Voice Disorders",
-    icon: Ear,
-
-    desc:
-      "Advanced ENT treatments for ear, nose, throat, sinus, allergy, hearing and professional voice disorders with modern technology.",
-  },
-
-  {
-    title: "Cochlear Implant Centre",
-    icon: HeartHandshake,
-
-    desc:
-      "Specialized cochlear implant surgeries and hearing restoration services with expert ENT surgeons and rehabilitation support.",
-  },
-
-  {
-    title: "Orthopaedics & Joint Replacement",
-    icon: Bone,
-
-    desc:
-      "Comprehensive orthopedic care including trauma management, fracture treatment and advanced joint replacement surgeries.",
-  },
-
-  {
-    title: "IVF & Infertility Centre",
-    icon: HeartPulse,
-
-    desc:
-      "Advanced fertility solutions including IVF, ICSI, infertility consultation and reproductive healthcare support.",
-  },
-
-  {
-    title: "Pediatrics & NICU",
-    icon: Baby,
-
-    desc:
-      "Complete child healthcare services with advanced NICU support, vaccinations, newborn care and pediatric specialists.",
-  },
-
-  {
-    title: "Emergency & Trauma Care",
-    icon: Activity,
-
-    desc:
-      "24/7 emergency medical support with ICU backup, trauma specialists, ambulance services and rapid critical care response.",
-  },
-
-  {
-    title: "Radiology & Imaging",
-    icon: ScanHeart,
-
-    desc:
-      "Advanced imaging services including ultrasound, digital X-ray, radiology and precise diagnostic scanning facilities.",
-  },
-
-  {
-    title: "Advanced Diagnostics",
-    icon: Microscope,
-
-    desc:
-      "Modern pathology and laboratory services ensuring fast, accurate and reliable medical diagnosis for patients.",
-  },
-
-  {
-    title: "General Medicine",
-    icon: Stethoscope,
-
-    desc:
-      "Comprehensive healthcare consultations and treatment plans for fever, infections, chronic diseases and preventive care.",
-  },
-
-  {
-    title: "ICU & Critical Care",
-    icon: ShieldPlus,
-
-    desc:
-      "Advanced ICU and CCU facilities with expert intensivists, ventilator support and round-the-clock monitoring systems.",
-  },
-
-  {
-    title: "Maternity & Women Care",
-    icon: HeartHandshake,
-
-    desc:
-      "Specialized gynecology and maternity care including normal delivery, cesarean procedures and women wellness programs.",
-  },
-
-  {
-    title: "Hospital & Ambulance Services",
-    icon: Ambulance,
-
-    desc:
-      "Complete hospital care with ambulance support, patient assistance, emergency transport and modern healthcare infrastructure.",
-  },
-
-];
+import { useState } from "react";
 
 export default function DepartmentsPage() {
+
+  const [search, setSearch] = useState("");
+
+  const filteredDepartments = departments.filter((dept) =>
+
+    dept.title
+      .toLowerCase()
+      .includes(search.toLowerCase())
+
+  );
 
   return (
 
@@ -163,7 +66,7 @@ export default function DepartmentsPage() {
 
         {/* HEADING */}
 
-        <div className="text-center mb-20">
+        <div className="text-center mb-16">
 
           <p
             className="
@@ -228,11 +131,74 @@ export default function DepartmentsPage() {
             sm:text-base
             "
           >
-            Hajela Hospital provides advanced healthcare,
-            modern medical infrastructure, emergency care,
-            IVF services, trauma support and specialized
-            treatments with experienced doctors and surgeons.
+            Explore advanced healthcare departments,
+            specialized treatments, modern technologies
+            and expert medical services at Hajela Hospital.
           </p>
+
+        </div>
+
+        {/* SEARCH */}
+
+        <div
+          className="
+          relative
+
+          max-w-2xl
+
+          mx-auto
+
+          mb-16
+          "
+        >
+
+          <Search
+            className="
+            absolute
+
+            left-5
+            top-1/2
+
+            -translate-y-1/2
+
+            text-slate-400
+            "
+          />
+
+          <input
+            type="text"
+
+            placeholder="Search medical department..."
+
+            value={search}
+
+            onChange={(e) =>
+              setSearch(e.target.value)
+            }
+
+            className="
+            w-full
+
+            rounded-2xl
+
+            border
+            border-slate-200
+
+            bg-white
+
+            py-5
+            pl-14
+            pr-5
+
+            text-slate-700
+
+            outline-none
+
+            shadow-sm
+
+            focus:border-cyan-500
+            "
+          />
 
         </div>
 
@@ -250,10 +216,12 @@ export default function DepartmentsPage() {
           "
         >
 
-          {services.map((service, index) => (
+          {filteredDepartments.map((service, index) => (
 
-            <div
+            <Link
               key={index}
+
+              href={`/departments/${service.slug}`}
 
               className="
               group
@@ -268,10 +236,6 @@ export default function DepartmentsPage() {
 
               bg-white
 
-              p-8
-
-              min-h-[320px]
-
               shadow-[0_10px_50px_rgba(15,23,42,0.06)]
 
               hover:shadow-[0_20px_60px_rgba(15,23,42,0.10)]
@@ -280,113 +244,118 @@ export default function DepartmentsPage() {
 
               transition-all
               duration-500
-
-              cursor-pointer
               "
             >
 
-              {/* ICON */}
+              {/* IMAGE */}
 
               <div
                 className="
                 relative
-                z-10
 
-                w-20
-                h-20
+                h-[240px]
 
-                rounded-[24px]
-
-                bg-gradient-to-br
-                from-cyan-500
-                to-blue-700
-
-                flex
-                items-center
-                justify-center
-
-                mb-7
-
-                shadow-lg
-
-                group-hover:scale-105
-
-                transition-all
-                duration-300
+                overflow-hidden
                 "
               >
 
-                <service.icon
-                  size={34}
-                  className="text-white"
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  fill
+
+                  className="
+                  object-cover
+
+                  group-hover:scale-110
+
+                  transition-all
+                  duration-700
+                  "
                 />
+
+                <div
+                  className="
+                  absolute
+                  inset-0
+
+                  bg-gradient-to-t
+                  from-black/50
+                  to-transparent
+                  "
+                ></div>
 
               </div>
 
-              {/* TITLE */}
+              {/* CONTENT */}
 
-              <h2
-                className="
-                relative
-                z-10
+              <div className="p-7">
 
-                text-[24px]
+                <h2
+                  className="
+                  text-[24px]
 
-                font-black
+                  font-black
 
-                text-slate-900
+                  text-slate-900
 
-                leading-snug
-                "
-              >
-                {service.title}
-              </h2>
+                  leading-snug
+                  "
+                >
+                  {service.title}
+                </h2>
 
-              {/* DESCRIPTION */}
+                <p
+                  className="
+                  mt-4
 
-              <p
-                className="
-                relative
-                z-10
+                  text-slate-600
 
-                mt-4
+                  text-sm
 
-                text-slate-600
+                  leading-relaxed
+                  "
+                >
+                  {service.short}
+                </p>
 
-                text-sm
+                {/* BUTTON */}
 
-                leading-relaxed
-                "
-              >
-                {service.desc}
-              </p>
+                <div
+                  className="
+                  mt-7
 
-              {/* LINE */}
+                  inline-flex
 
-              <div
-                className="
-                relative
-                z-10
+                  rounded-full
 
-                mt-8
+                  bg-gradient-to-r
+                  from-cyan-500
+                  to-blue-700
 
-                w-16
-                h-[4px]
+                  px-5
+                  py-2.5
 
-                rounded-full
+                  text-sm
 
-                bg-gradient-to-r
-                from-cyan-500
-                to-blue-700
+                  font-semibold
 
-                group-hover:w-24
+                  text-white
 
-                transition-all
-                duration-300
-                "
-              ></div>
+                  shadow-md
 
-            </div>
+                  group-hover:scale-105
+
+                  transition-all
+                  duration-300
+                  "
+                >
+                  View Details
+                </div>
+
+              </div>
+
+            </Link>
 
           ))}
 

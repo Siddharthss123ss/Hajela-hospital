@@ -18,180 +18,7 @@ import {
 
 import "swiper/css";
 
-const doctors = [
-
-  {
-    slug: "dr-anoop-hajela",
-    name: "Dr. Anoop Hajela",
-    role: "Anaesthesiologist",
-    degree: "MBBS, MD Anaesthesiology",
-    experience: "45+ Years",
-    image: "/doctors/anoop.jpg",
-  },
-
-  {
-    slug: "dr-rajni-hajela",
-    name: "Dr. Rajni Hajela",
-    role: "Gynaecologist",
-    degree: "MBBS, MD Obstetrics and Gynecology",
-    experience: "38+ Years",
-    image: "/doctors/rajni.jpeg",
-  },
-
-  {
-    slug: "dr-sanjeev-johri",
-    name: "Dr. Sanjeev Johri",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "14+ Years",
-    image: "/doctors/sanjeev.png",
-  },
-
-  {
-    slug: "dr-supriya-hajela",
-    name: "Dr. Supriya Hajela",
-    role: "Obstetrician & Gynecologist",
-    degree: "MBBS, MD Obstetrics & Gynecology",
-    experience: "14+ Years",
-    image: "/doctors/supriya.png",
-  },
-
-  {
-    slug: "dr-anupriya-hajela",
-    name: "Dr. Anupriya Hajela",
-    role: "ENT Specialist",
-    degree: "MBBS, MS ENT, DNB ENT",
-    experience: "10+ Years",
-    image: "/doctors/Anupriya.jpg",
-  },
-
-  {
-    slug: "dr-saurabh-kumar",
-    name: "Dr. Saurabh Kumar",
-    role: "Paediatrician",
-    degree: "MBBS, MD Paediatrics, Fellowship in Neonatology",
-    experience: "10+ Years",
-    image: "/doctors/sourabh.jpg",
-  },
-
-  {
-    slug: "dr-tanmay-shah",
-    name: "Dr. Tanmay Shah",
-    role: "Orthopedic Doctor",
-    degree: "MBBS, MS Orthopaedics, Fellowship in Joint Replacement",
-    experience: "10+ Years",
-    image: "/doctors/tanmay.png",
-  },
-
-  {
-    slug: "dr-aneesa-zutshi",
-    name: "Dr. Aneesa Zutshi",
-    role: "Anaesthesiologist",
-    degree: "MBBS, MD Anaesthesiology",
-    experience: "45+ Years",
-    image: "/doctors/aneesha.jpg",
-  },
-
-  {
-    slug: "dr-deepak-zutshi",
-    name: "Dr. Deepak Zutshi",
-    role: "Anaesthesiologist",
-    degree: "MBBS, MD Anaesthesiology",
-    experience: "45+ Years",
-    image: "/doctors/deepak.jpg",
-  },
-
-  {
-    slug: "dr-ss-velury",
-    name: "Dr. S S Velury",
-    role: "Paediatrician",
-    degree: "MBBS, MD Paediatrics",
-    experience: "32+ Years",
-    image: "/doctors/velury.webp",
-  },
-
-  {
-    slug: "dr-amit-ganguly",
-    name: "Dr. Amit Ganguly",
-    role: "ENT Specialist",
-    degree: "MBBS, MS ENT",
-    experience: "25+ Years",
-    image: "/doctors/amit.png",
-  },
-
-  {
-    slug: "dr-jyoti-valecha",
-    name: "Dr. Jyoti Valecha",
-    role: "Radiologist",
-    degree: "MBBS, MD Radiodiagnosis",
-    experience: "23+ Years",
-    image: "/doctors/jyoti.webp",
-  },
-
-  {
-    slug: "dr-dhananjay-mishra",
-    name: "Dr. Dhananjay Mishra",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "21+ Years",
-    image: "/doctors/dhananjay.png",
-  },
-
-  {
-    slug: "dr-sameer-zutshi",
-    name: "Dr. Sameer Zutshi",
-    role: "Anaesthesiologist",
-    degree: "MBBS, MD Anaesthesiology",
-    experience: "20+ Years",
-    image: "/doctors/sameer.webp",
-  },
-
-  {
-    slug: "dr-pravin-dandekar",
-    name: "Dr. Pravin Gulab Dandekar",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "17+ Years",
-    image: "/doctors/praveen.png",
-  },
-
-  {
-    slug: "dr-amit-jain",
-    name: "Dr. Amit Jain",
-    role: "Urologist",
-    degree: "MBBS, MS General Surgery, MCh Urology",
-    experience: "14+ Years",
-    image: "/doctors/amit-jain.png",
-  },
-
-  {
-    slug: "dr-juned-hasan",
-    name: "Dr. Juned Hasan",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "8+ Years",
-    image: "/doctors/juneed.png",
-  },
-
-  {
-    slug: "dr-surjeet-singh-rajput",
-    name: "Dr. Surjeet Singh Rajput",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "10+ Years",
-    image: "/doctors/surjeet.png",
-  },
-
-  {
-    slug: "dr-sandeep-jain",
-    name: "Dr. Sandeep Jain",
-    role: "Laparoscopic & Gastrointestinal Surgeon",
-    degree: "MBBS, MS General Surgery, MCh Surgical Gastroenterology",
-    experience: "10+ Years",
-    image: "/doctors/sandeep.png",
-  },
-
-];
+import { doctors } from "@/data/doctors";
 
 export default function Doctors() {
 
@@ -213,8 +40,6 @@ export default function Doctors() {
       "
     >
 
-      {/* BG */}
-
       <div
         className="
         absolute
@@ -235,7 +60,7 @@ export default function Doctors() {
 
       <div className="container-custom relative z-10">
 
-        {/* TOP */}
+        {/* HEADING */}
 
         <div className="text-center mb-16 lg:mb-20">
 
@@ -314,8 +139,6 @@ export default function Doctors() {
 
           spaceBetween={28}
 
-          slidesPerView={1}
-
           loop={true}
 
           speed={900}
@@ -329,6 +152,10 @@ export default function Doctors() {
           }}
 
           breakpoints={{
+
+            0: {
+              slidesPerView: 1.1,
+            },
 
             640: {
               slidesPerView: 2,
@@ -406,18 +233,6 @@ export default function Doctors() {
                     "
                   />
 
-                  <div
-                    className="
-                    absolute
-                    inset-0
-
-                    bg-gradient-to-t
-                    from-black/15
-                    via-transparent
-                    to-transparent
-                    "
-                  ></div>
-
                 </div>
 
                 {/* CONTENT */}
@@ -447,7 +262,7 @@ export default function Doctors() {
                     border-cyan-100
                     "
                   >
-                    {doctor.experience} Experience
+                    {doctor.experience}
                   </div>
 
                   <h3
@@ -560,61 +375,60 @@ export default function Doctors() {
               </div>
 
             </SwiperSlide>
-            
 
           ))}
 
-          {/* BUTTON */}
-
-<div className="flex justify-center mt-16">
-
-  <Link
-    href="/doctors"
-
-    className="
-    inline-flex
-
-    items-center
-    justify-center
-
-    gap-2
-
-    bg-gradient-to-r
-    from-cyan-600
-    to-blue-700
-
-    text-white
-
-    px-9
-    py-4
-
-    rounded-2xl
-
-    font-bold
-
-    shadow-lg
-
-    hover:scale-105
-
-    transition-all
-    duration-300
-    "
-  >
-
-    View All Doctors
-
-    <ChevronRight
-      className="
-      w-5
-      h-5
-      "
-    />
-
-  </Link>
-
-</div>
-
         </Swiper>
+
+        {/* BUTTON */}
+
+        <div className="flex justify-center mt-16">
+
+          <Link
+            href="/doctors"
+
+            className="
+            inline-flex
+
+            items-center
+            justify-center
+
+            gap-2
+
+            bg-gradient-to-r
+            from-cyan-600
+            to-blue-700
+
+            text-white
+
+            px-9
+            py-4
+
+            rounded-2xl
+
+            font-bold
+
+            shadow-lg
+
+            hover:scale-105
+
+            transition-all
+            duration-300
+            "
+          >
+
+            View All Doctors
+
+            <ChevronRight
+              className="
+              w-5
+              h-5
+              "
+            />
+
+          </Link>
+
+        </div>
 
       </div>
 

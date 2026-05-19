@@ -1,284 +1,79 @@
-// app/doctors/page.tsx
-
 "use client";
 
-import Image from "next/image";
+import { useState } from "react";
+
 import Link from "next/link";
 
 import {
-  Stethoscope,
-  Award,
+  Search,
   ChevronRight,
 } from "lucide-react";
 
-const doctors = [
-
-  {
-    slug: "dr-anoop-hajela",
-    name: "Dr. Anoop Hajela",
-    role: "Anaesthesiologist",
-    degree: "MBBS, MD Anaesthesiology",
-    experience: "45+ Years",
-    image: "/doctors/anoop.jpg",
-  },
-
-  {
-    slug: "dr-rajni-hajela",
-    name: "Dr. Rajni Hajela",
-    role: "Gynaecologist",
-    degree: "MBBS, MD Obstetrics and Gynecology",
-    experience: "38+ Years",
-    image: "/doctors/rajni.jpeg",
-  },
-
-  {
-    slug: "dr-sanjeev-johri",
-    name: "Dr. Sanjeev Johri",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "14+ Years",
-    image: "/doctors/sanjeev.png",
-  },
-
-  {
-    slug: "dr-supriya-hajela",
-    name: "Dr. Supriya Hajela",
-    role: "Obstetrician & Gynecologist",
-    degree: "MBBS, MD Obstetrics & Gynecology",
-    experience: "14+ Years",
-    image: "/doctors/supriya.png",
-  },
-
-  {
-    slug: "dr-anupriya-hajela",
-    name: "Dr. Anupriya Hajela",
-    role: "ENT Specialist",
-    degree: "MBBS, MS ENT, DNB ENT",
-    experience: "10+ Years",
-    image: "/doctors/anupriya.png",
-  },
-
-  {
-    slug: "dr-saurabh-kumar",
-    name: "Dr. Saurabh Kumar",
-    role: "Paediatrician",
-    degree: "MBBS, MD Paediatrics, Fellowship in Neonatology",
-    experience: "10+ Years",
-    image: "/doctors/sourabh.jpg",
-  },
-
-  {
-    slug: "dr-tanmay-shah",
-    name: "Dr. Tanmay Shah",
-    role: "Orthopedic Doctor",
-    degree: "MBBS, MS Orthopaedics, Fellowship in Joint Replacement",
-    experience: "10+ Years",
-    image: "/doctors/tanmay.png",
-  },
-
-  {
-    slug: "dr-aneesa-zutshi",
-    name: "Dr. Aneesa Zutshi",
-    role: "Anaesthesiologist",
-    degree: "MBBS, MD Anaesthesiology",
-    experience: "45+ Years",
-    image: "/doctors/aneesha.jpg",
-  },
-
-  {
-    slug: "dr-deepak-zutshi",
-    name: "Dr. Deepak Zutshi",
-    role: "Anaesthesiologist",
-    degree: "MBBS, MD Anaesthesiology",
-    experience: "45+ Years",
-    image: "/doctors/deepak.jpg",
-  },
-
-  {
-    slug: "dr-ss-velury",
-    name: "Dr. S S Velury",
-    role: "Paediatrician",
-    degree: "MBBS, MD Paediatrics",
-    experience: "32+ Years",
-    image: "/doctors/velury.webp",
-  },
-
-  {
-    slug: "dr-amit-ganguly",
-    name: "Dr. Amit Ganguly",
-    role: "ENT Specialist",
-    degree: "MBBS, MS ENT",
-    experience: "25+ Years",
-    image: "/doctors/amit.png",
-  },
-
-  {
-    slug: "dr-jyoti-valecha",
-    name: "Dr. Jyoti Valecha",
-    role: "Radiologist",
-    degree: "MBBS, MD Radiodiagnosis",
-    experience: "23+ Years",
-    image: "/doctors/jyoti.webp",
-  },
-
-  {
-    slug: "dr-dhananjay-mishra",
-    name: "Dr. Dhananjay Mishra",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "21+ Years",
-    image: "/doctors/dhananjay.png",
-  },
-
-  {
-    slug: "dr-sameer-zutshi",
-    name: "Dr. Sameer Zutshi",
-    role: "Anaesthesiologist",
-    degree: "MBBS, MD Anaesthesiology",
-    experience: "20+ Years",
-    image: "/doctors/sameer.webp",
-  },
-
-  {
-    slug: "dr-pravin-dandekar",
-    name: "Dr. Pravin Gulab Dandekar",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "17+ Years",
-    image: "/doctors/praveen.png",
-  },
-
-  {
-    slug: "dr-amit-jain",
-    name: "Dr. Amit Jain",
-    role: "Urologist",
-    degree: "MBBS, MS General Surgery, MCh Urology",
-    experience: "14+ Years",
-    image: "/doctors/amit-jain.png",
-  },
-
-  {
-    slug: "dr-juned-hasan",
-    name: "Dr. Juned Hasan",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "8+ Years",
-    image: "/doctors/juneed.png",
-  },
-
-  {
-    slug: "dr-surjeet-singh-rajput",
-    name: "Dr. Surjeet Singh Rajput",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "10+ Years",
-    image: "/doctors/surjeet.png",
-  },
-
-  {
-    slug: "dr-sandeep-jain",
-    name: "Dr. Sandeep Jain",
-    role: "Laparoscopic & Gastrointestinal Surgeon",
-    degree: "MBBS, MS General Surgery, MCh Surgical Gastroenterology",
-    experience: "10+ Years",
-    image: "/doctors/sandeep.png",
-  },
-
-];
+import { doctors } from "@/data/doctors";
 
 export default function DoctorsPage() {
+
+  const [search, setSearch] = useState("");
+
+  const filteredDoctors = doctors.filter((doctor) =>
+    doctor.name
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
 
   return (
 
     <main
       className="
-      relative
-
       min-h-screen
 
       bg-gradient-to-b
-      from-white
-      via-slate-50
-      to-white
+      from-slate-50
+      via-white
+      to-cyan-50/40
 
       pt-32
       pb-24
-
-      overflow-hidden
       "
     >
 
-      {/* PREMIUM GLOW */}
+      <div className="container-custom">
 
-      <div
-        className="
-        absolute
-        top-0
-        left-1/2
-        -translate-x-1/2
+        {/* HEADING */}
 
-        w-[900px]
-        h-[900px]
+        <div className="text-center mb-16">
 
-        bg-cyan-500/5
-        blur-[160px]
-
-        rounded-full
-        "
-      ></div>
-
-      <div className="container-custom relative z-10">
-
-        {/* HERO */}
-
-        <div className="text-center mb-20">
-
-          <div
+          <p
             className="
-            inline-flex
+            text-cyan-600
 
-            items-center
-            gap-2
+            uppercase
 
-            bg-cyan-50
+            tracking-[4px]
 
-            border
-            border-cyan-100
+            font-bold
 
-            px-5
-            py-2.5
-
-            rounded-full
-
-            text-cyan-700
-            font-semibold
             text-sm
+
+            mb-4
             "
           >
-
-            <Stethoscope className="w-4 h-4" />
-
             Hajela Hospital Specialists
-
-          </div>
+          </p>
 
           <h1
             className="
-            mt-7
-
             text-4xl
-            md:text-6xl
-            lg:text-7xl
+            md:text-5xl
+            lg:text-6xl
 
             font-black
 
             text-slate-900
-
-            leading-tight
             "
           >
 
-            Meet Our Expert
+            Meet Our
             <span
               className="
               bg-gradient-to-r
@@ -289,30 +84,90 @@ export default function DoctorsPage() {
               text-transparent
               "
             >
-              {" "}Doctors
+              {" "}Expert Doctors
             </span>
 
           </h1>
 
           <p
             className="
-            mt-7
+            mt-6
 
             max-w-3xl
+
             mx-auto
 
-            text-slate-500
-
-            text-base
-            md:text-lg
+            text-slate-600
 
             leading-relaxed
             "
           >
-            Our highly experienced doctors provide advanced,
-            compassionate and world-class medical care with
-            expertise across multiple specialties.
+            Experienced healthcare specialists providing
+            advanced medical care and patient-focused treatment.
           </p>
+
+        </div>
+
+        {/* SEARCH */}
+
+        <div
+          className="
+          relative
+
+          max-w-2xl
+
+          mx-auto
+
+          mb-16
+          "
+        >
+
+          <Search
+            className="
+            absolute
+
+            left-5
+            top-1/2
+
+            -translate-y-1/2
+
+            text-slate-400
+            "
+          />
+
+          <input
+            type="text"
+            placeholder="Search doctor..."
+
+            value={search}
+
+            onChange={(e) =>
+              setSearch(e.target.value)
+            }
+
+            className="
+            w-full
+
+            rounded-2xl
+
+            border
+            border-slate-200
+
+            bg-white
+
+            py-5
+            pl-14
+            pr-5
+
+            text-slate-700
+
+            outline-none
+
+            shadow-sm
+
+            focus:border-cyan-500
+            "
+          />
 
         </div>
 
@@ -321,6 +176,7 @@ export default function DoctorsPage() {
         <div
           className="
           grid
+
           sm:grid-cols-2
           lg:grid-cols-3
           xl:grid-cols-4
@@ -329,7 +185,7 @@ export default function DoctorsPage() {
           "
         >
 
-          {doctors.map((doctor, index) => (
+          {filteredDoctors.map((doctor, index) => (
 
             <div
               key={index}
@@ -337,18 +193,19 @@ export default function DoctorsPage() {
               className="
               group
 
-              bg-white
+              overflow-hidden
 
               rounded-[32px]
 
-              overflow-hidden
+              bg-white
 
               border
-              border-slate-200/80
+              border-slate-200
 
               shadow-[0_10px_40px_rgba(15,23,42,0.06)]
 
-              hover:shadow-[0_25px_70px_rgba(15,23,42,0.12)]
+              hover:shadow-[0_25px_60px_rgba(15,23,42,0.12)]
+
               hover:-translate-y-2
 
               transition-all
@@ -362,18 +219,19 @@ export default function DoctorsPage() {
                 className="
                 relative
 
-                h-[340px]
-
-                bg-slate-100
                 overflow-hidden
                 "
               >
 
-                <Image
+                <img
                   src={doctor.image}
                   alt={doctor.name}
-                  fill
+
                   className="
+                  w-full
+
+                  h-[340px]
+
                   object-cover
                   object-top
 
@@ -392,31 +250,23 @@ export default function DoctorsPage() {
                   inset-0
 
                   bg-gradient-to-t
-                  from-black/20
-                  via-transparent
+                  from-black/60
+                  via-black/10
                   to-transparent
                   "
                 ></div>
-
-              </div>
-
-              {/* CONTENT */}
-
-              <div className="p-7">
 
                 {/* EXPERIENCE */}
 
                 <div
                   className="
-                  inline-flex
+                  absolute
+                  top-4
+                  left-4
 
-                  items-center
-                  gap-2
+                  bg-white/90
 
-                  bg-cyan-50
-
-                  border
-                  border-cyan-100
+                  backdrop-blur-xl
 
                   px-4
                   py-2
@@ -424,23 +274,25 @@ export default function DoctorsPage() {
                   rounded-full
 
                   text-cyan-700
+
                   text-sm
+
                   font-bold
                   "
                 >
-
-                  <Award className="w-4 h-4" />
-
                   {doctor.experience}
-
                 </div>
+
+              </div>
+
+              {/* CONTENT */}
+
+              <div className="p-6">
 
                 {/* NAME */}
 
                 <h2
                   className="
-                  mt-5
-
                   text-2xl
 
                   font-black
@@ -462,7 +314,8 @@ export default function DoctorsPage() {
                   text-cyan-700
 
                   font-semibold
-                  text-base
+
+                  leading-relaxed
                   "
                 >
                   {doctor.role}
@@ -472,43 +325,25 @@ export default function DoctorsPage() {
 
                 <p
                   className="
-                  mt-4
-
-                  text-slate-500
+                  mt-3
 
                   text-sm
 
-                  leading-relaxed
+                  text-slate-500
 
-                  min-h-[70px]
+                  leading-relaxed
                   "
                 >
                   {doctor.degree}
                 </p>
 
-                {/* LINE */}
-
-                <div
-                  className="
-                  mt-5
-
-                  w-16
-                  h-[3px]
-
-                  rounded-full
-
-                  bg-gradient-to-r
-                  from-cyan-500
-                  to-blue-700
-                  "
-                ></div>
-
                 {/* BUTTON */}
 
                 <Link
                   href={`/doctors/${doctor.slug}`}
+
                   className="
-                  mt-7
+                  mt-6
 
                   inline-flex
 
@@ -518,19 +353,22 @@ export default function DoctorsPage() {
 
                   w-full
 
-                  py-3.5
-
                   rounded-2xl
 
-                  border
-                  border-slate-200
+                  bg-gradient-to-r
+                  from-cyan-500
+                  to-blue-700
 
-                  text-slate-700
+                  px-5
+                  py-4
+
+                  text-white
+
                   font-semibold
 
-                  hover:bg-cyan-600
-                  hover:text-white
-                  hover:border-cyan-600
+                  shadow-lg
+
+                  hover:scale-[1.02]
 
                   transition-all
                   duration-300
@@ -539,7 +377,12 @@ export default function DoctorsPage() {
 
                   View Profile
 
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight
+                    className="
+                    w-4
+                    h-4
+                    "
+                  />
 
                 </Link>
 
@@ -554,5 +397,7 @@ export default function DoctorsPage() {
       </div>
 
     </main>
+
   );
+
 }

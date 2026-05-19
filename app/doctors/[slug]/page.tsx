@@ -1,201 +1,23 @@
 // app/doctors/[slug]/page.tsx
 
+import { doctors } from "@/data/doctors";
+
 import Image from "next/image";
-import Link from "next/link";
 
-import {
-  ArrowLeft,
-  Award,
-  BriefcaseMedical,
-  GraduationCap,
-} from "lucide-react";
+export default async function DoctorPage({
 
-const doctors = [
-
-  {
-    slug: "dr-anoop-hajela",
-    name: "Dr. Anoop Hajela",
-    role: "Anaesthesiologist",
-    degree: "MBBS, MD Anaesthesiology",
-    experience: "45+ Years",
-    image: "/doctors/anoop.jpg",
-  },
-
-  {
-    slug: "dr-rajni-hajela",
-    name: "Dr. Rajni Hajela",
-    role: "Gynaecologist",
-    degree: "MBBS, MD Obstetrics and Gynecology",
-    experience: "38+ Years",
-    image: "/doctors/rajni.jpeg",
-  },
-
-  {
-    slug: "dr-sanjeev-johri",
-    name: "Dr. Sanjeev Johri",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "14+ Years",
-    image: "/doctors/sanjeev.png",
-  },
-
-  {
-  slug: "dr-supriya-hajela",
-  name: "Dr. Supriya Hajela",
-  role: "Obstetrician & Gynecologist",
-  degree: "MBBS, MD Obstetrics & Gynecology",
-  experience: "14+ Years",
-  image: "/doctors/supriya.png",
-  website: "https://www.supriyahajela.in/",
-},
-
-  {
-    slug: "dr-anupriya-hajela",
-    name: "Dr. Anupriya Hajela",
-    role: "ENT Specialist",
-    degree: "MBBS, MS ENT, DNB ENT",
-    experience: "10+ Years",
-    image: "/doctors/anupriya.png",
-  },
-
-  {
-    slug: "dr-saurabh-kumar",
-    name: "Dr. Saurabh Kumar",
-    role: "Paediatrician",
-    degree: "MBBS, MD Paediatrics, Fellowship in Neonatology",
-    experience: "10+ Years",
-    image: "/doctors/sourabh.jpg",
-  },
-
-  {
-    slug: "dr-tanmay-shah",
-    name: "Dr. Tanmay Shah",
-    role: "Orthopedic Doctor",
-    degree: "MBBS, MS Orthopaedics, Fellowship in Joint Replacement",
-    experience: "10+ Years",
-    image: "/doctors/tanmay.png",
-  },
-
-  {
-    slug: "dr-aneesa-zutshi",
-    name: "Dr. Aneesa Zutshi",
-    role: "Anaesthesiologist",
-    degree: "MBBS, MD Anaesthesiology",
-    experience: "45+ Years",
-    image: "/doctors/aneesha.jpg",
-  },
-
-  {
-    slug: "dr-deepak-zutshi",
-    name: "Dr. Deepak Zutshi",
-    role: "Anaesthesiologist",
-    degree: "MBBS, MD Anaesthesiology",
-    experience: "45+ Years",
-    image: "/doctors/deepak.jpg",
-  },
-
-  {
-    slug: "dr-ss-velury",
-    name: "Dr. S S Velury",
-    role: "Paediatrician",
-    degree: "MBBS, MD Paediatrics",
-    experience: "32+ Years",
-    image: "/doctors/velury.webp",
-  },
-
-  {
-    slug: "dr-amit-ganguly",
-    name: "Dr. Amit Ganguly",
-    role: "ENT Specialist",
-    degree: "MBBS, MS ENT",
-    experience: "25+ Years",
-    image: "/doctors/amit.png",
-  },
-
-  {
-    slug: "dr-jyoti-valecha",
-    name: "Dr. Jyoti Valecha",
-    role: "Radiologist",
-    degree: "MBBS, MD Radiodiagnosis",
-    experience: "23+ Years",
-    image: "/doctors/jyoti.webp",
-  },
-
-  {
-    slug: "dr-dhananjay-mishra",
-    name: "Dr. Dhananjay Mishra",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "21+ Years",
-    image: "/doctors/dhananjay.png",
-  },
-
-  {
-    slug: "dr-sameer-zutshi",
-    name: "Dr. Sameer Zutshi",
-    role: "Anaesthesiologist",
-    degree: "MBBS, MD Anaesthesiology",
-    experience: "20+ Years",
-    image: "/doctors/sameer.webp",
-  },
-
-  {
-    slug: "dr-pravin-dandekar",
-    name: "Dr. Pravin Gulab Dandekar",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "17+ Years",
-    image: "/doctors/praveen.png",
-  },
-
-  {
-    slug: "dr-amit-jain",
-    name: "Dr. Amit Jain",
-    role: "Urologist",
-    degree: "MBBS, MS General Surgery, MCh Urology",
-    experience: "14+ Years",
-    image: "/doctors/amit-jain.png",
-  },
-
-  {
-    slug: "dr-juned-hasan",
-    name: "Dr. Juned Hasan",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "8+ Years",
-    image: "/doctors/juneed.png",
-  },
-
-  {
-    slug: "dr-surjeet-singh-rajput",
-    name: "Dr. Surjeet Singh Rajput",
-    role: "Internal Medicine Specialist",
-    degree: "MBBS, MD General Medicine",
-    experience: "10+ Years",
-    image: "/doctors/surjeet.png",
-  },
-
-  {
-    slug: "dr-sandeep-jain",
-    name: "Dr. Sandeep Jain",
-    role: "Laparoscopic & Gastrointestinal Surgeon",
-    degree: "MBBS, MS General Surgery, MCh Surgical Gastroenterology",
-    experience: "10+ Years",
-    image: "/doctors/sandeep.png",
-  },
-
-];
-
-export default async function DoctorDetails({
   params,
+
 }: {
+
   params: Promise<{ slug: string }>;
+
 }) {
 
   const { slug } = await params;
 
   const doctor = doctors.find(
-    (doc) => doc.slug === slug
+    (item) => item.slug === slug
   );
 
   if (!doctor) {
@@ -204,16 +26,13 @@ export default async function DoctorDetails({
 
       <div
         className="
-        min-h-screen
+        pt-40
 
-        flex
-        items-center
-        justify-center
+        text-center
 
         text-3xl
-        font-bold
 
-        text-slate-900
+        font-bold
         "
       >
         Doctor Not Found
@@ -227,80 +46,25 @@ export default async function DoctorDetails({
 
     <main
       className="
-      relative
+      bg-slate-50
 
       min-h-screen
 
-      bg-gradient-to-b
-      from-white
-      via-slate-50
-      to-white
-
-      pt-32
+      pt-28
       pb-24
-
-      overflow-hidden
       "
     >
 
-      {/* PREMIUM BG GLOW */}
+      {/* HERO */}
 
-      <div
-        className="
-        absolute
-        top-0
-        left-1/2
-        -translate-x-1/2
-
-        w-[900px]
-        h-[900px]
-
-        bg-cyan-500/5
-        blur-[160px]
-
-        rounded-full
-        "
-      ></div>
-
-      <div className="container-custom relative z-10">
-
-        {/* BACK BUTTON */}
-
-        <Link
-          href="/doctors"
-          className="
-          inline-flex
-
-          items-center
-          gap-2
-
-          text-slate-600
-          font-semibold
-
-          hover:text-cyan-600
-
-          transition-all
-          duration-300
-          "
-        >
-
-          <ArrowLeft className="w-5 h-5" />
-
-          Back to Doctors
-
-        </Link>
-
-        {/* MAIN */}
+      <section className="container-custom">
 
         <div
           className="
-          mt-12
-
           grid
           lg:grid-cols-2
 
           gap-14
-          lg:gap-20
 
           items-center
           "
@@ -309,266 +73,83 @@ export default async function DoctorDetails({
           {/* IMAGE */}
 
           <div
-            className="
-            relative
+  className="
+  overflow-hidden
 
-            overflow-hidden
+  rounded-[40px]
 
-            rounded-[40px]
+  bg-slate-100
+  "
+>
 
-            bg-slate-100
+  <img
+    src={doctor.image}
+    alt={doctor.name}
 
-            border
-            border-slate-200
+    className="
+    w-full
 
-            shadow-[0_20px_80px_rgba(15,23,42,0.08)]
-            "
-          >
+    h-[650px]
 
-            <Image
-              src={doctor.image}
-              alt={doctor.name}
-              width={900}
-              height={1100}
-              className="
-              w-full
+    object-cover
+    object-top
+    "
+  />
 
-              h-[500px]
-              lg:h-[720px]
-
-              object-cover
-              object-top
-              "
-            />
-
-          </div>
+</div>
 
           {/* CONTENT */}
 
           <div>
 
-            {/* EXPERIENCE */}
-
-            <div
+            <p
               className="
-              inline-flex
+              text-cyan-600
 
-              items-center
-              gap-2
-
-              px-5
-              py-2.5
-
-              rounded-full
-
-              bg-cyan-50
-
-              border
-              border-cyan-100
-
-              text-cyan-700
               font-bold
+
+              uppercase
+
+              tracking-[3px]
               "
             >
-
-              <Award className="w-5 h-5" />
-
-              {doctor.experience} Experience
-
-            </div>
-
-            {/* NAME */}
+              Hajela Hospital Specialist
+            </p>
 
             <h1
               className="
-              mt-7
+              mt-4
 
               text-4xl
-              md:text-5xl
               lg:text-6xl
 
               font-black
 
               text-slate-900
-
-              leading-tight
               "
             >
               {doctor.name}
             </h1>
 
-            {/* ROLE */}
-
             <p
               className="
-              mt-5
-
-              text-2xl
+              mt-4
 
               text-cyan-700
 
               font-semibold
+
+              text-xl
               "
             >
               {doctor.role}
             </p>
 
-            {/* LINE */}
-
-            <div
-              className="
-              mt-7
-
-              w-20
-              h-[4px]
-
-              rounded-full
-
-              bg-gradient-to-r
-              from-cyan-500
-              to-blue-700
-              "
-            ></div>
-
-            {/* QUALIFICATION */}
-
-            <div
-              className="
-              mt-10
-
-              flex
-              items-start
-              gap-5
-              "
-            >
-
-              <div
-                className="
-                w-14
-                h-14
-
-                rounded-2xl
-
-                bg-cyan-50
-
-                flex
-                items-center
-                justify-center
-                "
-              >
-
-                <GraduationCap
-                  className="
-                  w-7
-                  h-7
-
-                  text-cyan-700
-                  "
-                />
-
-              </div>
-
-              <div>
-
-                <h3
-                  className="
-                  text-xl
-                  font-bold
-
-                  text-slate-900
-                  "
-                >
-                  Qualification
-                </h3>
-
-                <p
-                  className="
-                  mt-2
-
-                  text-slate-600
-
-                  leading-relaxed
-                  "
-                >
-                  {doctor.degree}
-                </p>
-
-              </div>
-
-            </div>
-
-            {/* SPECIALITY */}
-
-            <div
-              className="
-              mt-10
-
-              flex
-              items-start
-              gap-5
-              "
-            >
-
-              <div
-                className="
-                w-14
-                h-14
-
-                rounded-2xl
-
-                bg-blue-50
-
-                flex
-                items-center
-                justify-center
-                "
-              >
-
-                <BriefcaseMedical
-                  className="
-                  w-7
-                  h-7
-
-                  text-blue-700
-                  "
-                />
-
-              </div>
-
-              <div>
-
-                <h3
-                  className="
-                  text-xl
-                  font-bold
-
-                  text-slate-900
-                  "
-                >
-                  Specialization
-                </h3>
-
-                <p
-                  className="
-                  mt-2
-
-                  text-slate-600
-
-                  leading-relaxed
-                  "
-                >
-                  {doctor.role}
-                </p>
-
-              </div>
-
-            </div>
-
             {/* ABOUT */}
 
             <p
               className="
-              mt-10
+              mt-6
 
               text-slate-600
 
@@ -578,129 +159,120 @@ export default async function DoctorDetails({
               lg:text-lg
               "
             >
-              {doctor.name} is one of the experienced and trusted
-              specialists at Hajela Hospital, committed to delivering
-              compassionate patient care with modern medical expertise,
-              precision and excellence.
+              {doctor.about}
             </p>
 
-            {/* BUTTONS */}
+            {/* DETAILS */}
 
-            {/* BUTTONS */}
+            <div className="mt-8 space-y-4">
 
-<div
-  className="
-  mt-12
+              <div
+                className="
+                bg-white
 
-  flex
-  flex-wrap
+                rounded-2xl
 
-  gap-4
-  "
->
+                p-5
 
-  {/* APPOINTMENT */}
+                shadow-sm
+                "
+              >
 
-  <Link
-    href="/appointment"
-    className="
-    bg-gradient-to-r
-    from-cyan-600
-    to-blue-700
+                <span className="font-bold">
+                  Qualification:
+                </span>{" "}
 
-    text-white
+                {doctor.degree}
 
-    px-8
-    py-4
+              </div>
 
-    rounded-full
+              <div
+                className="
+                bg-white
 
-    font-bold
+                rounded-2xl
 
-    shadow-[0_10px_40px_rgba(6,182,212,0.25)]
+                p-5
 
-    hover:scale-105
+                shadow-sm
+                "
+              >
 
-    transition-all
-    duration-300
-    "
-  >
-    Book Appointment
-  </Link>
+                <span className="font-bold">
+                  Experience:
+                </span>{" "}
 
-  {/* CONTACT */}
+                {doctor.experience}
 
-  <Link
-    href="/contact"
-    className="
-    border
-    border-slate-300
+              </div>
 
-    text-slate-700
+            </div>
 
-    px-8
-    py-4
+            {/* EXPERTISE */}
 
-    rounded-full
+            <div className="mt-10">
 
-    font-semibold
+              <h3
+                className="
+                text-2xl
 
-    hover:bg-slate-100
+                font-black
 
-    transition-all
-    duration-300
-    "
-  >
-    Contact Hospital
-  </Link>
+                text-slate-900
+                "
+              >
+                Areas of Expertise
+              </h3>
 
-  {/* WEBSITE */}
+              <div
+                className="
+                mt-6
 
-  {doctor.website && (
+                grid
+                sm:grid-cols-2
 
-    <a
-      href={doctor.website}
-      target="_blank"
-      rel="noopener noreferrer"
+                gap-4
+                "
+              >
 
-      className="
-      border
-      border-cyan-200
+                {doctor.expertise.map((item, index) => (
 
-      bg-cyan-50
+                  <div
+                    key={index}
 
-      text-cyan-700
+                    className="
+                    bg-white
 
-      px-8
-      py-4
+                    rounded-2xl
 
-      rounded-full
+                    px-5
+                    py-4
 
-      font-bold
+                    shadow-sm
 
-      hover:bg-cyan-600
-      hover:text-white
-      hover:border-cyan-600
+                    border
+                    border-slate-100
+                    "
+                  >
 
-      transition-all
-      duration-300
-      "
-    >
+                    {item}
 
-      Visit Official Website
+                  </div>
 
-    </a>
+                ))}
 
-  )}
+              </div>
 
-</div>
+            </div>
 
           </div>
 
         </div>
 
-      </div>
+      </section>
 
     </main>
+
   );
+
 }
