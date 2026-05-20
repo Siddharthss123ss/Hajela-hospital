@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 
 const features = [
-
   {
     text: "24/7 Emergency & Trauma Care",
     icon: Ambulance,
@@ -36,19 +35,14 @@ const features = [
     icon: CheckCircle,
     color: "text-emerald-500",
   },
-
 ];
 
 export default function About() {
-
   return (
-
     <section
       className="
       relative
-
       py-32
-
       overflow-hidden
 
       bg-gradient-to-br
@@ -57,20 +51,16 @@ export default function About() {
       to-cyan-50/20
       "
     >
-
       {/* PREMIUM BACKGROUND */}
 
       <div
         className="
         absolute
         inset-0
-
         overflow-hidden
-
         pointer-events-none
         "
       >
-
         <div
           className="
           absolute
@@ -117,15 +107,12 @@ export default function About() {
           delay-1000
           "
         ></div>
-
       </div>
 
       <div
         className="
         container-custom
-
         max-w-7xl
-
         mx-auto
 
         px-4
@@ -136,7 +123,6 @@ export default function About() {
         z-10
         "
       >
-
         <div
           className="
           grid
@@ -148,17 +134,14 @@ export default function About() {
           items-center
           "
         >
-
           {/* LEFT IMAGE SECTION */}
 
           <div className="relative group">
-
             {/* MAIN IMAGE */}
 
             <div
               className="
               relative
-
               overflow-hidden
 
               rounded-[48px]
@@ -174,7 +157,6 @@ export default function About() {
               group-hover:scale-[1.02]
               "
             >
-
               <div
                 className="
                 absolute
@@ -190,17 +172,13 @@ export default function About() {
               ></div>
 
               <Image
-                src="/hospital/about.webp"
+                src="/hospital/h2s.jpg"
                 alt="Hajela Hospital"
-
                 width={700}
                 height={800}
-
                 priority
-
                 className="
                 w-full
-
                 h-[520px]
 
                 object-cover
@@ -211,55 +189,6 @@ export default function About() {
                 group-hover:scale-105
                 "
               />
-
-            </div>
-
-            {/* FLOATING IMAGE */}
-
-            <div
-              className="
-              absolute
-              -bottom-12
-              -right-8
-              lg:-right-12
-
-              overflow-hidden
-
-              rounded-[32px]
-
-              border-[6px]
-              border-white
-
-              shadow-[0_20px_60px_rgba(0,0,0,0.18)]
-
-              transition-all
-              duration-500
-
-              hover:scale-105
-              hover:rotate-2
-
-              z-20
-              "
-            >
-
-              <Image
-                src="/hospital/about2.jpg"
-                alt="Doctors Team"
-
-                width={320}
-                height={250}
-
-                className="
-                w-[220px]
-                h-[200px]
-
-                lg:w-[270px]
-                lg:h-[240px]
-
-                object-cover
-                "
-              />
-
             </div>
 
             {/* EXPERIENCE CARD */}
@@ -267,13 +196,14 @@ export default function About() {
             <div
               className="
               absolute
-              top-8
-              -left-6
 
-              lg:top-12
-              lg:-left-10
+              bottom-6
+              right-6
 
-              rounded-[32px]
+              lg:bottom-10
+              lg:right-10
+
+              rounded-2xl
 
               bg-gradient-to-br
               from-blue-900
@@ -282,10 +212,13 @@ export default function About() {
 
               text-white
 
-              p-6
-              lg:p-8
+              px-5
+              py-4
 
-              shadow-[0_20px_60px_rgba(6,182,212,0.30)]
+              lg:px-6
+              lg:py-5
+
+              shadow-[0_15px_40px_rgba(6,182,212,0.30)]
 
               backdrop-blur-xl
 
@@ -297,53 +230,38 @@ export default function About() {
               z-20
               "
             >
-
               <h3
                 className="
-                text-5xl
-                lg:text-6xl
+                text-3xl
+                lg:text-4xl
 
                 font-extrabold
 
-                tracking-tight
+                leading-none
                 "
               >
-                30
-                <span className="text-cyan-200">
-                  +
-                </span>
+                31
+                <span className="text-cyan-200">+</span>
               </h3>
 
               <p
                 className="
-                mt-2
+                mt-1
 
-                text-sm
-                lg:text-base
+                text-[11px]
+                lg:text-sm
 
                 font-medium
 
                 uppercase
 
                 tracking-wide
+
+                text-white/90
                 "
               >
-                Years Of Healthcare Excellence
+                Years Of Excellence
               </p>
-
-              <div
-                className="
-                mt-3
-
-                h-1
-                w-12
-
-                rounded-full
-
-                bg-white/40
-                "
-              ></div>
-
             </div>
 
             {/* DECORATIVE CIRCLE */}
@@ -365,24 +283,20 @@ export default function About() {
               opacity-50
               "
             ></div>
-
           </div>
 
           {/* RIGHT CONTENT */}
 
           <div className="space-y-8">
-
             {/* SUBTITLE */}
 
             <div
               className="
               flex
               items-center
-
               gap-3
               "
             >
-
               <div
                 className="
                 h-8
@@ -411,7 +325,6 @@ export default function About() {
               >
                 About Hajela Hospital
               </p>
-
             </div>
 
             {/* MAIN HEADING */}
@@ -431,7 +344,6 @@ export default function About() {
               text-slate-900
               "
             >
-
               Leading Bhopal’s
               <span
                 className="
@@ -451,7 +363,6 @@ export default function About() {
               <br />
 
               Premium Healthcare
-
             </h2>
 
             {/* DESCRIPTION */}
@@ -470,7 +381,6 @@ export default function About() {
               text-slate-600
               "
             >
-
               Established in 1995, Hajela Hospital has become one
               of Bhopal’s most trusted and advanced healthcare
               institutions. With world-class infrastructure,
@@ -479,7 +389,6 @@ export default function About() {
               specialists, the hospital is dedicated to delivering
               exceptional medical excellence with compassion and
               innovation.
-
             </p>
 
             {/* FEATURES */}
@@ -487,18 +396,13 @@ export default function About() {
             <div
               className="
               grid
-
               gap-5
-
               pt-4
               "
             >
-
               {features.map((item, index) => (
-
                 <div
                   key={index}
-
                   className="
                   group/item
 
@@ -528,7 +432,6 @@ export default function About() {
                   duration-300
                   "
                 >
-
                   <div
                     className="
                     rounded-full
@@ -544,7 +447,6 @@ export default function About() {
                     transition-transform
                     "
                   >
-
                     <item.icon
                       className={`
                       w-6
@@ -553,7 +455,6 @@ export default function About() {
                       ${item.color}
                       `}
                     />
-
                   </div>
 
                   <p
@@ -569,20 +470,15 @@ export default function About() {
                   >
                     {item.text}
                   </p>
-
                 </div>
-
               ))}
-
             </div>
 
             {/* BUTTON */}
 
             <div className="pt-4">
-
               <Link
                 href="/about"
-
                 className="
                 group/btn
                 relative
@@ -616,11 +512,8 @@ export default function About() {
                 duration-500
                 "
               >
-
                 <span className="relative z-10">
-
                   Discover More
-
                 </span>
 
                 <ArrowRight
@@ -655,9 +548,7 @@ export default function About() {
                   duration-500
                   "
                 ></div>
-
               </Link>
-
             </div>
 
             {/* TRUST BADGES */}
@@ -672,7 +563,6 @@ export default function About() {
               pt-6
               "
             >
-
               <div
                 className="
                 flex
@@ -685,7 +575,6 @@ export default function About() {
                 text-slate-500
                 "
               >
-
                 <div
                   className="
                   w-2
@@ -700,11 +589,8 @@ export default function About() {
                 ></div>
 
                 <span>
-
                   24/7 Emergency Available
-
                 </span>
-
               </div>
 
               <div
@@ -719,7 +605,6 @@ export default function About() {
                 text-slate-500
                 "
               >
-
                 <div
                   className="
                   w-2
@@ -732,23 +617,13 @@ export default function About() {
                 ></div>
 
                 <span>
-
                   NABH Accredited Hospital
-
                 </span>
-
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </section>
-
   );
-
 }

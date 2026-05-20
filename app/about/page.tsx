@@ -126,10 +126,7 @@ export default function AboutPage() {
             Established in 1995, Hajela Hospital has emerged as one of
             Bhopal’s most trusted and advanced healthcare institutions,
             delivering exceptional medical care with compassion,
-            innovation, and world-class infrastructure. Known for its
-            patient-first philosophy and premium healthcare services,
-            the hospital continues to redefine excellence in modern
-            medicine.
+            innovation, and world-class infrastructure.
           </p>
 
         </div>
@@ -151,7 +148,7 @@ export default function AboutPage() {
 
           {[
             {
-              title: "29+ Years",
+              title: "30+ Years",
               desc: "Healthcare Excellence",
             },
 
@@ -246,8 +243,6 @@ export default function AboutPage() {
             backdrop-blur-2xl
 
             p-10
-
-            shadow-[0_10px_60px_rgba(0,0,0,0.25)]
             "
           >
 
@@ -276,8 +271,6 @@ export default function AboutPage() {
               font-black
 
               text-white
-
-              leading-tight
               "
             >
               Advanced Care With
@@ -296,12 +289,8 @@ export default function AboutPage() {
               "
             >
               Hajela Hospital is committed to delivering immediate,
-              expert, and compassionate care for every patient. The
-              hospital operates a fully equipped 24-hour Emergency
-              Department supported by trauma specialists,
-              intensivists, radiologists, and experienced surgeons,
-              ensuring rapid response and precise medical treatment at
-              all times.
+              expert, and compassionate care for every patient with
+              advanced healthcare technology and experienced specialists.
             </p>
 
             <p
@@ -314,11 +303,10 @@ export default function AboutPage() {
               "
             >
               From robotic surgeries and IVF treatments to infertility
-              solutions, ICSI procedures, joint replacement surgeries,
-              cochlear implants, NICU care, advanced diagnostics, and
-              minimally invasive laparoscopic surgeries — Hajela
-              Hospital offers a complete spectrum of modern healthcare
-              services under one roof.
+              solutions, NICU care, trauma services, advanced diagnostics,
+              sonology, laparoscopic surgeries and premium patient care —
+              Hajela Hospital offers complete modern healthcare services
+              under one roof.
             </p>
 
           </div>
@@ -339,8 +327,6 @@ export default function AboutPage() {
             backdrop-blur-2xl
 
             p-10
-
-            shadow-[0_10px_60px_rgba(0,0,0,0.25)]
             "
           >
 
@@ -383,7 +369,7 @@ export default function AboutPage() {
                 "Orthopedic Surgery",
                 "ENT Specialist",
                 "NICU & Pediatrics",
-                "Radiology & Ultrasound",
+                "Radiology & Sonology",
               ].map((item, index) => (
 
                 <div
@@ -403,11 +389,6 @@ export default function AboutPage() {
                   text-slate-200
 
                   text-sm
-
-                  hover:bg-cyan-500/10
-
-                  transition-all
-                  duration-300
                   "
                 >
                   {item}
@@ -421,211 +402,201 @@ export default function AboutPage() {
 
         </div>
 
-       {/* DIRECTOR SECTION */}
+        {/* DIRECTOR SECTION */}
 
-<div
-  className="
-  mt-24
+        <div
+          className="
+          mt-24
 
-  grid
-  lg:grid-cols-2
+          grid
+          lg:grid-cols-2
 
-  gap-12
+          gap-12
 
-  items-center
+          items-center
 
-  rounded-[40px]
+          rounded-[40px]
 
-  border
-  border-white/10
+          border
+          border-white/10
 
-  bg-white/[0.06]
+          bg-white/[0.06]
 
-  backdrop-blur-2xl
+          backdrop-blur-2xl
 
-  p-8
-  lg:p-14
+          p-8
+          lg:p-14
+          "
+        >
 
-  shadow-[0_10px_70px_rgba(0,0,0,0.25)]
-  "
->
+          {/* IMAGE */}
 
-  {/* IMAGE */}
+          <div
+            className="
+            relative
 
-  <div
-    className="
-    relative
+            overflow-hidden
 
-    overflow-hidden
+            rounded-[36px]
 
-    rounded-[36px]
+            border
+            border-white/10
+            "
+          >
 
-    border
-    border-white/10
+            <img
+              src="/doctors/anoop.jpg"
+              alt="Dr. Anoop Hajela"
 
-    shadow-[0_20px_60px_rgba(0,0,0,0.35)]
-    "
-  >
+              className="
+              w-full
 
-    <img
-      src="/doctors/anoop.jpg"
-      alt="Dr. Anoop Hajela"
+              h-[650px]
 
-      className="
-      w-full
-      h-full
+              object-cover
+              object-top
 
-      object-cover
+              hover:scale-105
 
-      hover:scale-105
+              transition-all
+              duration-700
+              "
+            />
 
-      transition-all
-      duration-700
-      "
-    />
+            <div
+              className="
+              absolute
+              inset-0
 
-    {/* PREMIUM OVERLAY */}
+              bg-gradient-to-t
+              from-black/70
+              via-transparent
+              to-transparent
+              "
+            ></div>
 
-    <div
-      className="
-      absolute
-      inset-0
+            <div
+              className="
+              absolute
+              bottom-6
+              left-6
 
-      bg-gradient-to-t
-      from-black/60
-      via-transparent
-      to-transparent
-      "
-    ></div>
+              rounded-2xl
 
-    {/* EXPERIENCE TAG */}
+              bg-white/10
 
-    <div
-      className="
-      absolute
-      bottom-6
-      left-6
+              backdrop-blur-xl
 
-      rounded-2xl
+              border
+              border-white/10
 
-      bg-white/10
+              px-5
+              py-3
+              "
+            >
 
-      backdrop-blur-xl
+              <h3
+                className="
+                text-white
 
-      border
-      border-white/10
+                font-bold
 
-      px-5
-      py-3
-      "
-    >
+                text-lg
+                "
+              >
+                45+ Years
+              </h3>
 
-      <h3
-        className="
-        text-white
+              <p
+                className="
+                text-slate-300
 
-        font-bold
+                text-sm
+                "
+              >
+                Medical Excellence
+              </p>
 
-        text-lg
-        "
-      >
-        45+ Years
-      </h3>
+            </div>
 
-      <p
-        className="
-        text-slate-300
+          </div>
 
-        text-sm
-        "
-      >
-        Medical Excellence
-      </p>
+          {/* CONTENT */}
 
-    </div>
+          <div>
 
-  </div>
+            <p
+              className="
+              text-cyan-400
 
-  {/* CONTENT */}
+              uppercase
 
-  <div>
+              tracking-[4px]
 
-    <p
-      className="
-      text-cyan-400
+              font-bold
 
-      uppercase
+              text-sm
 
-      tracking-[4px]
+              mb-5
+              "
+            >
+              Leadership
+            </p>
 
-      font-bold
+            <h2
+              className="
+              text-4xl
+              lg:text-5xl
 
-      text-sm
+              font-black
 
-      mb-5
-      "
-    >
-      Leadership
-    </p>
+              text-white
+              "
+            >
+              Dr. Anoop Hajela
+            </h2>
 
-    <h2
-      className="
-      text-4xl
-      lg:text-5xl
+            <p
+              className="
+              mt-3
 
-      font-black
+              text-cyan-300
 
-      text-white
+              text-lg
 
-      leading-tight
-      "
-    >
-      Dr. Anoop Hajela
-    </h2>
+              font-semibold
+              "
+            >
+              Managing Director • Senior Anaesthesiologist
+            </p>
 
-    <p
-      className="
-      mt-3
+            <p
+              className="
+              mt-7
 
-      text-cyan-300
+              text-slate-300
 
-      text-lg
-      "
-    >
-      Managing Director • Anaesthesiologist
-    </p>
+              leading-relaxed
 
-    <p
-      className="
-      mt-7
+              text-lg
+              "
+            >
+              Under the visionary leadership of Dr. Anoop Hajela,
+              Hajela Hospital has become one of Bhopal’s most trusted
+              healthcare institutions known for patient care excellence,
+              modern infrastructure and advanced healthcare technology.
+            </p>
 
-      text-slate-300
+            <p
+              className="
+              mt-6
 
-      leading-relaxed
+              text-slate-400
 
-      text-lg
-      "
-    >
-      Under the visionary leadership of
-      Dr. Anoop Hajela, Hajela Hospital has
-      become one of Bhopal’s most trusted
-      and advanced healthcare institutions.
-      The hospital is widely recognized for
-      premium healthcare services, patient
-      care excellence, modern infrastructure,
-      and world-class medical technology.
-    </p>
-
-    <p
-      className="
-      mt-6
-
-      text-slate-400
-
-      leading-relaxed
-      "
-    >
-      Hajela Hospital has received several
+              leading-relaxed
+              "
+            >
+              Hajela Hospital has received several
       prestigious recognitions including 1st
       Fully NABH Accreditation, Healthcare
       Excellence Awards, Green Hospital
@@ -633,59 +604,216 @@ export default function AboutPage() {
       for Best Green Hospital — reflecting
       his commitment towards innovation,
       sustainability, and compassionate care.
-    </p>
+            </p>
 
-  </div>
+          </div>
 
-</div>
+        </div>
 
-        {/* FINAL SECTION */}
+        {/* ORGANIZATIONS & INSURANCE */}
 
         <div
           className="
           mt-24
 
-          text-center
+          grid
+          lg:grid-cols-2
+
+          gap-10
           "
         >
 
-          <h2
+          {/* ORGANIZATIONS */}
+
+          <div
             className="
-            text-4xl
-            lg:text-5xl
+            rounded-[36px]
 
-            font-black
+            border
+            border-white/10
 
-            text-white
+            bg-white/[0.06]
 
-            leading-tight
+            backdrop-blur-2xl
+
+            p-8
             "
           >
-            Where Premium Healthcare
-            Meets Exceptional Wellness
-          </h2>
 
-          <p
+            <p
+              className="
+              text-cyan-400
+
+              uppercase
+
+              tracking-[4px]
+
+              font-bold
+
+              text-sm
+
+              mb-4
+              "
+            >
+              Government Recognition
+            </p>
+
+            <h2
+              className="
+              text-3xl
+              lg:text-4xl
+
+              font-black
+
+              text-white
+
+              mb-8
+              "
+            >
+              Recognized Hospital Organizations
+            </h2>
+
+            <div className="grid gap-4">
+
+              {[
+                "Central Govt Health Scheme (CGHS)",
+                "BSNL",
+                "PHPS - Police Health Protection Scheme",
+                "MANIT",
+                "MP Tourism Development Corporation",
+                "Food Corporation Of India",
+                "Central Pollution Control Board",
+                "IGNOU",
+                "Indian Oil Corporation",
+                "NITTTR",
+                "National Judicial Academy",
+                "CBSE",
+                "Makhanlal Chaturvedi University",
+                "National Green Tribunal",
+              ].map((item, index) => (
+
+                <div
+                  key={index}
+
+                  className="
+                  rounded-2xl
+
+                  border
+                  border-white/10
+
+                  bg-white/[0.04]
+
+                  px-5
+                  py-4
+
+                  text-slate-200
+                  "
+                >
+                  {item}
+                </div>
+
+              ))}
+
+            </div>
+
+          </div>
+
+          {/* INSURANCE */}
+
+          <div
             className="
-            mt-6
+            rounded-[36px]
 
-            text-slate-300
+            border
+            border-white/10
 
-            max-w-3xl
+            bg-gradient-to-br
+            from-cyan-500/10
+            to-blue-500/10
 
-            mx-auto
+            backdrop-blur-2xl
 
-            leading-relaxed
-
-            text-lg
+            p-8
             "
           >
-            With advanced medical technology, expert specialists,
-            compassionate patient care, and a legacy of healthcare
-            excellence since 1995, Hajela Hospital continues to set
-            benchmarks in modern healthcare services across Madhya
-            Pradesh.
-          </p>
+
+            <p
+              className="
+              text-cyan-400
+
+              uppercase
+
+              tracking-[4px]
+
+              font-bold
+
+              text-sm
+
+              mb-4
+              "
+            >
+              Cashless & Insurance
+            </p>
+
+            <h2
+              className="
+              text-3xl
+              lg:text-4xl
+
+              font-black
+
+              text-white
+
+              mb-8
+              "
+            >
+              Approved Insurance Companies
+            </h2>
+
+            <div className="grid gap-4">
+
+              {[
+                "Aditya Birla Health Insurance",
+                "Cholamandalam MS Insurance",
+                "Future Generali Insurance",
+                "HDFC Ergo General Insurance",
+                "ICICI Prudential Insurance",
+                "IFFCO Tokio Insurance",
+                "Liberty General Insurance",
+                "Reliance General Insurance",
+                "SBI General Insurance",
+                "Universal Sompo Insurance",
+                "Raksha Health Insurance",
+                "Medi Assist Insurance TPA",
+                "Paramount Health Services",
+                "Park Mediclaim TPA",
+              ].map((item, index) => (
+
+                <div
+                  key={index}
+
+                  className="
+                  rounded-2xl
+
+                  border
+                  border-white/10
+
+                  bg-white/[0.04]
+
+                  px-5
+                  py-4
+
+                  text-slate-200
+                  "
+                >
+                  {item}
+                </div>
+
+              ))}
+
+            </div>
+
+          </div>
 
         </div>
 

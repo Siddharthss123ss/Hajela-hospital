@@ -12,83 +12,12 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 
 import {
-  Ear,
-  Bone,
-  Baby,
-  Activity,
-  Microscope,
-  HeartHandshake,
-  Scan,
   Stethoscope,
+  BadgeCheck,
+  ScanLine,
 } from "lucide-react";
 
-const departments = [
-
-  {
-    title: "ENT & Voice Disorders",
-    icon: Ear,
-
-    desc:
-      "Advanced diagnosis and treatment for ear, nose, throat, sinus, allergy, and professional voice disorders with modern ENT care.",
-  },
-
-  {
-    title: "Cochlear Implant Centre",
-    icon: HeartHandshake,
-
-    desc:
-      "Specialized cochlear implant treatments helping patients restore hearing abilities with expert surgical excellence and rehabilitation support.",
-  },
-
-  {
-    title: "Orthopaedics & Joint Replacement",
-    icon: Bone,
-
-    desc:
-      "Comprehensive orthopedic care including trauma management, fracture treatment, spine care, and advanced joint replacement surgeries.",
-  },
-
-  {
-    title: "Pediatrics & NICU",
-    icon: Baby,
-
-    desc:
-      "Dedicated child healthcare services with advanced NICU support, newborn care, vaccinations, and pediatric specialists.",
-  },
-
-  {
-    title: "24/7 Emergency & Trauma Care",
-    icon: Activity,
-
-    desc:
-      "Round-the-clock emergency services with rapid response trauma care, ICU support, ambulance facilities, and critical care specialists.",
-  },
-
-  {
-    title: "Advanced Diagnostics",
-    icon: Microscope,
-
-    desc:
-      "Modern pathology, laboratory testing, radiology, ultrasound, CT Scan, and imaging services for accurate medical diagnosis.",
-  },
-
-  {
-    title: "IVF & Infertility Centre",
-    icon: HeartHandshake,
-
-    desc:
-      "Advanced fertility treatments including IVF, ICSI, infertility consultation, reproductive healthcare, and personalized fertility solutions.",
-  },
-
-  {
-    title: "Radiology & Imaging Centre",
-    icon: Scan,
-
-    desc:
-      "High-quality digital imaging services with modern radiology equipment for fast, precise, and reliable diagnostic results.",
-  },
-
-];
+import { departments } from "@/data/departments";
 
 export default function Departments() {
 
@@ -131,6 +60,415 @@ export default function Departments() {
       ></div>
 
       <div className="container-custom relative z-10">
+
+        {/* RUNNING HIGHLIGHT BAR */}
+
+        <div
+          className="
+          mb-14
+
+          overflow-hidden
+
+          rounded-[28px]
+
+          border
+          border-cyan-200/60
+
+          bg-gradient-to-r
+          from-cyan-500
+          via-blue-700
+          to-cyan-500
+
+          shadow-[0_10px_40px_rgba(6,182,212,0.25)]
+          "
+        >
+
+          <div
+            className="
+            relative
+
+            overflow-hidden
+
+            rounded-[28px]
+
+            bg-slate-950/90
+
+            py-5
+            "
+          >
+
+            <div
+              className="
+              flex
+
+              items-center
+
+              gap-16
+
+              whitespace-nowrap
+
+              animate-marquee
+              "
+            >
+
+              {/* ITEM */}
+
+              <div
+                className="
+                flex
+
+                items-center
+
+                gap-4
+
+                pl-10
+                "
+              >
+
+                <div
+                  className="
+                  w-14
+                  h-14
+
+                  rounded-2xl
+
+                  bg-gradient-to-br
+                  from-cyan-500
+                  to-blue-700
+
+                  flex
+                  items-center
+                  justify-center
+
+                  shadow-lg
+                  "
+                >
+
+                  <BadgeCheck
+                    className="text-white"
+                    size={28}
+                  />
+
+                </div>
+
+                <div>
+
+                  <p
+                    className="
+                    text-xs
+
+                    uppercase
+
+                    tracking-[3px]
+
+                    text-cyan-300
+
+                    font-bold
+                    "
+                  >
+                    Government Scheme
+                  </p>
+
+                  <h3
+                    className="
+                    text-white
+
+                    font-black
+
+                    text-lg
+                    lg:text-2xl
+                    "
+                  >
+                    Ayushman Bharat Available in Orthopedics
+                  </h3>
+
+                </div>
+
+              </div>
+
+              {/* ITEM */}
+
+              <div
+                className="
+                flex
+
+                items-center
+
+                gap-4
+                "
+              >
+
+                <div
+                  className="
+                  w-14
+                  h-14
+
+                  rounded-2xl
+
+                  bg-white/10
+
+                  flex
+                  items-center
+                  justify-center
+                  "
+                >
+
+                  <ScanLine
+                    className="text-cyan-300"
+                    size={28}
+                  />
+
+                </div>
+
+                <div>
+
+                  <p
+                    className="
+                    text-xs
+
+                    uppercase
+
+                    tracking-[3px]
+
+                    text-cyan-300
+
+                    font-bold
+                    "
+                  >
+                    Advanced IVF
+                  </p>
+
+                  <h3
+                    className="
+                    text-white
+
+                    font-black
+
+                    text-lg
+                    lg:text-2xl
+                    "
+                  >
+                   IVF & Infertility Centre 
+                  </h3>
+
+                </div>
+
+              </div>
+
+              {/* ITEM */}
+
+              <div
+                className="
+                flex
+
+                items-center
+
+                gap-4
+                "
+              >
+
+                <div
+                  className="
+                  w-14
+                  h-14
+
+                  rounded-2xl
+
+                  bg-white/10
+
+                  flex
+                  items-center
+                  justify-center
+                  "
+                >
+
+                  <Stethoscope
+                    className="text-cyan-300"
+                    size={28}
+                  />
+
+                </div>
+
+                <div>
+
+                  <p
+                    className="
+                    text-xs
+
+                    uppercase
+
+                    tracking-[3px]
+
+                    text-cyan-300
+
+                    font-bold
+                    "
+                  >
+                    Advanced Surgery
+                  </p>
+
+                  <h3
+                    className="
+                    text-white
+
+                    font-black
+
+                    text-lg
+                    lg:text-2xl
+                    "
+                  >
+                    Advanced Robotic Hip and Knee Replacement Surgery 
+                  </h3>
+
+                </div>
+
+              </div>
+
+              {/* ITEM */}
+
+              <div
+                className="
+                flex
+
+                items-center
+
+                gap-4
+                "
+              >
+
+                <div
+                  className="
+                  w-14
+                  h-14
+
+                  rounded-2xl
+
+                  bg-white/10
+
+                  flex
+                  items-center
+                  justify-center
+                  "
+                >
+
+                  <BadgeCheck
+                    className="text-cyan-300"
+                    size={28}
+                  />
+
+                </div>
+
+                <div>
+
+                  <p
+                    className="
+                    text-xs
+
+                    uppercase
+
+                    tracking-[3px]
+
+                    text-cyan-300
+
+                    font-bold
+                    "
+                  >
+                    Fertility Centre
+                  </p>
+
+                  <h3
+                    className="
+                    text-white
+
+                    font-black
+
+                    text-lg
+                    lg:text-2xl
+                    "
+                  >
+                    IVF & Infertility Centre
+                  </h3>
+
+                </div>
+
+              </div>
+
+              {/* ITEM */}
+
+              <div
+                className="
+                flex
+
+                items-center
+
+                gap-4
+
+                pr-10
+                "
+              >
+
+                <div
+                  className="
+                  w-14
+                  h-14
+
+                  rounded-2xl
+
+                  bg-white/10
+
+                  flex
+                  items-center
+                  justify-center
+                  "
+                >
+
+                  <Stethoscope
+                    className="text-cyan-300"
+                    size={28}
+                  />
+
+                </div>
+
+                <div>
+
+                  <p
+                    className="
+                    text-xs
+
+                    uppercase
+
+                    tracking-[3px]
+
+                    text-cyan-300
+
+                    font-bold
+                    "
+                  >
+                    Critical Care
+                  </p>
+
+                  <h3
+                    className="
+                    text-white
+
+                    font-black
+
+                    text-lg
+                    lg:text-2xl
+                    "
+                  >
+                    Advanced ICCU & NICU Care Facilities
+                  </h3>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
 
         {/* HEADING */}
 
@@ -183,27 +521,6 @@ export default function Departments() {
 
           </h2>
 
-          <p
-            className="
-            mt-5
-
-            text-slate-600
-
-            max-w-3xl
-
-            mx-auto
-
-            leading-relaxed
-
-            text-sm
-            sm:text-base
-            "
-          >
-            Hajela Hospital provides advanced healthcare,
-            modern medical technology, experienced specialists,
-            and compassionate treatment services for every patient.
-          </p>
-
         </div>
 
         {/* SLIDER */}
@@ -250,8 +567,12 @@ export default function Departments() {
 
             <SwiperSlide key={index}>
 
-              <div
+              <Link
+                href={`/departments/${dept.slug}`}
+
                 className="
+                block
+
                 group
                 relative
 
@@ -314,9 +635,7 @@ export default function Departments() {
 
                   <dept.icon
                     size={36}
-                    className="
-                    text-white
-                    "
+                    className="text-white"
                   />
 
                 </div>
@@ -356,7 +675,7 @@ export default function Departments() {
                   text-[15px]
                   "
                 >
-                  {dept.desc}
+                  {dept.short}
                 </p>
 
                 {/* LINE */}
@@ -384,7 +703,7 @@ export default function Departments() {
                   "
                 ></div>
 
-              </div>
+              </Link>
 
             </SwiperSlide>
 

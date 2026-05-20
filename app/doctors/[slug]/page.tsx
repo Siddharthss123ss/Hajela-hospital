@@ -1,16 +1,17 @@
 // app/doctors/[slug]/page.tsx (Ya isko [id]/page.tsx folder me rakhein)
 
+import { doctors } from "@/data/doctors";
+
 import Image from "next/image";
+<<<<<<< HEAD
 import Link from "next/link";
 import { notFound } from "next/navigation";
+=======
+>>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
 
-import {
-  ArrowLeft,
-  Award,
-  BriefcaseMedical,
-  GraduationCap,
-} from "lucide-react";
+export default async function DoctorPage({
 
+<<<<<<< HEAD
 interface Doctor {
   _id: string;
   name: string;
@@ -36,23 +37,56 @@ async function getDoctorData(id: string) {
 }
 
 export default async function DoctorDetails({
+=======
+>>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
   params,
+
 }: {
+
   params: Promise<{ slug: string }>;
+
 }) {
 
   const resolvedParams = await params;
   const doctorId = resolvedParams.slug; 
 
+<<<<<<< HEAD
   const doctor: Doctor | null = await getDoctorData(doctorId);
 
   if (!doctor) {
     notFound();
+=======
+  const doctor = doctors.find(
+    (item) => item.slug === slug
+  );
+
+  if (!doctor) {
+
+    return (
+
+      <div
+        className="
+        pt-40
+
+        text-center
+
+        text-3xl
+
+        font-bold
+        "
+      >
+        Doctor Not Found
+      </div>
+
+    );
+
+>>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
   }
 
   return (
     <main
       className="
+<<<<<<< HEAD
       relative
       min-h-screen
       bg-gradient-to-b
@@ -102,15 +136,37 @@ export default async function DoctorDetails({
         <div
           className="
           mt-12
+=======
+      bg-slate-50
+
+      min-h-screen
+
+      pt-28
+      pb-24
+      "
+    >
+
+      {/* HERO */}
+
+      <section className="container-custom">
+
+        <div
+          className="
+>>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
           grid
           lg:grid-cols-2
           gap-14
+<<<<<<< HEAD
           lg:gap-20
+=======
+
+>>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
           items-center
           "
         >
           {/* IMAGE */}
           <div
+<<<<<<< HEAD
             className="
             relative
             overflow-hidden
@@ -136,9 +192,36 @@ export default async function DoctorDetails({
               priority // Hero/Main image ke liye optimize karega
             />
           </div>
+=======
+  className="
+  overflow-hidden
+
+  rounded-[40px]
+
+  bg-slate-100
+  "
+>
+
+  <img
+    src={doctor.image}
+    alt={doctor.name}
+
+    className="
+    w-full
+
+    h-[650px]
+
+    object-cover
+    object-top
+    "
+  />
+
+</div>
+>>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
 
           {/* CONTENT */}
           <div>
+<<<<<<< HEAD
             {/* EXPERIENCE */}
             <div
               className="
@@ -152,9 +235,21 @@ export default async function DoctorDetails({
               border
               border-cyan-100
               text-cyan-700
+=======
+
+            <p
+              className="
+              text-cyan-600
+
+>>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
               font-bold
+
+              uppercase
+
+              tracking-[3px]
               "
             >
+<<<<<<< HEAD
               <Award className="w-5 h-5" />
               {doctor.experience}+ Years Experience
             </div>
@@ -163,29 +258,50 @@ export default async function DoctorDetails({
             <h1
               className="
               mt-7
+=======
+              Hajela Hospital Specialist
+            </p>
+
+            <h1
+              className="
+              mt-4
+
+>>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
               text-4xl
-              md:text-5xl
               lg:text-6xl
               font-black
               text-slate-900
+<<<<<<< HEAD
               leading-tight
+=======
+>>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
               "
             >
               {doctor.name}
             </h1>
 
+<<<<<<< HEAD
             {/* ROLE / SPECIALIZATION */}
             <p
               className="
               mt-5
               text-2xl
+=======
+            <p
+              className="
+              mt-4
+
+>>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
               text-cyan-700
               font-semibold
+
+              text-xl
               "
             >
               {doctor.specialization}
             </p>
 
+<<<<<<< HEAD
             {/* LINE */}
             <div
               className="
@@ -265,22 +381,27 @@ export default async function DoctorDetails({
               </div>
             </div>
 
+=======
+>>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
             {/* ABOUT */}
             <p
               className="
+<<<<<<< HEAD
               mt-10
+=======
+              mt-6
+
+>>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
               text-slate-600
               leading-relaxed
               text-base
               lg:text-lg
               "
             >
-              {doctor.name} is one of the experienced and trusted
-              specialists at Hajela Hospital, committed to delivering
-              compassionate patient care with modern medical expertise,
-              precision and excellence.
+              {doctor.about}
             </p>
 
+<<<<<<< HEAD
             {/* BUTTONS */}
             <div className="mt-12 flex flex-wrap gap-4">
               {/* APPOINTMENT */}
@@ -322,6 +443,110 @@ export default async function DoctorDetails({
               >
                 Contact Hospital
               </Link>
+=======
+            {/* DETAILS */}
+
+            <div className="mt-8 space-y-4">
+
+              <div
+                className="
+                bg-white
+
+                rounded-2xl
+
+                p-5
+
+                shadow-sm
+                "
+              >
+
+                <span className="font-bold">
+                  Qualification:
+                </span>{" "}
+
+                {doctor.degree}
+
+              </div>
+
+              <div
+                className="
+                bg-white
+
+                rounded-2xl
+
+                p-5
+
+                shadow-sm
+                "
+              >
+
+                <span className="font-bold">
+                  Experience:
+                </span>{" "}
+
+                {doctor.experience}
+
+              </div>
+
+            </div>
+
+            {/* EXPERTISE */}
+
+            <div className="mt-10">
+
+              <h3
+                className="
+                text-2xl
+
+                font-black
+
+                text-slate-900
+                "
+              >
+                Areas of Expertise
+              </h3>
+
+              <div
+                className="
+                mt-6
+
+                grid
+                sm:grid-cols-2
+
+                gap-4
+                "
+              >
+
+                {doctor.expertise.map((item, index) => (
+
+                  <div
+                    key={index}
+
+                    className="
+                    bg-white
+
+                    rounded-2xl
+
+                    px-5
+                    py-4
+
+                    shadow-sm
+
+                    border
+                    border-slate-100
+                    "
+                  >
+
+                    {item}
+
+                  </div>
+
+                ))}
+
+              </div>
+
+            </div>
+>>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
 
               {/* WEBSITE */}
               {doctor.website && (
@@ -351,7 +576,15 @@ export default async function DoctorDetails({
             </div>
           </div>
         </div>
+<<<<<<< HEAD
       </div>
+=======
+
+      </section>
+
+>>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
     </main>
+
   );
+
 }
