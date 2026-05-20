@@ -1,6 +1,79 @@
+import type { Metadata } from "next";
+
 import { departments } from "@/data/departments";
 
 import Image from "next/image";
+
+type Props = {
+
+  params: Promise<{ slug: string }>;
+
+};
+
+/* DYNAMIC SEO */
+
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata> {
+
+  const { slug } = await params;
+
+  const dept = departments.find(
+    (item) => item.slug === slug
+  );
+
+  if (!dept) {
+
+    return {
+
+      title: "Department Not Found | Hajela Hospital",
+
+    };
+
+  }
+
+  return {
+
+    title: `${dept.title} | Hajela Hospital Bhopal`,
+
+    description: dept.description,
+
+    keywords: [
+
+      dept.title,
+      `${dept.title} Bhopal`,
+      `Best ${dept.title} in Bhopal`,
+      `${dept.title} Hospital Bhopal`,
+      `Advanced ${dept.title}`,
+      "Hajela Hospital",
+      "Best Hospital in Bhopal",
+      "Multispeciality Hospital",
+
+    ],
+
+    openGraph: {
+
+      title:
+        `${dept.title} | Hajela Hospital Bhopal`,
+
+      description: dept.description,
+
+      images: [
+
+        {
+          url: dept.image,
+          width: 1200,
+          height: 630,
+          alt: dept.title,
+        },
+
+      ],
+
+    },
+
+  };
+
+}
 
 export default async function DepartmentPage({
 
@@ -21,186 +94,307 @@ export default async function DepartmentPage({
   if (!dept) {
 
     return (
-      <div className="pt-40 text-center">
+
+      <div
+        className="
+        pt-40
+
+        text-center
+
+        text-3xl
+
+        font-bold
+        "
+      >
         Department Not Found
       </div>
+
     );
 
   }
 
   return (
 
-    <main className="bg-slate-50 min-h-screen pt-28">
+    <>
 
-      {/* HERO */}
+      {/* SCHEMA */}
 
-      <section className="relative h-[55vh] overflow-hidden">
+      <script
+        type="application/ld+json"
 
-        <Image
-          src={dept.image}
-          alt={dept.title}
-          fill
-          className="object-cover"
-        />
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
 
-        <div className="absolute inset-0 bg-black/50"></div>
+            "@context":
+              "https://schema.org",
 
-        <div
-          className="
-          absolute
-          inset-0
+            "@type":
+              "MedicalSpecialty",
 
-          flex
-          items-center
-          justify-center
+            name: dept.title,
 
-          text-center
+            description:
+              dept.description,
 
-          px-4
-          "
-        >
+            image: dept.image,
 
-          <div>
+            medicalSpecialty:
+              dept.title,
 
-            <h1
-              className="
-              text-4xl
-              lg:text-6xl
+            hospitalAffiliation: {
 
-              font-black
+              "@type":
+                "Hospital",
 
-              text-white
-              "
-            >
-              {dept.title}
-            </h1>
+              name:
+                "Hajela Hospital",
 
-            <p
-              className="
-              mt-5
+            },
 
-              text-slate-200
+            areaServed: {
 
-              max-w-2xl
+              "@type":
+                "City",
 
-              mx-auto
-              "
-            >
-              {dept.short}
-            </p>
+              name: "Bhopal",
 
-          </div>
+            },
 
-        </div>
+          }),
+        }}
+      />
 
-      </section>
+      <main className="bg-slate-50 min-h-screen pt-28">
 
-      {/* CONTENT */}
+        {/* HERO */}
 
-      <section className="py-20">
+        <section className="relative h-[55vh] overflow-hidden">
 
-        <div className="container-custom">
+          <Image
+            src={dept.image}
+
+            alt={`${dept.title} at Hajela Hospital Bhopal`}
+
+            fill
+
+            priority
+
+            className="object-cover"
+          />
+
+          <div className="absolute inset-0 bg-black/50"></div>
 
           <div
             className="
-            grid
-            lg:grid-cols-2
+            absolute
+            inset-0
 
-            gap-14
-
+            flex
             items-center
+            justify-center
+
+            text-center
+
+            px-4
             "
           >
 
-            {/* IMAGE */}
-
-            <div
-              className="
-              relative
-
-              h-[500px]
-
-              overflow-hidden
-
-              rounded-[35px]
-              "
-            >
-
-              <Image
-                src={dept.image}
-                alt={dept.title}
-                fill
-                className="object-cover"
-              />
-
-            </div>
-
-            {/* TEXT */}
-
             <div>
-
-              <h2
-                className="
-                text-4xl
-
-                font-black
-
-                text-slate-900
-                "
-              >
-                {dept.title}
-              </h2>
 
               <p
                 className="
-                mt-6
+                text-cyan-300
 
-                text-slate-600
+                uppercase
+
+                tracking-[4px]
+
+                font-semibold
+
+                mb-4
+                "
+              >
+                Hajela Hospital Bhopal
+              </p>
+
+              <h1
+                className="
+                text-4xl
+                lg:text-6xl
+
+                font-black
+
+                text-white
+                "
+              >
+                {dept.title}
+              </h1>
+
+              <p
+                className="
+                mt-5
+
+                text-slate-200
+
+                max-w-2xl
+
+                mx-auto
 
                 leading-relaxed
                 "
               >
-                {dept.description}
+                {dept.short}
               </p>
 
-              {/* SERVICES */}
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* CONTENT */}
+
+        <section className="py-20">
+
+          <div className="container-custom">
+
+            <div
+              className="
+              grid
+              lg:grid-cols-2
+
+              gap-14
+
+              items-center
+              "
+            >
+
+              {/* IMAGE */}
 
               <div
                 className="
-                mt-10
+                relative
 
-                grid
-                sm:grid-cols-2
+                h-[500px]
 
-                gap-4
+                overflow-hidden
+
+                rounded-[35px]
+
+                shadow-xl
                 "
               >
 
-                {dept.services.map((service, index) => (
+                <Image
+                  src={dept.image}
 
-                  <div
-                    key={index}
+                  alt={`${dept.title} Department Hajela Hospital`}
 
-                    className="
-                    bg-white
+                  fill
 
-                    rounded-2xl
+                  className="object-cover"
+                />
 
-                    px-5
-                    py-4
+              </div>
 
-                    shadow-md
+              {/* TEXT */}
 
-                    border
-                    border-slate-100
-                    "
-                  >
+              <div>
 
-                    {service}
+                <p
+                  className="
+                  text-cyan-600
 
-                  </div>
+                  uppercase
 
-                ))}
+                  tracking-[3px]
+
+                  font-bold
+
+                  text-sm
+
+                  mb-4
+                  "
+                >
+                  Specialized Department
+                </p>
+
+                <h2
+                  className="
+                  text-4xl
+
+                  font-black
+
+                  text-slate-900
+
+                  leading-tight
+                  "
+                >
+                  {dept.title}
+                </h2>
+
+                <p
+                  className="
+                  mt-6
+
+                  text-slate-600
+
+                  leading-relaxed
+
+                  text-base
+                  lg:text-lg
+                  "
+                >
+                  {dept.description}
+                </p>
+
+                {/* SERVICES */}
+
+                <div
+                  className="
+                  mt-10
+
+                  grid
+                  sm:grid-cols-2
+
+                  gap-4
+                  "
+                >
+
+                  {dept.services.map(
+                    (service, index) => (
+
+                      <div
+                        key={index}
+
+                        className="
+                        bg-white
+
+                        rounded-2xl
+
+                        px-5
+                        py-4
+
+                        shadow-md
+
+                        border
+                        border-slate-100
+
+                        hover:shadow-lg
+
+                        transition-all
+                        duration-300
+                        "
+                      >
+
+                        {service}
+
+                      </div>
+
+                    )
+                  )}
+
+                </div>
 
               </div>
 
@@ -208,11 +402,11 @@ export default async function DepartmentPage({
 
           </div>
 
-        </div>
+        </section>
 
-      </section>
+      </main>
 
-    </main>
+    </>
 
   );
 

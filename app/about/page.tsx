@@ -612,202 +612,276 @@ export default function AboutPage() {
 
         {/* ORGANIZATIONS & INSURANCE */}
 
+<div
+  className="
+  mt-24
+
+  grid
+  lg:grid-cols-2
+
+  gap-10
+  "
+>
+
+  {/* ORGANIZATIONS */}
+
+  <div
+    className="
+    rounded-[36px]
+
+    border
+    border-white/10
+
+    bg-white/[0.06]
+
+    backdrop-blur-2xl
+
+    p-8
+    lg:p-10
+
+    shadow-[0_10px_60px_rgba(0,0,0,0.25)]
+    "
+  >
+
+    <p
+      className="
+      text-cyan-400
+
+      uppercase
+
+      tracking-[4px]
+
+      font-bold
+
+      text-sm
+
+      mb-4
+      "
+    >
+      Government Recognition
+    </p>
+
+    <h2
+      className="
+      text-3xl
+      lg:text-4xl
+
+      font-black
+
+      text-white
+
+      leading-tight
+
+      mb-8
+      "
+    >
+      Recognized Hospital
+      Organizations
+    </h2>
+
+    <div
+      className="
+      grid
+
+      gap-4
+      "
+    >
+
+      {[
+        "Recognized hospital for Central Govt Health Scheme for Central Govt. Employees",
+        "Bharat Sanchar Nigam Limited (BSNL)",
+        "Police Health Protection Scheme (PHPS) for Police personals of Dept. of Home (M.P)",
+        "Maulana Azad National Institute of Technology (MANIT)",
+        "M.P. Tourism Development Corporation (MPSTDC)",
+        "Food Corporation of India (FCI)",
+        "Central Pollution Control Board (C.P.C.B)",
+        "Indira Gandhi National Open University (IGNOU)",
+        "Indian Institute of Forest Management (IIFM)",
+        "Indian Oil Corporation Ltd (IOC)",
+        "Indian Institute of Soil & Science (IISS)",
+        "National Institute of Technical Teachers' Training Institute & Research (NITTTR)",
+        "Central Institute of Agricultural Engineering (CIAE)",
+        "Central Power Research Institute (CPRI)",
+        "Indian Institute of Science Education & Research Centre (IISER)",
+        "Narmada Hydroelectric Development Corporation (NHDC)",
+        "National Judicial Academy (NJA)",
+        "M.P. State Government for Family Planning Operation",
+        "M.P State Civil Supplies Corporation",
+        "M.P State Agricultural Marketing Board (Mandi Board)",
+        "Advanced Materials & Processes Research Institute (AMPRI)",
+        "Judiciary Officials - In-service / Retired",
+        "School of Planning and Architecture (SPA)",
+        "VNS Group of Colleges, Bhopal",
+        "Central Board of Secondary Education (CBSE)",
+        "Maulana Azad Urdu University",
+        "Central Institute of Petrochemicals Engineering & Technology (CIPET)",
+        "Makhanlal Chaturvedi University of Journalism and Communication",
+        "National Horticulture Board (NHB)",
+        "Jawahar Navodaya Vidyalaya",
+        "Rashtriya Bal Swasthya Karyakram (RBSK)",
+        "Public Health and Family Welfare Department",
+        "National Green Tribunal Central Zonal Bench (NGT)",
+      ].map((item, index) => (
+
         <div
+          key={index}
+
           className="
-          mt-24
+          rounded-2xl
 
-          grid
-          lg:grid-cols-2
+          border
+          border-white/10
 
-          gap-10
+          bg-white/[0.04]
+
+          px-5
+          py-4
+
+          text-slate-200
+
+          hover:bg-cyan-500/10
+
+          transition-all
+          duration-300
           "
         >
 
-          {/* ORGANIZATIONS */}
+          {index + 1}. {item}
 
-          <div
-            className="
-            rounded-[36px]
+        </div>
 
-            border
-            border-white/10
+      ))}
 
-            bg-white/[0.06]
+    </div>
 
-            backdrop-blur-2xl
+  </div>
 
-            p-8
-            "
-          >
+  {/* INSURANCE */}
 
-            <p
-              className="
-              text-cyan-400
+  <div
+    className="
+    rounded-[36px]
 
-              uppercase
+    border
+    border-white/10
 
-              tracking-[4px]
+    bg-gradient-to-br
+    from-cyan-500/10
+    to-blue-500/10
 
-              font-bold
+    backdrop-blur-2xl
 
-              text-sm
+    p-8
+    lg:p-10
 
-              mb-4
-              "
-            >
-              Government Recognition
-            </p>
+    shadow-[0_10px_60px_rgba(0,0,0,0.25)]
+    "
+  >
 
-            <h2
-              className="
-              text-3xl
-              lg:text-4xl
+    <p
+      className="
+      text-cyan-400
 
-              font-black
+      uppercase
 
-              text-white
+      tracking-[4px]
 
-              mb-8
-              "
-            >
-              Recognized Hospital Organizations
-            </h2>
+      font-bold
 
-            <div className="grid gap-4">
+      text-sm
 
-              {[
-                "Central Govt Health Scheme (CGHS)",
-                "BSNL",
-                "PHPS - Police Health Protection Scheme",
-                "MANIT",
-                "MP Tourism Development Corporation",
-                "Food Corporation Of India",
-                "Central Pollution Control Board",
-                "IGNOU",
-                "Indian Oil Corporation",
-                "NITTTR",
-                "National Judicial Academy",
-                "CBSE",
-                "Makhanlal Chaturvedi University",
-                "National Green Tribunal",
-              ].map((item, index) => (
+      mb-4
+      "
+    >
+      Cashless & Insurance
+    </p>
 
-                <div
-                  key={index}
+    <h2
+      className="
+      text-3xl
+      lg:text-4xl
 
-                  className="
-                  rounded-2xl
+      font-black
 
-                  border
-                  border-white/10
+      text-white
 
-                  bg-white/[0.04]
+      leading-tight
 
-                  px-5
-                  py-4
+      mb-8
+      "
+    >
+      Approved Insurance
+      Companies & TPA's
+    </h2>
 
-                  text-slate-200
-                  "
-                >
-                  {item}
-                </div>
+    <div
+      className="
+      grid
 
-              ))}
+      gap-4
+      "
+    >
 
-            </div>
+      {[
+        "Alankit Healthcare TPA Limited",
+        "Aditya Birla Health Insurance",
+        "Cholamandalam MS General Insurance",
+        "East West Assist (Volo Health Insurance TPA)",
+        "Ericson Insurance TPA Pvt Ltd",
+        "Family Health Plan Insurance TPA Limited",
+        "Focus Health Insurance TPA Pvt. Ltd",
+        "Future Generali India Insurance Co",
+        "Genins India Insurance TPA Pvt Ltd",
+        "Good Health Plan Insurance TPA Limited",
+        "Grand Healthcare Service India Pvt. Ltd",
+        "HDFC Ergo General Insurance",
+        "Health India Insurance TPA Ltd",
+        "Health Insurance TPA Pvt Ltd",
+        "Heritage Health Services TPA",
+        "ICICI Prudential Life Insurance",
+        "IFFCO-TOKIO General Insurance Co Ltd",
+        "Liberty General Insurance Co. Ltd",
+        "M.D. India Health Insurance TPA Pvt. Ltd",
+        "Medvantage Insurance TPA Pvt Ltd",
+        "Med Save Health Insurance TPA Ltd",
+        "Medi Assist Insurance TPA Pvt. Ltd",
+        "Paramount Health Services TPA Pvt Ltd",
+        "Park Mediclaim TPA Health Services Pvt. Ltd",
+        "Raksha Health Insurance TPA Pvt. Ltd",
+        "Reliance General Health Insurance",
+        "SBI General Insurance Co Ltd",
+        "Universal Sompo General Insurance",
+        "Vidal Health Insurance TPA Pvt Ltd",
+      ].map((item, index) => (
 
-          </div>
+        <div
+          key={index}
 
-          {/* INSURANCE */}
+          className="
+          rounded-2xl
 
-          <div
-            className="
-            rounded-[36px]
+          border
+          border-white/10
 
-            border
-            border-white/10
+          bg-white/[0.05]
 
-            bg-gradient-to-br
-            from-cyan-500/10
-            to-blue-500/10
+          px-5
+          py-4
 
-            backdrop-blur-2xl
+          text-slate-200
 
-            p-8
-            "
-          >
+          hover:bg-blue-500/10
 
-            <p
-              className="
-              text-cyan-400
+          transition-all
+          duration-300
+          "
+        >
 
-              uppercase
+          {index + 1}. {item}
 
-              tracking-[4px]
+        </div>
 
-              font-bold
-
-              text-sm
-
-              mb-4
-              "
-            >
-              Cashless & Insurance
-            </p>
-
-            <h2
-              className="
-              text-3xl
-              lg:text-4xl
-
-              font-black
-
-              text-white
-
-              mb-8
-              "
-            >
-              Approved Insurance Companies
-            </h2>
-
-            <div className="grid gap-4">
-
-              {[
-                "Aditya Birla Health Insurance",
-                "Cholamandalam MS Insurance",
-                "Future Generali Insurance",
-                "HDFC Ergo General Insurance",
-                "ICICI Prudential Insurance",
-                "IFFCO Tokio Insurance",
-                "Liberty General Insurance",
-                "Reliance General Insurance",
-                "SBI General Insurance",
-                "Universal Sompo Insurance",
-                "Raksha Health Insurance",
-                "Medi Assist Insurance TPA",
-                "Paramount Health Services",
-                "Park Mediclaim TPA",
-              ].map((item, index) => (
-
-                <div
-                  key={index}
-
-                  className="
-                  rounded-2xl
-
-                  border
-                  border-white/10
-
-                  bg-white/[0.04]
-
-                  px-5
-                  py-4
-
-                  text-slate-200
-                  "
-                >
-                  {item}
-                </div>
+    
 
               ))}
 

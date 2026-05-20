@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+import Appointment from "@/components/home/Appointment";
+=======
 "use client";
 
 import { useState, useEffect } from "react";
@@ -19,6 +22,7 @@ import {
   Award,
   Star,
 } from "lucide-react";
+>>>>>>> 7544f62788078432e8284fcaaf0331722268fd89
 
 interface Department {
   _id: string;
@@ -26,6 +30,15 @@ interface Department {
 }
 
 export default function AppointmentPage() {
+<<<<<<< HEAD
+
+  return (
+
+    <main className="pt-24">
+
+      <Appointment />
+
+=======
   const [formData, setFormData] = useState({
     patient_name: "",
     patient_email: "",
@@ -396,6 +409,9 @@ export default function AppointmentPage() {
 
         </div>
       </div>
+>>>>>>> 7544f62788078432e8284fcaaf0331722268fd89
     </main>
+
   );
+
 }

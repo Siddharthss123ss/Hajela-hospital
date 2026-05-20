@@ -23,7 +23,7 @@ export const departments = [
 
     icon: Ear,
 
-    image: "/hospital/ent.jpeg",
+    image: "/hospital/ents.jpeg",
 
     short:
       "Advanced ENT care for ear, nose, throat and professional voice disorders.",
@@ -51,7 +51,7 @@ export const departments = [
 
     icon: HeartHandshake,
 
-    image: "/departments/cochlear.jpg",
+    image: "/departments/cochlear.PNG",
 
     short:
       "Advanced hearing restoration and cochlear implant surgery.",
@@ -78,7 +78,7 @@ export const departments = [
 
     icon: Bone,
 
-    image: "/departments/robotic.png",
+    image: "/departments/robotic1.png",
 
     short:
       "Comprehensive orthopedic and trauma treatment solutions.",
@@ -351,7 +351,7 @@ export const departments = [
 
     icon: Ambulance,
 
-    image: "/departments/ambulance.jpeg",
+    image: "/departments/Ambulance.jpeg",
 
     short:
       "Comprehensive hospital care with emergency ambulance support.",
