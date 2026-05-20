@@ -410,7 +410,7 @@ export default function Navbar() {
               >
 
                 <Link
-                  href="/gallery/photos"
+                  href="/gallery/event"
 
                   className="
                   block
@@ -423,7 +423,7 @@ export default function Navbar() {
                   hover:bg-slate-50
                   "
                 >
-                  Event Images
+                  Events Images
                 </Link>
 
                 <Link

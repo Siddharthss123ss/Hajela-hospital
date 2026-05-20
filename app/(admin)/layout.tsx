@@ -1,9 +1,10 @@
 // src/app/(admin)/layout.tsx
-import React from 'react';
+
+import React from "react";
 
 export const metadata = {
-  title: 'Hajela Hospital - Admin Terminal',
-  description: 'Internal Core Operations Management Engine',
+  title: "Hajela Hospital - Admin Terminal",
+  description: "Internal Core Operations Management Engine",
 };
 
 export default function AdminGroupRootLayout({
@@ -12,10 +13,8 @@ export default function AdminGroupRootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="bg-[#0a0a0c] text-zinc-100 antialiased selection:bg-emerald-500 selection:text-black">
-        {children}
-      </body>
-    </html>
+    <div className="min-h-screen bg-[#0a0a0c] text-zinc-100 antialiased selection:bg-emerald-500 selection:text-black">
+      {children}
+    </div>
   );
 }

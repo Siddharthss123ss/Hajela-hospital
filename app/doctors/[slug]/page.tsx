@@ -1,278 +1,357 @@
-// app/doctors/[slug]/page.tsx
+// app/doctors/[slug]/page.tsx (Ya isko [id]/page.tsx folder me rakhein)
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
-import { doctors } from "@/data/doctors";
+import {
+  ArrowLeft,
+  Award,
+  BriefcaseMedical,
+  GraduationCap,
+} from "lucide-react";
 
-import Image from "next/image";
+interface Doctor {
+  _id: string;
+  name: string;
+  specialization: string;
+  degree: string[];
+  experience: number;
+  image_url: string;
+  website?: string;
+}
 
-export default async function DoctorPage({
+// Next.js Server Component data fetcher
+async function getDoctorData(id: string) {
+  try {
+    // Apne domain URL ke hisab se absolute path setup karein ya relative deployment me use karein
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/doctors/${id}`, {
+      cache: "no-store", // Taaki har baar fresh data mile
+    });
 
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching doctor details:", error);
+    return null;
+  }
+}
+
+export default async function DoctorDetails({
   params,
-
 }: {
-
-  params: Promise<{ slug: string }>;
-
+  params: Promise<{ slug: string }>; // Agar folder ka naam [id] rakha hai toh yahan 'id: string' karein
 }) {
+  // URL se ID/Slug nikalne ke liye
+  const resolvedParams = await params;
+  const doctorId = resolvedParams.slug; // Agar folder name [id] hai toh resolvedParams.id hoga
 
-  const { slug } = await params;
+  const doctor: Doctor | null = await getDoctorData(doctorId);
 
-  const doctor = doctors.find(
-    (item) => item.slug === slug
-  );
-
+  // Agar data nahi milta toh Next.js ka default 404 page trigger hoga
   if (!doctor) {
-
-    return (
-
-      <div
-        className="
-        pt-40
-
-        text-center
-
-        text-3xl
-
-        font-bold
-        "
-      >
-        Doctor Not Found
-      </div>
-
-    );
-
+    notFound();
   }
 
   return (
-
     <main
       className="
-      bg-slate-50
-
+      relative
       min-h-screen
-
-      pt-28
+      bg-gradient-to-b
+      from-white
+      via-slate-50
+      to-white
+      pt-32
       pb-24
+      overflow-hidden
       "
     >
+      {/* PREMIUM BG GLOW */}
+      <div
+        className="
+        absolute
+        top-0
+        left-1/2
+        -translate-x-1/2
+        w-[900px]
+        h-[900px]
+        bg-cyan-500/5
+        blur-[160px]
+        rounded-full
+        "
+      ></div>
 
-      {/* HERO */}
+      <div className="container-custom relative z-10">
+        {/* BACK BUTTON */}
+        <Link
+          href="/doctors"
+          className="
+          inline-flex
+          items-center
+          gap-2
+          text-slate-600
+          font-semibold
+          hover:text-cyan-600
+          transition-all
+          duration-300
+          "
+        >
+          <ArrowLeft className="w-5 h-5" />
+          Back to Doctors
+        </Link>
 
-      <section className="container-custom">
-
+        {/* MAIN */}
         <div
           className="
+          mt-12
           grid
           lg:grid-cols-2
-
           gap-14
-
+          lg:gap-20
           items-center
           "
         >
-
           {/* IMAGE */}
-
           <div
-  className="
-  overflow-hidden
-
-  rounded-[40px]
-
-  bg-slate-100
-  "
->
-
-  <img
-    src={doctor.image}
-    alt={doctor.name}
-
-    className="
-    w-full
-
-    h-[650px]
-
-    object-cover
-    object-top
-    "
-  />
-
-</div>
+            className="
+            relative
+            overflow-hidden
+            rounded-[40px]
+            bg-slate-100
+            border
+            border-slate-200
+            shadow-[0_20px_80px_rgba(15,23,42,0.08)]
+            "
+          >
+            <img
+              src={doctor.image_url}
+              alt={doctor.name}
+              width={900}
+              height={1100}
+              className="
+              w-full
+              h-[500px]
+              lg:h-[720px]
+              object-cover
+              object-top
+              "
+            />
+          </div>
 
           {/* CONTENT */}
-
           <div>
-
-            <p
+            {/* EXPERIENCE */}
+            <div
               className="
-              text-cyan-600
-
+              inline-flex
+              items-center
+              gap-2
+              px-5
+              py-2.5
+              rounded-full
+              bg-cyan-50
+              border
+              border-cyan-100
+              text-cyan-700
               font-bold
-
-              uppercase
-
-              tracking-[3px]
               "
             >
-              Hajela Hospital Specialist
-            </p>
+              <Award className="w-5 h-5" />
+              {doctor.experience}+ Years Experience
+            </div>
 
+            {/* NAME */}
             <h1
               className="
-              mt-4
-
+              mt-7
               text-4xl
+              md:text-5xl
               lg:text-6xl
-
               font-black
-
               text-slate-900
+              leading-tight
               "
             >
               {doctor.name}
             </h1>
 
+            {/* ROLE / SPECIALIZATION */}
             <p
               className="
-              mt-4
-
+              mt-5
+              text-2xl
               text-cyan-700
-
               font-semibold
-
-              text-xl
               "
             >
-              {doctor.role}
+              {doctor.specialization}
             </p>
 
-            {/* ABOUT */}
+            {/* LINE */}
+            <div
+              className="
+              mt-7
+              w-20
+              h-[4px]
+              rounded-full
+              bg-gradient-to-r
+              from-cyan-500
+              to-blue-700
+              "
+            ></div>
 
+            {/* QUALIFICATION */}
+            <div
+              className="
+              mt-10
+              flex
+              items-start
+              gap-5
+              "
+            >
+              <div
+                className="
+                w-14
+                h-14
+                rounded-2xl
+                bg-cyan-50
+                flex
+                items-center
+                justify-center
+                "
+              >
+                <GraduationCap className="w-7 h-7 text-cyan-700" />
+              </div>
+
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">
+                  Qualification
+                </h3>
+                <p className="mt-2 text-slate-600 leading-relaxed">
+                  {doctor.degree ? doctor.degree.join(", ") : "N/A"}
+                </p>
+              </div>
+            </div>
+
+            {/* SPECIALITY */}
+            <div
+              className="
+              mt-10
+              flex
+              items-start
+              gap-5
+              "
+            >
+              <div
+                className="
+                w-14
+                h-14
+                rounded-2xl
+                bg-blue-50
+                flex
+                items-center
+                justify-center
+                "
+              >
+                <BriefcaseMedical className="w-7 h-7 text-blue-700" />
+              </div>
+
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">
+                  Specialization
+                </h3>
+                <p className="mt-2 text-slate-600 leading-relaxed">
+                  {doctor.specialization}
+                </p>
+              </div>
+            </div>
+
+            {/* ABOUT */}
             <p
               className="
-              mt-6
-
+              mt-10
               text-slate-600
-
               leading-relaxed
-
               text-base
               lg:text-lg
               "
             >
-              {doctor.about}
+              {doctor.name} is one of the experienced and trusted
+              specialists at Hajela Hospital, committed to delivering
+              compassionate patient care with modern medical expertise,
+              precision and excellence.
             </p>
 
-            {/* DETAILS */}
-
-            <div className="mt-8 space-y-4">
-
-              <div
+            {/* BUTTONS */}
+            <div className="mt-12 flex flex-wrap gap-4">
+              {/* APPOINTMENT */}
+              <Link
+                href="/appointment"
                 className="
-                bg-white
-
-                rounded-2xl
-
-                p-5
-
-                shadow-sm
+                bg-gradient-to-r
+                from-cyan-600
+                to-blue-700
+                text-white
+                px-8
+                py-4
+                rounded-full
+                font-bold
+                shadow-[0_10px_40px_rgba(6,182,212,0.25)]
+                hover:scale-105
+                transition-all
+                duration-300
                 "
               >
+                Book Appointment
+              </Link>
 
-                <span className="font-bold">
-                  Qualification:
-                </span>{" "}
-
-                {doctor.degree}
-
-              </div>
-
-              <div
+              {/* CONTACT */}
+              <Link
+                href="/contact"
                 className="
-                bg-white
-
-                rounded-2xl
-
-                p-5
-
-                shadow-sm
+                border
+                border-slate-300
+                text-slate-700
+                px-8
+                py-4
+                rounded-full
+                font-semibold
+                hover:bg-slate-100
+                transition-all
+                duration-300
                 "
               >
+                Contact Hospital
+              </Link>
 
-                <span className="font-bold">
-                  Experience:
-                </span>{" "}
-
-                {doctor.experience}
-
-              </div>
-
+              {/* WEBSITE */}
+              {doctor.website && (
+                <a
+                  href={doctor.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
+                  border
+                  border-cyan-200
+                  bg-cyan-50
+                  text-cyan-700
+                  px-8
+                  py-4
+                  rounded-full
+                  font-bold
+                  hover:bg-cyan-600
+                  hover:text-white
+                  hover:border-cyan-600
+                  transition-all
+                  duration-300
+                  "
+                >
+                  Visit Official Website
+                </a>
+              )}
             </div>
-
-            {/* EXPERTISE */}
-
-            <div className="mt-10">
-
-              <h3
-                className="
-                text-2xl
-
-                font-black
-
-                text-slate-900
-                "
-              >
-                Areas of Expertise
-              </h3>
-
-              <div
-                className="
-                mt-6
-
-                grid
-                sm:grid-cols-2
-
-                gap-4
-                "
-              >
-
-                {doctor.expertise.map((item, index) => (
-
-                  <div
-                    key={index}
-
-                    className="
-                    bg-white
-
-                    rounded-2xl
-
-                    px-5
-                    py-4
-
-                    shadow-sm
-
-                    border
-                    border-slate-100
-                    "
-                  >
-
-                    {item}
-
-                  </div>
-
-                ))}
-
-              </div>
-
-            </div>
-
           </div>
-
         </div>
-
-      </section>
-
+      </div>
     </main>
-
   );
-
 }

@@ -10,7 +10,7 @@ export async function GET() {
     const doctors = await doctor.find({ is_active: true }).populate('dept_id');
     return NextResponse.json(doctors, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: "Doctors fetch nahi ho paye" }, { status: 500 });
+    return NextResponse.json({ error: "unable to fetch" }, { status: 500 });
   }
 }
 
