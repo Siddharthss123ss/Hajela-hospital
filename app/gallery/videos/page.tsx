@@ -3,12 +3,10 @@
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 
-// Backend data ke structure ke hisab se Interface definition
 interface VideoItem {
-  _id: string; // ya id
+  _id: string;
   title: string;
-  videoUrl: string; // aapki api mein jo bhi key ho (jaise video ya url)
-  description: string;
+  image_url: string;
   category: string;
 }
 
@@ -104,7 +102,7 @@ export default function GalleryVideosPage() {
                   "
                 >
                   <source
-                    src={item.videoUrl} // Backend se aane wala video path
+                    src={item.image_url}
                     type="video/mp4"
                   />
                   Your browser does not support the video tag.
@@ -115,10 +113,6 @@ export default function GalleryVideosPage() {
                   <h2 className="text-2xl font-bold text-white">
                     {item.title} {/* Dynamic Title */}
                   </h2>
-
-                  <p className="mt-4 text-slate-300 leading-relaxed">
-                    {item.description} {/* Dynamic Description */}
-                  </p>
                 </div>
               </div>
             ))}

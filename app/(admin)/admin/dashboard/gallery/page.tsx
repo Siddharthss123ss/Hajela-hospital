@@ -293,7 +293,7 @@ export default function GalleryManagement() {
                 <input
                   id="gallery-file-input"
                   type="file"
-                  accept="image/*"
+                  accept="image/*, video/*"
                   onChange={handleImageChange}
                   required
                   className="w-full text-xs text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-zinc-800 file:text-zinc-200 file:cursor-pointer hover:file:bg-zinc-700"

@@ -15,7 +15,7 @@ import {
 interface NewsItem {
   _id: string; // ya id
   title: string;
-  image: string;
+  image_url: string;
   date: string;
   description: string;
   iconType?: "Trophy" | "Award" | "Newspaper";
@@ -192,8 +192,8 @@ export default function NewsPage() {
                 >
                   {/* IMAGE */}
                   <div className="relative overflow-hidden">
-                    <Image
-                      src={item.image}
+                    <img
+                      src={item.image_url}
                       alt={item.title}
                       width={900}
                       height={700}
