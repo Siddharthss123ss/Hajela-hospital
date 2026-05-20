@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-import Appointment from "@/components/home/Appointment";
-=======
 "use client";
 
 import { useState, useEffect } from "react";
@@ -22,7 +19,6 @@ import {
   Award,
   Star,
 } from "lucide-react";
->>>>>>> 7544f62788078432e8284fcaaf0331722268fd89
 
 interface Department {
   _id: string;
@@ -30,15 +26,6 @@ interface Department {
 }
 
 export default function AppointmentPage() {
-<<<<<<< HEAD
-
-  return (
-
-    <main className="pt-24">
-
-      <Appointment />
-
-=======
   const [formData, setFormData] = useState({
     patient_name: "",
     patient_email: "",
@@ -75,6 +62,9 @@ export default function AppointmentPage() {
 
         const deptData = await deptRes.json();
         const docData = await docRes.json();
+
+        console.log("Fetched Departments:", deptData); // Debugging ke liye console zaroor check karein
+        console.log("Fetched Doctors:", docData);       // Debugging ke liye console zaroor check karein
 
         setDepartments(Array.isArray(deptData) ? deptData : []);
         setAllDoctors(Array.isArray(docData) ? docData : []);
@@ -409,9 +399,6 @@ export default function AppointmentPage() {
 
         </div>
       </div>
->>>>>>> 7544f62788078432e8284fcaaf0331722268fd89
     </main>
-
   );
-
 }
