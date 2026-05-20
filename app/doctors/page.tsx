@@ -191,10 +191,9 @@ export default function DoctorsPage() {
                   overflow-hidden
                   "
                 >
-                  <Image
-                    src={doctor.image_url || "/doctors/placeholder.jpg"}
+                  <img
+                    src={doctor.image_url}
                     alt={doctor.name}
-                    fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="
                     object-cover

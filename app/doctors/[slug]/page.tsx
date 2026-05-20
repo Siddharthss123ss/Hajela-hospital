@@ -1,6 +1,4 @@
 // app/doctors/[slug]/page.tsx (Ya isko [id]/page.tsx folder me rakhein)
-
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -124,8 +122,8 @@ export default async function DoctorDetails({
             shadow-[0_20px_80px_rgba(15,23,42,0.08)]
             "
           >
-            <Image
-              src={doctor.image_url || "/doctors/placeholder.jpg"}
+            <img
+              src={doctor.image_url}
               alt={doctor.name}
               width={900}
               height={1100}
@@ -136,7 +134,6 @@ export default async function DoctorDetails({
               object-cover
               object-top
               "
-              priority // Hero/Main image ke liye optimize karega
             />
           </div>
 

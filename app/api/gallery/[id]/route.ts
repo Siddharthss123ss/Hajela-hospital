@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 
 import db_connect from "@/lib/db";
-import { Gallery } from "@/app/api/models/gallery";
+
+import { gallery } from "@/app/api/models/gallery";
+
+import { delete_image } from "@/lib/cloudinary";
 
 export async function DELETE(
   req: Request,
@@ -12,25 +15,49 @@ export async function DELETE(
 
     const { id } = await params;
 
-    const deleted = await Gallery.findByIdAndDelete(id);
+    const existingPhoto =
+      await gallery.findById(id);
 
-    if (!deleted) {
+    if (!existingPhoto) {
       return NextResponse.json(
-        { error: "Image not found" },
-        { status: 404 }
+        {
+          error: "Image not found",
+        },
+        {
+          status: 404,
+        }
       );
     }
 
-    return NextResponse.json({
-      message: "Deleted successfully",
-    });
+    // delete from cloudinary
+    if (existingPhoto.image_id) {
+      await delete_image(
+        existingPhoto.image_id
+      );
+    }
+
+    // delete from mongodb
+    await gallery.findByIdAndDelete(id);
+
+    return NextResponse.json(
+      {
+        message: "Deleted successfully",
+      },
+      {
+        status: 200,
+      }
+    );
 
   } catch (error) {
     console.error("DELETE ERROR:", error);
 
     return NextResponse.json(
-      { error: "Delete failed" },
-      { status: 500 }
+      {
+        error: "Delete failed",
+      },
+      {
+        status: 500,
+      }
     );
   }
 }

@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface IGallery extends Document {
   title: string;
-  category: "icu" | "ot" | "ward" | "exterior" | "camps";
+  category: "event" | "news" | "videos";
   image_url: string;
   image_id: string;
   createdAt: Date;
@@ -19,7 +19,7 @@ const GallerySchema = new Schema<IGallery>(
 
     category: {
       type: String,
-      enum: ["icu", "ot", "ward", "exterior", "camps"],
+      enum: ["event", "news", "videos"],
       required: true,
     },
 
@@ -38,6 +38,6 @@ const GallerySchema = new Schema<IGallery>(
   }
 );
 
-export const Gallery =
+export const gallery =
   mongoose.models.Gallery ||
   mongoose.model<IGallery>("Gallery", GallerySchema);

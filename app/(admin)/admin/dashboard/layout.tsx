@@ -1,13 +1,25 @@
 "use client";
 import React, { useState } from 'react';
-import { 
-  LayoutDashboard, Layers, UserCheck, Calendar, 
-  HelpCircle, Star, Image, Activity, LogOut, Menu, X, 
+import {
+  LayoutDashboard, Layers, UserCheck, Calendar,
+  HelpCircle, Star, Image, Activity, LogOut, Menu, X,
   Toolbox
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  async function handleLogout() {
+    await fetch(
+      "/api/admin/logout",
+      {
+        method: "POST",
+      }
+    );
+
+    window.location.href =
+      "/admin/login";
+  }
 
   const menuItems = [
     { name: 'Dashboard', icon: <LayoutDashboard size={18} />, href: '/admin/dashboard' },
@@ -37,7 +49,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Sidebar Navigation */}
         <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#111115] border-r border-zinc-800 transform lg:transform-none lg:opacity-100 transition-all duration-300 ease-in-out flex flex-col justify-between
           ${sidebarOpen ? 'translate-x-0 opacity-100' : '-translate-x-full lg:translate-x-0'}`}>
-          
+
           <div>
             {/* Header Identity */}
             <div className="hidden lg:flex items-center gap-3 px-6 py-6 border-b border-zinc-800/60">
@@ -71,7 +83,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <span className="text-[9px] text-emerald-500 tracking-widest uppercase">Root Access</span>
               </div>
               <button className="p-2 text-zinc-500 hover:text-rose-400 hover:bg-rose-950/20 rounded transition-colors cursor-pointer">
-                <LogOut size={16} />
+                <LogOut onClick={handleLogout} size={16} />
               </button>
             </div>
           </div>
