@@ -1,16 +1,36 @@
-import { NextResponse } from 'next/server';
-import db_connect from '@/lib/db';
-import { gallery } from '@/app/api/models/gallery';
-import { delete_image } from '@/lib/cloudinary';
+import { NextResponse } from "next/server";
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-  await db_connect();
+import db_connect from "@/lib/db";
+import { Gallery } from "@/app/api/models/gallery";
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    const item = await gallery.findById(params.id);
-    if (item?.image_id) await delete_image(item.image_id);
-    await gallery.findByIdAndDelete(params.id);
-    return NextResponse.json({ message: "Photo deleted" });
+    await db_connect();
+
+    const { id } = await params;
+
+    const deleted = await Gallery.findByIdAndDelete(id);
+
+    if (!deleted) {
+      return NextResponse.json(
+        { error: "Image not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      message: "Deleted successfully",
+    });
+
   } catch (error) {
-    return NextResponse.json({ error: "Delete failed" }, { status: 500 });
+    console.error("DELETE ERROR:", error);
+
+    return NextResponse.json(
+      { error: "Delete failed" },
+      { status: 500 }
+    );
   }
 }

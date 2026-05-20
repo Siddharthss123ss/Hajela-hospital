@@ -3,12 +3,22 @@ import db_connect from '@/lib/db';
 import { doctor } from '@/app/api/models/doctor';
 import { upload_image, delete_image } from '@/lib/cloudinary';
 
+export async function GET(req: Request, { params }: { params: { id: string } }) {
+  await db_connect();
+  try {
+    const doc = await doctor.findOne({"_id": params.id}).populate('dept_id');
+    return NextResponse.json(doc, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: "unable to fetch" }, { status: 500 });
+  }
+}
+
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
   await db_connect();
   try {
     const body = await req.json();
     const existing = await doctor.findById(params.id);
-    if (!existing) return NextResponse.json({ error: "doctor nahi mila" }, { status: 404 });
+    if (!existing) return NextResponse.json({ error: "unable to find" }, { status: 404 });
 
     let updated_data = { ...body };
 

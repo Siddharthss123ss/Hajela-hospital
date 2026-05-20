@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   CalendarDays,
@@ -17,33 +17,141 @@ import {
   Heart,
   Ambulance,
   Award,
-  Star
+  Star,
 } from "lucide-react";
+
+interface Department {
+  _id: string;
+  name: string;
+}
 
 export default function AppointmentPage() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    department: "",
-    date: "",
-    message: ""
+    patient_name: "",
+    patient_email: "",
+    patient_phone: "",
+    dept_id: "",
+    doctor_id: "",
+    appointment_date: "",
+    time_slot: "",
+    reason: "",
   });
+
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [allDoctors, setAllDoctors] = useState<any[]>([]); // Any rakha taaki different schema formats handle ho sakein
+  const [filteredDoctors, setFilteredDoctors] = useState<any[]>([]);
+  
+  const [isLoadingLists, setIsLoadingLists] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  // 🔴 YAHAN FIX KARO - 'e' ka type add karo
+  // 1. Initial Data Load (Fetch Departments & Doctors)
+  useEffect(() => {
+    async function loadInitialData() {
+      setIsLoadingLists(true);
+      try {
+        const [deptRes, docRes] = await Promise.all([
+          fetch("/api/departments"),
+          fetch("/api/doctors"),
+        ]);
+
+        if (!deptRes.ok || !docRes.ok) {
+          throw new Error("Failed to fetch data from API");
+        }
+
+        const deptData = await deptRes.json();
+        const docData = await docRes.json();
+
+        setDepartments(Array.isArray(deptData) ? deptData : []);
+        setAllDoctors(Array.isArray(docData) ? docData : []);
+      } catch (err) {
+        console.error("Error loading appointment form data:", err);
+        setErrorMessage("Could not load form lists. Please refresh the page.");
+      } finally {
+        setIsLoadingLists(false);
+      }
+    }
+    loadInitialData();
+  }, []);
+
+  // 2. 🔥 UNIVERSAL FILTER LOGIC (Handles dept_id, department object, or direct string)
+  useEffect(() => {
+    if (formData.dept_id && allDoctors.length > 0) {
+      const filtered = allDoctors.filter((doc) => {
+        // Option A: doctor.dept_id check karein (String ya Object)
+        if (doc.dept_id) {
+          const id = typeof doc.dept_id === "object" ? doc.dept_id._id : doc.dept_id;
+          if (id === formData.dept_id) return true;
+        }
+
+        // Option B: Agar aapke Doctor model me field ka naam 'department' hai
+        if (doc.department) {
+          const id = typeof doc.department === "object" ? doc.department._id : doc.department;
+          if (id === formData.dept_id) return true;
+        }
+
+        // Option C: Agar direct field match ho rahi ho
+        if (doc.department_id === formData.dept_id) return true;
+
+        return false;
+      });
+
+      setFilteredDoctors(filtered);
+    } else {
+      setFilteredDoctors([]);
+    }
+  }, [formData.dept_id, allDoctors]);
+
+  // 3. Form Submission Handling
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setTimeout(() => setIsSubmitted(false), 3000);
-      setFormData({
-        name: "", email: "", phone: "", department: "", date: "", message: ""
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/appointments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          patient_name: formData.patient_name,
+          patient_phone: formData.patient_phone,
+          patient_email: formData.patient_email || undefined,
+          doctor_id: formData.doctor_id,
+          dept_id: formData.dept_id,
+          appointment_date: new Date(formData.appointment_date),
+          time_slot: formData.time_slot,
+          reason: formData.reason || undefined,
+        }),
       });
-    }, 1500);
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Booking failed.");
+      }
+
+      setIsSubmitted(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => setIsSubmitted(false), 5000);
+
+      setFormData({
+        patient_name: "",
+        patient_email: "",
+        patient_phone: "",
+        dept_id: "",
+        doctor_id: "",
+        appointment_date: "",
+        time_slot: "",
+        reason: "",
+      });
+    } catch (err: any) {
+      setErrorMessage(err.message || "Something went wrong while booking.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const features = [
@@ -61,12 +169,11 @@ export default function AppointmentPage() {
       icon: ShieldCheck,
       title: "Trusted Healthcare Services",
       desc: "Experience safe and advanced treatment with expert doctors.",
-    }
+    },
   ];
 
   return (
     <main className="pt-20 md:pt-24 lg:pt-28 pb-16 md:pb-20 lg:pb-24 bg-gradient-to-br from-slate-50 via-white to-cyan-50/30 min-h-screen">
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Back Button */}
@@ -76,230 +183,217 @@ export default function AppointmentPage() {
             <span className="text-sm font-medium">Back to Home</span>
           </Link>
         </div>
-        
+
         {/* Header */}
         <div className="text-center mb-10 md:mb-16">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-50 to-blue-50 px-4 py-2 rounded-full shadow-sm mb-4">
             <Heart className="w-4 h-4 text-cyan-600" />
-            <span className="text-cyan-600 font-semibold text-xs uppercase tracking-wider">
-              Hajela Hospital
-            </span>
+            <span className="text-cyan-600 font-semibold text-xs uppercase tracking-wider">Hajela Hospital</span>
           </div>
-          
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-800">
-            Book An{" "}
-            <span className="bg-gradient-to-r from-blue-900 via-cyan-600 to-cyan-500 bg-clip-text text-transparent">
-              Appointment
-            </span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800">
+            Book An <span className="bg-gradient-to-r from-blue-900 via-cyan-600 to-cyan-500 bg-clip-text text-transparent">Appointment</span>
           </h1>
-          
-          <div className="flex justify-center mt-3">
-            <div className="w-20 h-0.5 bg-gradient-to-r from-cyan-500 to-blue-900 rounded-full"></div>
-          </div>
-          
-          <p className="text-sm sm:text-base text-slate-500 mt-4 max-w-2xl mx-auto">
-            Schedule your consultation with our experienced doctors and receive world-class 
-            healthcare services with advanced medical support.
-          </p>
         </div>
 
-        {/* Grid */}
         <div className="grid lg:grid-cols-2 gap-8 md:gap-10 lg:gap-14 items-start">
           
-          {/* Left Side */}
+          {/* Left Badges Column */}
           <div className="space-y-5 md:space-y-6">
-            
             {isSubmitted && (
-              <div className="fixed top-24 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 animate-bounce">
-                <CheckCircle className="w-4 h-4" />
-                <span className="text-sm">Appointment booked successfully!</span>
+              <div className="bg-green-500 text-white px-5 py-4 rounded-xl shadow-lg flex items-center gap-3">
+                <CheckCircle className="w-6 h-6 shrink-0" />
+                <div>
+                  <h4 className="font-bold">Appointment Success!</h4>
+                  <p className="text-xs text-green-100">Your request has been registered in pending status.</p>
+                </div>
+              </div>
+            )}
+
+            {errorMessage && (
+              <div className="bg-red-500 text-white px-5 py-4 rounded-xl shadow-lg">
+                <p className="text-sm font-semibold">{errorMessage}</p>
               </div>
             )}
 
             {features.map((feature, idx) => (
-              <div
-                key={idx}
-                className="group bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 flex items-start gap-4 md:gap-5 border border-slate-100 hover:border-cyan-200"
-              >
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+              <div key={idx} className="group bg-white rounded-2xl p-6 shadow-md flex items-start gap-4 border border-slate-100">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center shrink-0">
                   <feature.icon className="text-white" size={28} />
                 </div>
                 <div>
-                  <h3 className="text-lg md:text-xl font-bold text-slate-800 group-hover:text-cyan-700 transition-colors">
-                    {feature.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-slate-500 leading-relaxed">
-                    {feature.desc}
-                  </p>
+                  <h3 className="text-lg font-bold text-slate-800">{feature.title}</h3>
+                  <p className="mt-2 text-sm text-slate-500 ">{feature.desc}</p>
                 </div>
               </div>
             ))}
-
-            {/* Emergency Card */}
-            <div className="relative group overflow-hidden bg-gradient-to-r from-red-600 via-red-500 to-red-600 rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl">
-              <div className="relative z-10 flex items-center gap-4 md:gap-5 flex-wrap sm:flex-nowrap">
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-white/20 flex items-center justify-center animate-pulse">
-                  <Ambulance size={28} className="text-white" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-red-100 text-xs md:text-sm font-medium uppercase tracking-wider">
-                    24/7 Emergency Helpline
-                  </p>
-                  <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mt-1">
-                    +91 98765 43210
-                  </h3>
-                </div>
-                <button className="bg-white text-red-600 px-5 md:px-6 py-2.5 md:py-3 rounded-full font-semibold text-sm hover:bg-red-50 transition-all duration-300 shadow-lg flex items-center gap-2">
-                  <Phone size={16} />
-                  Call Now
-                </button>
-              </div>
-            </div>
-
-            {/* Trust Badges */}
-            <div className="flex flex-wrap justify-center gap-3 pt-4">
-              <div className="flex items-center gap-1 bg-white px-3 py-1.5 rounded-full shadow-sm">
-                <Award className="w-3.5 h-3.5 text-cyan-600" />
-                <span className="text-[10px] font-medium text-slate-600">NABH Accredited</span>
-              </div>
-              <div className="flex items-center gap-1 bg-white px-3 py-1.5 rounded-full shadow-sm">
-                <Star className="w-3.5 h-3.5 text-yellow-500" />
-                <span className="text-[10px] font-medium text-slate-600">4.9/5 Rating</span>
-              </div>
-              <div className="flex items-center gap-1 bg-white px-3 py-1.5 rounded-full shadow-sm">
-                <CheckCircle className="w-3.5 h-3.5 text-green-500" />
-                <span className="text-[10px] font-medium text-slate-600">50k+ Patients</span>
-              </div>
-            </div>
           </div>
 
-          {/* Right Side - Form */}
+          {/* Right Column - Form */}
           <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-10 shadow-2xl border border-slate-100">
-            
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-500 to-blue-900 flex items-center justify-center">
-                <CalendarDays className="w-4 h-4 text-white" />
-              </div>
-              <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-slate-800">Appointment Form</h2>
-                <p className="text-sm text-slate-400 mt-1">Fill details & we'll contact you</p>
-              </div>
-            </div>
+            <h2 className="text-2xl font-bold text-slate-800 mb-1">Appointment Form</h2>
+            <p className="text-sm text-slate-400 mb-6">Enter patient details below</p>
 
             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
               
-              <div className="group">
+              {/* Name */}
+              <div>
                 <label className="block text-slate-600 text-xs font-medium mb-1.5">Full Name *</label>
                 <div className="relative">
                   <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                   <input
                     type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    placeholder="Enter your full name"
+                    value={formData.patient_name}
+                    onChange={(e) => setFormData({ ...formData, patient_name: e.target.value })}
+                    placeholder="Enter patient full name"
                     required
-                    className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 transition-all text-sm"
+                    className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-cyan-500"
                   />
                 </div>
               </div>
 
-              <div className="group">
-                <label className="block text-slate-600 text-xs font-medium mb-1.5">Email Address *</label>
-                <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    placeholder="Enter your email"
-                    required
-                    className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 transition-all text-sm"
-                  />
-                </div>
-              </div>
-
-              <div className="group">
+              {/* Phone */}
+              <div>
                 <label className="block text-slate-600 text-xs font-medium mb-1.5">Phone Number *</label>
                 <div className="relative">
                   <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                   <input
                     type="tel"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    placeholder="+91 98765 43210"
+                    value={formData.patient_phone}
+                    onChange={(e) => setFormData({ ...formData, patient_phone: e.target.value })}
+                    placeholder="Enter mobile number"
                     required
-                    className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 transition-all text-sm"
+                    className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-cyan-500"
                   />
                 </div>
               </div>
 
-              <div className="group">
+              {/* Email */}
+              <div>
+                <label className="block text-slate-600 text-xs font-medium mb-1.5">Email Address (Optional)</label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <input
+                    type="email"
+                    value={formData.patient_email}
+                    onChange={(e) => setFormData({ ...formData, patient_email: e.target.value })}
+                    placeholder="Enter email address"
+                    className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-cyan-500"
+                  />
+                </div>
+              </div>
+
+              {/* Department Dropdown */}
+              <div>
                 <label className="block text-slate-600 text-xs font-medium mb-1.5">Department *</label>
                 <div className="relative">
                   <Stethoscope className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                   <select
-                    value={formData.department}
-                    onChange={(e) => setFormData({...formData, department: e.target.value})}
+                    value={formData.dept_id}
+                    onChange={(e) => setFormData({ ...formData, dept_id: e.target.value, doctor_id: "" })}
                     required
-                    className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 transition-all text-sm appearance-none cursor-pointer"
+                    className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:border-cyan-500 appearance-none cursor-pointer"
                   >
-                    <option value="">Select Department</option>
-                    <option value="Cardiology">Cardiology</option>
-                    <option value="Neurology">Neurology</option>
-                    <option value="Orthopaedics">Orthopaedics</option>
-                    <option value="Pediatrics">Pediatrics</option>
-                    <option value="Gynecology">Gynecology</option>
+                    <option value="">{isLoadingLists ? "Loading Departments..." : "Select Department"}</option>
+                    {departments.map((dept) => (
+                      <option key={dept._id} value={dept._id}>
+                        {dept.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
 
-              <div className="group">
+              {/* Doctor Dropdown */}
+              <div>
+                <label className="block text-slate-600 text-xs font-medium mb-1.5">Select Doctor *</label>
+                <div className="relative">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <select
+                    value={formData.doctor_id}
+                    onChange={(e) => setFormData({ ...formData, doctor_id: e.target.value })}
+                    required
+                    disabled={!formData.dept_id || filteredDoctors.length === 0}
+                    className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:border-cyan-500 appearance-none cursor-pointer disabled:bg-slate-50 disabled:text-slate-400"
+                  >
+                    <option value="">
+                      {!formData.dept_id
+                        ? "Choose department first"
+                        : filteredDoctors.length === 0 
+                        ? "No specialist found for this department" 
+                        : "Choose a Specialist"}
+                    </option>
+                    {filteredDoctors.map((doc) => (
+                      <option key={doc._id} value={doc._id}>
+                        {doc.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Date */}
+              <div>
                 <label className="block text-slate-600 text-xs font-medium mb-1.5">Preferred Date *</label>
                 <div className="relative">
                   <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                   <input
                     type="date"
-                    value={formData.date}
-                    onChange={(e) => setFormData({...formData, date: e.target.value})}
+                    value={formData.appointment_date}
+                    onChange={(e) => setFormData({ ...formData, appointment_date: e.target.value })}
                     required
-                    className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 transition-all text-sm"
+                    className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-cyan-500"
                   />
                 </div>
               </div>
 
-              <div className="group">
-                <label className="block text-slate-600 text-xs font-medium mb-1.5">Additional Message (Optional)</label>
+              {/* Time Slot */}
+              <div>
+                <label className="block text-slate-600 text-xs font-medium mb-1.5">Preferred Time Slot *</label>
+                <div className="relative">
+                  <Clock3 className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <select
+                    value={formData.time_slot}
+                    onChange={(e) => setFormData({ ...formData, time_slot: e.target.value })}
+                    required
+                    className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:border-cyan-500 appearance-none cursor-pointer"
+                  >
+                    <option value="">Select Time Slot</option>
+                    <option value="10:00 AM - 12:00 PM">Morning (10:00 AM - 12:00 PM)</option>
+                    <option value="12:00 PM - 02:00 PM">Midday (12:00 PM - 02:00 PM)</option>
+                    <option value="04:00 PM - 06:00 PM">Evening (04:00 PM - 06:00 PM)</option>
+                    <option value="06:00 PM - 08:00 PM">Late Evening (06:00 PM - 08:00 PM)</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Message */}
+              <div>
+                <label className="block text-slate-600 text-xs font-medium mb-1.5">Reason for Visit (Optional)</label>
                 <div className="relative">
                   <MessageSquare className="absolute left-4 top-4 w-4 h-4 text-slate-400" />
                   <textarea
-                    value={formData.message}
-                    onChange={(e) => setFormData({...formData, message: e.target.value})}
-                    rows={4}
-                    placeholder="Describe your symptoms or any special requirements..."
-                    className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 transition-all text-sm resize-none"
+                    value={formData.reason}
+                    onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
+                    rows={3}
+                    placeholder="Describe symptoms briefly..."
+                    className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-cyan-500 resize-none"
                   />
                 </div>
               </div>
 
+              {/* Button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="group relative w-full bg-gradient-to-r from-blue-900 via-cyan-700 to-cyan-500 text-white py-3.5 rounded-xl font-semibold shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
+                className="w-full bg-gradient-to-r from-blue-900 via-cyan-700 to-cyan-500 text-white py-3.5 rounded-xl font-semibold shadow-md hover:shadow-xl transition-all duration-300"
               >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  {isSubmitting ? (
-                    <>Processing... <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div></>
-                  ) : (
-                    <>Book Appointment <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></>
-                  )}
+                <span className="flex items-center justify-center gap-2">
+                  {isSubmitting ? "Processing..." : "Book Appointment"}
                 </span>
               </button>
-
-              <p className="text-center text-slate-400 text-[10px] mt-2">
-                By booking, you agree to our terms and privacy policy
-              </p>
             </form>
           </div>
+
         </div>
       </div>
     </main>
