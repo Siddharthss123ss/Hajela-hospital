@@ -80,17 +80,17 @@ export default function Footer() {
 
   const departments = [
 
-    "Cardiology",
+    "Ent & Voice Disorders",
 
-    "Neurology",
+    "Coclear Implant Centre",
 
     "Orthopaedics",
 
     "Pediatrics",
 
-    "Gynecology",
+    "IVF & Infertility Centre",
 
-    "Gastroenterology",
+    "Genral Medicine",
 
   ];
 
@@ -625,7 +625,7 @@ export default function Footer() {
                   </p>
 
                   <p className="text-white font-medium">
-                    +91 98765 43210
+                    +91 07552773393
                   </p>
 
                 </div>
@@ -652,7 +652,7 @@ export default function Footer() {
                   </p>
 
                   <p className="text-white">
-                    info@hajelahospital.com
+                    hajelahospital@gmail.com
                   </p>
 
                 </div>
@@ -675,7 +675,7 @@ export default function Footer() {
                 <div>
 
                   <p className="text-sm text-slate-500">
-                    Address
+                    Geetanjali Complex, near Mata Mandir Square, Kotra Sultanabad, Bhopal, Madhya Pradesh 462003
                   </p>
 
                   <p className="text-white">

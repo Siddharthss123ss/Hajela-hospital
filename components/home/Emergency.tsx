@@ -651,43 +651,49 @@ export default function Emergency() {
 
                 {/* DIRECTION */}
 
-                <button
-                  className="
-                  flex
-                  items-center
-                  justify-center
+                <a
+  href="https://maps.app.goo.gl/KuLYge1xJFzkihGZ8"
 
-                  gap-2
+  target="_blank"
 
-                  rounded-full
+  rel="noopener noreferrer"
 
-                  border
-                  border-white/20
+  className="
+  flex
+  items-center
+  justify-center
 
-                  bg-white/10
+  gap-2
 
-                  px-8
-                  py-4
+  rounded-full
 
-                  text-white
+  border
+  border-white/20
 
-                  hover:bg-white/20
+  bg-white/10
 
-                  transition-all
-                  duration-300
-                  "
-                >
+  px-8
+  py-4
 
-                  <Navigation
-                    className="
-                    w-5
-                    h-5
-                    "
-                  />
+  text-white
 
-                  Get Directions
+  hover:bg-white/20
 
-                </button>
+  transition-all
+  duration-300
+  "
+>
+
+  <Navigation
+    className="
+    w-5
+    h-5
+    "
+  />
+
+  Get Directions
+
+</a>
 
               </div>
 
