@@ -1,16 +1,12 @@
+// app/doctors/page.tsx
+
 "use client";
 
-<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import Image from "next/image";
-=======
-import { useState } from "react";
-
->>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
 import Link from "next/link";
 import { Stethoscope, Award, ChevronRight, Loader2 } from "lucide-react";
 
-<<<<<<< HEAD
 // MongoDB document structure ke hisab se interface define kiya hai
 interface Doctor {
   _id: string;
@@ -24,14 +20,6 @@ interface Doctor {
     slug: string;
   };
 }
-=======
-import {
-  Search,
-  ChevronRight,
-} from "lucide-react";
-
-import { doctors } from "@/data/doctors";
->>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
 
 export default function DoctorsPage() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -57,24 +45,12 @@ export default function DoctorsPage() {
     fetchDoctors();
   }, []);
 
-  const [search, setSearch] = useState("");
-
-  const filteredDoctors = doctors.filter((doctor) =>
-    doctor.name
-      .toLowerCase()
-      .includes(search.toLowerCase())
-  );
-
   return (
     <main
       className="
-<<<<<<< HEAD
       relative
-=======
->>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
       min-h-screen
       bg-gradient-to-b
-<<<<<<< HEAD
       from-white
       via-slate-50
       to-white
@@ -114,39 +90,9 @@ export default function DoctorsPage() {
             rounded-full
             text-cyan-700
             font-semibold
-=======
-      from-slate-50
-      via-white
-      to-cyan-50/40
-
-      pt-32
-      pb-24
-      "
-    >
-
-      <div className="container-custom">
-
-        {/* HEADING */}
-
-        <div className="text-center mb-16">
-
-          <p
-            className="
-            text-cyan-600
-
-            uppercase
-
-            tracking-[4px]
-
-            font-bold
-
->>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
             text-sm
-
-            mb-4
             "
           >
-<<<<<<< HEAD
             <Stethoscope className="w-4 h-4" />
             Hajela Hospital Specialists
           </div>
@@ -157,30 +103,12 @@ export default function DoctorsPage() {
             text-4xl
             md:text-6xl
             lg:text-7xl
-=======
-            Hajela Hospital Specialists
-          </p>
-
-          <h1
-            className="
-            text-4xl
-            md:text-5xl
-            lg:text-6xl
-
->>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
             font-black
             text-slate-900
-<<<<<<< HEAD
             leading-tight
             "
           >
             Meet Our Expert
-=======
-            "
-          >
-
-            Meet Our
->>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
             <span
               className="
               bg-gradient-to-r
@@ -190,22 +118,15 @@ export default function DoctorsPage() {
               text-transparent
               "
             >
-              {" "}Expert Doctors
+              {" "}Doctors
             </span>
           </h1>
 
           <p
             className="
-<<<<<<< HEAD
             mt-7
-=======
-            mt-6
-
->>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
             max-w-3xl
-
             mx-auto
-<<<<<<< HEAD
             text-slate-500
             text-base
             md:text-lg
@@ -214,20 +135,9 @@ export default function DoctorsPage() {
           >
             Our highly experienced doctors provide advanced, compassionate and
             world-class medical care with expertise across multiple specialties.
-=======
-
-            text-slate-600
-
-            leading-relaxed
-            "
-          >
-            Experienced healthcare specialists providing
-            advanced medical care and patient-focused treatment.
->>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
           </p>
         </div>
 
-<<<<<<< HEAD
         {/* LOADING STATE */}
         {loading && (
           <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
@@ -256,126 +166,12 @@ export default function DoctorsPage() {
             "
           >
             {doctors.map((doctor) => (
-=======
-        {/* SEARCH */}
-
-        <div
-          className="
-          relative
-
-          max-w-2xl
-
-          mx-auto
-
-          mb-16
-          "
-        >
-
-          <Search
-            className="
-            absolute
-
-            left-5
-            top-1/2
-
-            -translate-y-1/2
-
-            text-slate-400
-            "
-          />
-
-          <input
-            type="text"
-            placeholder="Search doctor..."
-
-            value={search}
-
-            onChange={(e) =>
-              setSearch(e.target.value)
-            }
-
-            className="
-            w-full
-
-            rounded-2xl
-
-            border
-            border-slate-200
-
-            bg-white
-
-            py-5
-            pl-14
-            pr-5
-
-            text-slate-700
-
-            outline-none
-
-            shadow-sm
-
-            focus:border-cyan-500
-            "
-          />
-
-        </div>
-
-        {/* GRID */}
-
-        <div
-          className="
-          grid
-
-          sm:grid-cols-2
-          lg:grid-cols-3
-          xl:grid-cols-4
-
-          gap-8
-          "
-        >
-
-          {filteredDoctors.map((doctor, index) => (
-
-            <div
-              key={index}
-
-              className="
-              group
-
-              overflow-hidden
-
-              rounded-[32px]
-
-              bg-white
-
-              border
-              border-slate-200
-
-              shadow-[0_10px_40px_rgba(15,23,42,0.06)]
-
-              hover:shadow-[0_25px_60px_rgba(15,23,42,0.12)]
-
-              hover:-translate-y-2
-
-              transition-all
-              duration-500
-              "
-            >
-
-              {/* IMAGE */}
-
->>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
               <div
                 key={doctor._id}
                 className="
-<<<<<<< HEAD
                 group
                 bg-white
                 rounded-[32px]
-=======
-                relative
-
->>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
                 overflow-hidden
                 border
                 border-slate-200/80
@@ -386,7 +182,6 @@ export default function DoctorsPage() {
                 duration-500
                 "
               >
-<<<<<<< HEAD
                 {/* IMAGE */}
                 <div
                   className="
@@ -468,80 +263,6 @@ export default function DoctorsPage() {
                   >
                     {doctor.specialization}
                   </p>
-=======
-
-                <img
-                  src={doctor.image}
-                  alt={doctor.name}
-
-                  className="
-                  w-full
-
-                  h-[340px]
-
-                  object-cover
-                  object-top
-
-                  group-hover:scale-105
-
-                  transition-all
-                  duration-700
-                  "
-                />
-
-                {/* OVERLAY */}
-
-                <div
-                  className="
-                  absolute
-                  inset-0
-
-                  bg-gradient-to-t
-                  from-black/60
-                  via-black/10
-                  to-transparent
-                  "
-                ></div>
-
-                {/* EXPERIENCE */}
-
-                <div
-                  className="
-                  absolute
-                  top-4
-                  left-4
-
-                  bg-white/90
-
-                  backdrop-blur-xl
-
-                  px-4
-                  py-2
-
-                  rounded-full
-
-                  text-cyan-700
-
-                  text-sm
-
-                  font-bold
-                  "
-                >
-                  {doctor.experience}
-                </div>
-
-              </div>
-
-              {/* CONTENT */}
-
-              <div className="p-6">
-
-                {/* NAME */}
-
-                <h2
-                  className="
-                  text-2xl
->>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
 
                   {/* DEGREE */}
                   <p
@@ -556,7 +277,6 @@ export default function DoctorsPage() {
                     {doctor.degree ? doctor.degree.join(", ") : ""}
                   </p>
 
-<<<<<<< HEAD
                   {/* LINE */}
                   <div
                     className="
@@ -569,96 +289,6 @@ export default function DoctorsPage() {
                     to-blue-700
                     "
                   ></div>
-=======
-                  text-slate-900
-
-                  leading-snug
-                  "
-                >
-                  {doctor.name}
-                </h2>
-
-                {/* ROLE */}
-
-                <p
-                  className="
-                  mt-2
-
-                  text-cyan-700
-
-                  font-semibold
-
-                  leading-relaxed
-                  "
-                >
-                  {doctor.role}
-                </p>
-
-                {/* DEGREE */}
-
-                <p
-                  className="
-                  mt-3
-
-                  text-sm
-
-                  text-slate-500
-
-                  leading-relaxed
-                  "
-                >
-                  {doctor.degree}
-                </p>
-
-                {/* BUTTON */}
-
-                <Link
-                  href={`/doctors/${doctor.slug}`}
-
-                  className="
-                  mt-6
-
-                  inline-flex
-
-                  items-center
-                  justify-center
-                  gap-2
-
-                  w-full
-
-                  rounded-2xl
-
-                  bg-gradient-to-r
-                  from-cyan-500
-                  to-blue-700
-
-                  px-5
-                  py-4
-
-                  text-white
-
-                  font-semibold
-
-                  shadow-lg
-
-                  hover:scale-[1.02]
-
-                  transition-all
-                  duration-300
-                  "
-                >
-
-                  View Profile
-
-                  <ChevronRight
-                    className="
-                    w-4
-                    h-4
-                    "
-                  />
-
-                </Link>
->>>>>>> 557e447de4f10950cc038c3b1b339ac4f5eaebb2
 
                   {/* BUTTON */}
                   <Link
@@ -693,7 +323,5 @@ export default function DoctorsPage() {
         )}
       </div>
     </main>
-
   );
-
 }
