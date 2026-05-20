@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
   LayoutDashboard, Layers, UserCheck, Calendar,
   HelpCircle, Star, Image, Activity, LogOut, Menu, X,
-  Toolbox
+  Wrench
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -29,7 +29,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: 'Enquiries', icon: <HelpCircle size={18} />, href: '/admin/dashboard/enquiries' },
     { name: 'Reviews', icon: <Star size={18} />, href: '/admin/dashboard/reviews' },
     { name: 'Gallery', icon: <Image size={18} />, href: '/admin/dashboard/gallery' },
-    { name: 'Services', icon: <Toolbox size={18} />, href: '/admin/dashboard/services' },
+    { name: 'Services', icon: <Wrench size={18} />, href: '/admin/dashboard/services' },
   ];
 
   return (
