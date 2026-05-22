@@ -3,49 +3,92 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Stethoscope, Award, ChevronRight, Loader2 } from "lucide-react";
 
-// MongoDB document structure ke hisab se interface define kiya hai
+import Link from "next/link";
+
+import {
+  Stethoscope,
+  Award,
+  ChevronRight,
+  Loader2,
+} from "lucide-react";
+
 interface Doctor {
+
   _id: string;
+
+  slug: string;
+
   name: string;
-  specialization: string;
-  degree: string[];
-  experience: number;
+
+  role: string;
+
+  degree: string;
+
+  experience: string;
+
   image_url: string;
-  dept_id?: {
-    name: string;
-    slug: string;
-  };
+
+  about: string;
+
+  expertise: string[];
+
 }
 
 export default function DoctorsPage() {
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+
+  const [doctors, setDoctors] =
+    useState<Doctor[]>([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState("");
 
   useEffect(() => {
-    async function fetchDoctors() {
-      try {
-        const res = await fetch("/api/doctors");
-        if (!res.ok) {
-          throw new Error("Failed to fetch doctors data");
+
+    const fetchDoctors =
+      async () => {
+
+        try {
+
+          const res =
+            await fetch(
+              "/api/doctors"
+            );
+
+          if (!res.ok) {
+
+            throw new Error(
+              "Failed to fetch"
+            );
+
+          }
+
+          const data =
+            await res.json();
+
+          setDoctors(data);
+
+        } catch (err: any) {
+
+          setError(err.message);
+
+        } finally {
+
+          setLoading(false);
+
         }
-        const data = await res.json();
-        setDoctors(data);
-      } catch (err: any) {
-        setError(err.message || "Something went wrong");
-      } finally {
-        setLoading(false);
-      }
-    }
+
+      };
 
     fetchDoctors();
+
   }, []);
 
   return (
+
     <main
       className="
       relative
@@ -59,7 +102,9 @@ export default function DoctorsPage() {
       overflow-hidden
       "
     >
-      {/* PREMIUM GLOW */}
+
+      {/* GLOW */}
+
       <div
         className="
         absolute
@@ -72,11 +117,25 @@ export default function DoctorsPage() {
         blur-[160px]
         rounded-full
         "
-      ></div>
+      />
 
-      <div className="container-custom relative z-10">
+      <div
+        className="
+        container-custom
+        relative
+        z-10
+        "
+      >
+
         {/* HERO */}
-        <div className="text-center mb-20">
+
+        <div
+          className="
+          text-center
+          mb-20
+          "
+        >
+
           <div
             className="
             inline-flex
@@ -93,8 +152,16 @@ export default function DoctorsPage() {
             text-sm
             "
           >
-            <Stethoscope className="w-4 h-4" />
+
+            <Stethoscope
+              className="
+              w-4
+              h-4
+              "
+            />
+
             Hajela Hospital Specialists
+
           </div>
 
           <h1
@@ -108,7 +175,9 @@ export default function DoctorsPage() {
             leading-tight
             "
           >
+
             Meet Our Expert
+
             <span
               className="
               bg-gradient-to-r
@@ -120,6 +189,7 @@ export default function DoctorsPage() {
             >
               {" "}Doctors
             </span>
+
           </h1>
 
           <p
@@ -133,29 +203,99 @@ export default function DoctorsPage() {
             leading-relaxed
             "
           >
-            Our highly experienced doctors provide advanced, compassionate and
-            world-class medical care with expertise across multiple specialties.
+
+            Our highly experienced
+            doctors provide advanced,
+            compassionate and world-class
+            medical care.
+
           </p>
+
         </div>
 
-        {/* LOADING STATE */}
+        {/* LOADING */}
+
         {loading && (
-          <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
-            <Loader2 className="w-10 h-10 text-cyan-600 animate-spin" />
-            <p className="text-slate-500 font-medium">Loading specialists...</p>
+
+          <div
+            className="
+            flex
+            flex-col
+            items-center
+            justify-center
+            min-h-[400px]
+            gap-4
+            "
+          >
+
+            <Loader2
+              className="
+              w-10
+              h-10
+              text-cyan-600
+              animate-spin
+              "
+            />
+
+            <p
+              className="
+              text-slate-500
+              font-medium
+              "
+            >
+              Loading specialists...
+            </p>
+
           </div>
+
         )}
 
-        {/* ERROR STATE */}
+        {/* ERROR */}
+
         {error && (
-          <div className="text-center py-12 bg-red-50 rounded-[32px] border border-red-100 max-w-2xl mx-auto p-8">
-            <p className="text-red-600 font-semibold text-lg">Error loading data</p>
-            <p className="text-red-500 text-sm mt-1">{error}</p>
+
+          <div
+            className="
+            text-center
+            py-12
+            bg-red-50
+            rounded-[32px]
+            border
+            border-red-100
+            max-w-2xl
+            mx-auto
+            p-8
+            "
+          >
+
+            <p
+              className="
+              text-red-600
+              font-semibold
+              text-lg
+              "
+            >
+              Error loading data
+            </p>
+
+            <p
+              className="
+              text-red-500
+              text-sm
+              mt-1
+              "
+            >
+              {error}
+            </p>
+
           </div>
+
         )}
 
         {/* GRID */}
+
         {!loading && !error && (
+
           <div
             className="
             grid
@@ -165,7 +305,9 @@ export default function DoctorsPage() {
             gap-8
             "
           >
+
             {doctors.map((doctor) => (
+
               <div
                 key={doctor._id}
                 className="
@@ -182,7 +324,9 @@ export default function DoctorsPage() {
                 duration-500
                 "
               >
+
                 {/* IMAGE */}
+
                 <div
                   className="
                   relative
@@ -191,11 +335,13 @@ export default function DoctorsPage() {
                   overflow-hidden
                   "
                 >
+
                   <img
                     src={doctor.image_url}
                     alt={doctor.name}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="
+                    w-full
+                    h-full
                     object-cover
                     object-top
                     group-hover:scale-105
@@ -203,21 +349,17 @@ export default function DoctorsPage() {
                     duration-700
                     "
                   />
-                  <div
-                    className="
-                    absolute
-                    inset-0
-                    bg-gradient-to-t
-                    from-black/20
-                    via-transparent
-                    to-transparent
-                    "
-                  ></div>
+
                 </div>
 
                 {/* CONTENT */}
-                <div className="p-7">
-                  {/* EXPERIENCE */}
+
+                <div
+                  className="
+                  p-7
+                  "
+                >
+
                   <div
                     className="
                     inline-flex
@@ -234,11 +376,18 @@ export default function DoctorsPage() {
                     font-bold
                     "
                   >
-                    <Award className="w-4 h-4" />
-                    {doctor.experience}+ Years
+
+                    <Award
+                      className="
+                      w-4
+                      h-4
+                      "
+                    />
+
+                    {doctor.experience}
+
                   </div>
 
-                  {/* NAME */}
                   <h2
                     className="
                     mt-5
@@ -248,10 +397,11 @@ export default function DoctorsPage() {
                     leading-snug
                     "
                   >
+
                     {doctor.name}
+
                   </h2>
 
-                  {/* ROLE / SPECIALIZATION */}
                   <p
                     className="
                     mt-2
@@ -260,10 +410,11 @@ export default function DoctorsPage() {
                     text-base
                     "
                   >
-                    {doctor.specialization}
+
+                    {doctor.role}
+
                   </p>
 
-                  {/* DEGREE */}
                   <p
                     className="
                     mt-4
@@ -273,10 +424,11 @@ export default function DoctorsPage() {
                     min-h-[70px]
                     "
                   >
-                    {doctor.degree ? doctor.degree.join(", ") : ""}
+
+                    {doctor.degree}
+
                   </p>
 
-                  {/* LINE */}
                   <div
                     className="
                     mt-5
@@ -287,11 +439,10 @@ export default function DoctorsPage() {
                     from-cyan-500
                     to-blue-700
                     "
-                  ></div>
+                  />
 
-                  {/* BUTTON */}
                   <Link
-                    href={`/doctors/${doctor._id}`}
+                    href={`/doctors/${doctor.slug}`}
                     className="
                     mt-7
                     inline-flex
@@ -312,15 +463,32 @@ export default function DoctorsPage() {
                     duration-300
                     "
                   >
+
                     View Profile
-                    <ChevronRight className="w-4 h-4" />
+
+                    <ChevronRight
+                      className="
+                      w-4
+                      h-4
+                      "
+                    />
+
                   </Link>
+
                 </div>
+
               </div>
+
             ))}
+
           </div>
+
         )}
+
       </div>
+
     </main>
+
   );
+
 }

@@ -1,18 +1,27 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import {
+  useState,
+  useEffect,
+  FormEvent
+} from "react";
 
 import {
-
   Calendar,
   ArrowRight,
   Heart,
   Shield,
   Ambulance,
   Star,
-  MapPin,
-
 } from "lucide-react";
+
+interface Department {
+
+  _id: string;
+
+  name: string;
+
+}
 
 export default function Appointment() {
 
@@ -29,20 +38,107 @@ export default function Appointment() {
   const [isSubmitting, setIsSubmitting] =
     useState(false);
 
-  const handleSubmit = (
+  const [departments, setDepartments] =
+    useState<Department[]>([]);
+
+  useEffect(() => {
+
+    const fetchDepartments =
+      async () => {
+
+        try {
+
+          const res =
+            await fetch(
+              "/api/departments"
+            );
+
+          const data =
+            await res.json();
+
+          setDepartments(data);
+
+        } catch (error) {
+
+          console.log(error);
+
+        }
+
+      };
+
+    fetchDepartments();
+
+  }, []);
+
+  const handleSubmit = async (
     e: FormEvent<HTMLFormElement>
   ) => {
 
     e.preventDefault();
 
-    setIsSubmitting(true);
+    try {
 
-    setTimeout(() => {
+      setIsSubmitting(true);
 
-      setIsSubmitting(false);
+      const response =
+        await fetch(
+          "/api/appointments",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify({
+
+              patient_name:
+                formData.name,
+
+              patient_phone:
+                formData.phone,
+
+              patient_email:
+                "demo@gmail.com",
+
+              doctor_id:
+                "6a0c9c72ea047527e5f85f17",
+
+              dept_id:
+                "6a0c9e6cea047527e5f85f24",
+
+              appointment_date:
+                formData.date,
+
+              time_slot:
+                "04:00 PM - 06:00 PM",
+
+              reason:
+                formData.message,
+
+              status:
+                "pending",
+
+            }),
+
+          }
+        );
+
+      const data =
+        await response.json();
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.error ||
+          "Booking failed"
+        );
+
+      }
 
       alert(
-        "Appointment booked successfully! We'll contact you soon."
+        "Appointment booked successfully!"
       );
 
       setFormData({
@@ -55,7 +151,19 @@ export default function Appointment() {
 
       });
 
-    }, 1500);
+    } catch (error) {
+
+      console.log(error);
+
+      alert(
+        "Failed to book appointment"
+      );
+
+    } finally {
+
+      setIsSubmitting(false);
+
+    }
 
   };
 
@@ -84,110 +192,45 @@ export default function Appointment() {
   return (
 
     <section
+      id="appointment"
+
       className="
       py-16
       md:py-20
       lg:py-28
-
       bg-gradient-to-br
       from-slate-50
       via-white
       to-cyan-50/30
-
       overflow-hidden
-
       relative
       "
     >
-
-      {/* BACKGROUND */}
-
-      <div
-        className="
-        absolute
-        inset-0
-
-        overflow-hidden
-
-        pointer-events-none
-        "
-      >
-
-        <div
-          className="
-          absolute
-          -top-40
-          -right-40
-
-          w-80
-          h-80
-
-          bg-cyan-300
-
-          rounded-full
-
-          blur-3xl
-
-          opacity-20
-          "
-        ></div>
-
-        <div
-          className="
-          absolute
-          -bottom-40
-          -left-40
-
-          w-80
-          h-80
-
-          bg-blue-400
-
-          rounded-full
-
-          blur-3xl
-
-          opacity-20
-          "
-        ></div>
-
-      </div>
 
       <div
         className="
         max-w-7xl
         mx-auto
-
         px-4
         sm:px-6
         lg:px-8
-
         relative
         z-10
         "
       >
-
-        {/* HEADER */}
 
         <div className="text-center mb-10 md:mb-16">
 
           <div
             className="
             inline-flex
-
             items-center
-
             gap-2
-
             bg-white/80
-
             px-4
             py-1.5
-
             rounded-full
-
             shadow-sm
-
             mb-4
             "
           >
@@ -196,7 +239,6 @@ export default function Appointment() {
               className="
               w-4
               h-4
-
               text-cyan-600
               "
             />
@@ -204,13 +246,9 @@ export default function Appointment() {
             <span
               className="
               text-cyan-600
-
               font-semibold
-
               text-xs
-
               uppercase
-
               tracking-wider
               "
             >
@@ -226,9 +264,7 @@ export default function Appointment() {
             text-3xl
             sm:text-4xl
             md:text-5xl
-
             font-bold
-
             text-slate-800
             "
           >
@@ -241,9 +277,7 @@ export default function Appointment() {
               from-blue-900
               via-cyan-600
               to-cyan-500
-
               bg-clip-text
-
               text-transparent
               "
             >
@@ -254,121 +288,30 @@ export default function Appointment() {
 
           </h2>
 
-          <div className="flex justify-center mt-3">
-
-            <div
-              className="
-              w-20
-              h-0.5
-
-              bg-gradient-to-r
-              from-cyan-500
-              to-blue-900
-
-              rounded-full
-              "
-            ></div>
-
-          </div>
-
-          <p
-            className="
-            text-sm
-            sm:text-base
-
-            text-slate-500
-
-            mt-4
-
-            max-w-2xl
-
-            mx-auto
-            "
-          >
-
-            Book your appointment with our expert
-            doctors and experience world-class
-            healthcare services.
-
-          </p>
-
         </div>
-
-        {/* MAIN */}
 
         <div
           className="
           relative
-
           bg-gradient-to-br
           from-blue-900
           via-indigo-900
           to-cyan-800
-
           rounded-3xl
           md:rounded-[3rem]
-
           shadow-2xl
-
           overflow-hidden
           "
         >
-
-          {/* GLOW */}
-
-          <div className="absolute inset-0 overflow-hidden">
-
-            <div
-              className="
-              absolute
-              top-0
-              left-0
-
-              w-[500px]
-              h-[500px]
-
-              bg-cyan-400
-
-              rounded-full
-
-              blur-[100px]
-
-              opacity-10
-              "
-            ></div>
-
-            <div
-              className="
-              absolute
-              bottom-0
-              right-0
-
-              w-[500px]
-              h-[500px]
-
-              bg-blue-400
-
-              rounded-full
-
-              blur-[100px]
-
-              opacity-10
-              "
-            ></div>
-
-          </div>
 
           <div
             className="
             relative
             z-10
-
             grid
             lg:grid-cols-2
             "
           >
-
-            {/* LEFT */}
 
             <div
               className="
@@ -382,18 +325,12 @@ export default function Appointment() {
               <div
                 className="
                 inline-flex
-
                 items-center
-
                 gap-2
-
                 bg-white/10
-
                 px-3
                 py-1.5
-
                 rounded-full
-
                 mb-6
                 "
               >
@@ -402,9 +339,7 @@ export default function Appointment() {
                   className="
                   w-3.5
                   h-3.5
-
                   text-yellow-400
-
                   fill-yellow-400
                   "
                 />
@@ -412,9 +347,7 @@ export default function Appointment() {
                 <span
                   className="
                   text-white/90
-
                   text-xs
-
                   font-medium
                   "
                 >
@@ -430,11 +363,8 @@ export default function Appointment() {
                 text-3xl
                 md:text-4xl
                 lg:text-5xl
-
                 font-bold
-
                 text-white
-
                 leading-tight
                 "
               >
@@ -444,12 +374,9 @@ export default function Appointment() {
                 <span
                   className="
                   block
-
                   text-cyan-300
-
                   text-2xl
                   md:text-3xl
-
                   mt-2
                   "
                 >
@@ -460,33 +387,10 @@ export default function Appointment() {
 
               </h3>
 
-              <p
-                className="
-                mt-4
-                md:mt-6
-
-                text-sm
-                md:text-base
-
-                text-slate-200
-
-                leading-relaxed
-                "
-              >
-
-                Hajela Hospital offers advanced
-                healthcare services with experienced
-                doctors and modern medical facilities.
-
-              </p>
-
-              {/* FEATURES */}
-
               <div
                 className="
                 mt-8
                 md:mt-10
-
                 space-y-3
                 md:space-y-4
                 "
@@ -500,7 +404,6 @@ export default function Appointment() {
                     className="
                     flex
                     items-center
-
                     gap-3
                     "
                   >
@@ -509,11 +412,8 @@ export default function Appointment() {
                       className="
                       w-8
                       h-8
-
                       rounded-full
-
                       bg-white/10
-
                       flex
                       items-center
                       justify-center
@@ -533,7 +433,6 @@ export default function Appointment() {
                     <p
                       className="
                       text-white
-
                       text-sm
                       md:text-base
                       "
@@ -547,168 +446,14 @@ export default function Appointment() {
 
               </div>
 
-              {/* REAL GOOGLE MAP */}
-
-              <a
-                href="https://maps.app.goo.gl/etzn6RHkcs1iNGPt7"
-
-                target="_blank"
-
-                rel="noopener noreferrer"
-
-                className="
-                block
-
-                mt-10
-
-                group
-                "
-              >
-
-                <div
-                  className="
-                  relative
-
-                  overflow-hidden
-
-                  rounded-3xl
-
-                  border
-                  border-white/10
-
-                  bg-white/10
-
-                  backdrop-blur-xl
-                  "
-                >
-
-                  <iframe
-                    src="https://maps.google.com/maps?q=Hajela%20Hospital%20Bhopal&t=&z=16&ie=UTF8&iwloc=&output=embed"
-
-                    width="100%"
-
-                    height="260"
-
-                    loading="lazy"
-
-                    className="
-                    w-full
-
-                    h-[260px]
-
-                    border-0
-
-                    transition-all
-                    duration-500
-                    "
-                  ></iframe>
-
-                  {/* OVERLAY */}
-
-                  <div
-                    className="
-                    absolute
-                    inset-0
-
-                    bg-gradient-to-t
-                    from-black/70
-                    via-black/10
-                    to-transparent
-
-                    pointer-events-none
-                    "
-                  ></div>
-
-                  {/* CONTENT */}
-
-                  <div
-                    className="
-                    absolute
-                    bottom-5
-                    left-5
-                    right-5
-
-                    flex
-                    items-center
-                    justify-between
-
-                    pointer-events-none
-                    "
-                  >
-
-                    <div>
-
-                      <p
-                        className="
-                        text-white
-
-                        font-bold
-
-                        text-lg
-                        "
-                      >
-                        Hajela Hospital
-                      </p>
-
-                      <p
-                        className="
-                        text-white/80
-
-                        text-sm
-                        "
-                      >
-                        Bhopal, Madhya Pradesh
-                      </p>
-
-                    </div>
-
-                    <div
-                      className="
-                      w-12
-                      h-12
-
-                      rounded-full
-
-                      bg-cyan-500
-
-                      flex
-                      items-center
-                      justify-center
-
-                      shadow-lg
-                      "
-                    >
-
-                      <MapPin
-                        className="
-                        w-6
-                        h-6
-
-                        text-white
-                        "
-                      />
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </a>
-
             </div>
-
-            {/* RIGHT FORM */}
 
             <div
               className="
               bg-white/10
-
               backdrop-blur-xl
-
               border-l
               border-white/20
-
               p-6
               md:p-8
               lg:p-10
@@ -719,9 +464,7 @@ export default function Appointment() {
                 className="
                 flex
                 items-center
-
                 gap-3
-
                 mb-6
                 "
               >
@@ -730,11 +473,9 @@ export default function Appointment() {
                   className="
                   w-1
                   h-8
-
                   bg-gradient-to-b
                   from-cyan-400
                   to-blue-500
-
                   rounded-full
                   "
                 ></div>
@@ -743,9 +484,7 @@ export default function Appointment() {
                   className="
                   text-xl
                   md:text-2xl
-
                   font-bold
-
                   text-white
                   "
                 >
@@ -772,11 +511,8 @@ export default function Appointment() {
 
                   onChange={(e) =>
                     setFormData({
-
                       ...formData,
-
                       name: e.target.value,
-
                     })
                   }
 
@@ -786,23 +522,15 @@ export default function Appointment() {
 
                   className="
                   w-full
-
                   px-4
                   py-3.5
-
                   rounded-xl
-
                   bg-white/10
-
                   border
                   border-white/20
-
                   text-white
-
                   placeholder:text-white/40
-
                   outline-none
-
                   focus:border-cyan-400
                   "
                 />
@@ -814,11 +542,8 @@ export default function Appointment() {
 
                   onChange={(e) =>
                     setFormData({
-
                       ...formData,
-
                       phone: e.target.value,
-
                     })
                   }
 
@@ -828,23 +553,15 @@ export default function Appointment() {
 
                   className="
                   w-full
-
                   px-4
                   py-3.5
-
                   rounded-xl
-
                   bg-white/10
-
                   border
                   border-white/20
-
                   text-white
-
                   placeholder:text-white/40
-
                   outline-none
-
                   focus:border-cyan-400
                   "
                 />
@@ -854,12 +571,8 @@ export default function Appointment() {
 
                   onChange={(e) =>
                     setFormData({
-
                       ...formData,
-
-                      department:
-                        e.target.value,
-
+                      department: e.target.value,
                     })
                   }
 
@@ -867,84 +580,50 @@ export default function Appointment() {
 
                   className="
                   w-full
-
                   px-4
                   py-3.5
-
                   rounded-xl
-
                   bg-white/10
-
                   border
                   border-white/20
-
                   text-white
-
                   outline-none
-
                   focus:border-cyan-400
                   "
                 >
 
                   <option
                     value=""
-
-                    className="text-slate-800"
+                    className="
+                    text-slate-800
+                    "
                   >
+
                     Select Department
+
                   </option>
 
-                  <option className="text-slate-800">
-                    ENT & Voice Disorders
-                  </option>
+                  {
+                    departments.map(
+                      (dept) => (
 
-                  <option className="text-slate-800">
-                    Cochlear Implant Centre
-                  </option>
+                        <option
+                          key={dept._id}
 
-                  <option className="text-slate-800">
-                    Orthopaedics & Joint Replacement
-                  </option>
+                          value={dept.name}
 
-                  <option className="text-slate-800">
-                    IVF & Infertility Centre
-                  </option>
+                          className="
+                          text-slate-800
+                          "
+                        >
 
-                  <option className="text-slate-800">
-                    Pediatrics & NICU
-                  </option>
+                          {dept.name}
 
-                  <option className="text-slate-800">
-                    Emergency & Trauma Care
-                  </option>
+                        </option>
 
-                  <option className="text-slate-800">
-                    Radiology & Imaging
-                  </option>
-
-                  <option className="text-slate-800">
-                    Sonology & Imaging Services
-                  </option>
-
-                  <option className="text-slate-800">
-                    Pathology
-                  </option>
-
-                  <option className="text-slate-800">
-                    General Medicine
-                  </option>
-
-                  <option className="text-slate-800">
-                    ICCU & Critical Care
-                  </option>
-
-                  <option className="text-slate-800">
-                    Maternity & Women Care
-                  </option>
-
-                  <option className="text-slate-800">
-                    Hospital & Ambulance Services
-                  </option>
+                      )
+                    )
+                  }
 
                 </select>
 
@@ -955,11 +634,8 @@ export default function Appointment() {
 
                   onChange={(e) =>
                     setFormData({
-
                       ...formData,
-
                       date: e.target.value,
-
                     })
                   }
 
@@ -967,21 +643,14 @@ export default function Appointment() {
 
                   className="
                   w-full
-
                   px-4
                   py-3.5
-
                   rounded-xl
-
                   bg-white/10
-
                   border
                   border-white/20
-
                   text-white
-
                   outline-none
-
                   focus:border-cyan-400
                   "
                 />
@@ -991,12 +660,8 @@ export default function Appointment() {
 
                   onChange={(e) =>
                     setFormData({
-
                       ...formData,
-
-                      message:
-                        e.target.value,
-
+                      message: e.target.value,
                     })
                   }
 
@@ -1006,25 +671,16 @@ export default function Appointment() {
 
                   className="
                   w-full
-
                   px-4
                   py-3
-
                   rounded-xl
-
                   bg-white/10
-
                   border
                   border-white/20
-
                   text-white
-
                   placeholder:text-white/40
-
                   outline-none
-
                   focus:border-cyan-400
-
                   resize-none
                   "
                 />
@@ -1036,25 +692,16 @@ export default function Appointment() {
 
                   className="
                   group
-
                   relative
-
                   w-full
-
                   bg-gradient-to-r
                   from-cyan-500
                   to-blue-600
-
                   text-white
-
                   font-semibold
-
                   py-3.5
-
                   rounded-xl
-
                   hover:shadow-xl
-
                   transition-all
                   duration-300
                   "
@@ -1064,38 +711,28 @@ export default function Appointment() {
                     className="
                     relative
                     z-10
-
                     flex
                     items-center
                     justify-center
-
                     gap-2
                     "
                   >
 
                     {isSubmitting ? (
-
                       <>Processing...</>
-
                     ) : (
-
                       <>
-
                         Book Appointment
 
                         <ArrowRight
                           className="
                           w-4
                           h-4
-
                           group-hover:translate-x-1
-
                           transition-transform
                           "
                         />
-
                       </>
-
                     )}
 
                   </span>

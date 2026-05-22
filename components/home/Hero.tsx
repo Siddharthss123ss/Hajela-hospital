@@ -292,7 +292,7 @@ export default function Hero() {
         >
 
           <source
-            src="/videos/hero1.mp4"
+            src="https://res.cloudinary.com/dko6aobxx/video/upload/q_auto/f_auto/v1779440823/IMG_0374_urxqpz.mov"
             type="video/mp4"
           />
 

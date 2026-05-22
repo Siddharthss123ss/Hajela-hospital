@@ -135,21 +135,21 @@ export default function ContactPage() {
                 <div className="bg-cyan-100 p-4 rounded-2xl"><Phone className="text-cyan-600 w-6 h-6" /></div>
                 <div>
                   <h3 className="text-xl font-bold text-slate-900">Call Us</h3>
-                  <p className="text-slate-600">+91 98765 43210</p>
+                  <p className="text-slate-600">+91 07552773393</p>
                 </div>
               </div>
               <div className="bg-white rounded-[30px] p-6 shadow-md flex items-center gap-5">
                 <div className="bg-cyan-100 p-4 rounded-2xl"><Mail className="text-cyan-600 w-6 h-6" /></div>
                 <div>
                   <h3 className="text-xl font-bold text-slate-900">Email Address</h3>
-                  <p className="text-slate-600">info@hajelahospital.com</p>
+                  <p className="text-slate-600">hajelahospital@gmail.com</p>
                 </div>
               </div>
               <div className="bg-white rounded-[30px] p-6 shadow-md flex items-center gap-5">
                 <div className="bg-cyan-100 p-4 rounded-2xl"><MapPin className="text-cyan-600 w-6 h-6" /></div>
                 <div>
                   <h3 className="text-xl font-bold text-slate-900">Location</h3>
-                  <p className="text-slate-600">Bhopal, Madhya Pradesh, India</p>
+                  <p className="text-slate-600">Geetanjali Complex, near Mata Mandir Square, Kotra Sultanabad, Bhopal, Madhya Pradesh 462003</p>
                 </div>
               </div>
               <div className="bg-white rounded-[30px] p-6 shadow-md flex items-center gap-5">

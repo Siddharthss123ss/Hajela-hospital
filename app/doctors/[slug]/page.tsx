@@ -1,357 +1,315 @@
-// app/doctors/[slug]/page.tsx (Ya isko [id]/page.tsx folder me rakhein)
-import Link from "next/link";
-import { notFound } from "next/navigation";
+"use client";
 
 import {
-  ArrowLeft,
-  Award,
-  BriefcaseMedical,
-  GraduationCap,
-} from "lucide-react";
+  useEffect,
+  useState
+} from "react";
+
+import {
+  useParams
+} from "next/navigation";
 
 interface Doctor {
-  _id: string;
+
+  slug: string;
+
   name: string;
-  specialization: string;
-  degree: string[];
-  experience: number;
+
+  role: string;
+
+  degree: string;
+
+  experience: string;
+
+  about: string;
+
   image_url: string;
-  website?: string;
+
+  expertise: string[];
+
 }
 
-// Next.js Server Component data fetcher
-async function getDoctorData(id: string) {
-  try {
-    // Apne domain URL ke hisab se absolute path setup karein ya relative deployment me use karein
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/doctors/${id}`, {
-      cache: "no-store", // Taaki har baar fresh data mile
-    });
+export default function DoctorDetailPage() {
 
-    if (!res.ok) return null;
-    return await res.json();
-  } catch (error) {
-    console.error("Error fetching doctor details:", error);
-    return null;
+  const params =
+    useParams();
+
+  const slug =
+    params.slug as string;
+
+  const [doctor, setDoctor] =
+    useState<Doctor | null>(
+      null
+    );
+
+  const [loading, setLoading] =
+    useState(true);
+
+  useEffect(() => {
+
+    const fetchDoctor =
+      async () => {
+
+        try {
+
+          const res =
+            await fetch(
+              `/api/doctors/${slug}`
+            );
+
+          const data =
+            await res.json();
+
+          setDoctor(data);
+
+        } catch (error) {
+
+          console.log(error);
+
+        } finally {
+
+          setLoading(false);
+
+        }
+
+      };
+
+    if (slug) {
+
+      fetchDoctor();
+
+    }
+
+  }, [slug]);
+
+  if (loading) {
+
+    return (
+
+      <div
+        className="
+        min-h-screen
+        flex
+        items-center
+        justify-center
+        text-3xl
+        font-bold
+        "
+      >
+
+        Loading...
+
+      </div>
+
+    );
+
   }
-}
 
-export default async function DoctorDetails({
-  params,
-}: {
-  params: Promise<{ slug: string }>; // Agar folder ka naam [id] rakha hai toh yahan 'id: string' karein
-}) {
-  // URL se ID/Slug nikalne ke liye
-  const resolvedParams = await params;
-  const doctorId = resolvedParams.slug; // Agar folder name [id] hai toh resolvedParams.id hoga
-
-  const doctor: Doctor | null = await getDoctorData(doctorId);
-
-  // Agar data nahi milta toh Next.js ka default 404 page trigger hoga
   if (!doctor) {
-    notFound();
+
+    return (
+
+      <div
+        className="
+        min-h-screen
+        flex
+        items-center
+        justify-center
+        text-3xl
+        font-bold
+        text-red-500
+        "
+      >
+
+        Doctor Not Found
+
+      </div>
+
+    );
+
   }
 
   return (
+
     <main
       className="
-      relative
       min-h-screen
-      bg-gradient-to-b
-      from-white
-      via-slate-50
-      to-white
+      bg-white
       pt-32
-      pb-24
-      overflow-hidden
+      pb-20
       "
     >
-      {/* PREMIUM BG GLOW */}
+
       <div
         className="
-        absolute
-        top-0
-        left-1/2
-        -translate-x-1/2
-        w-[900px]
-        h-[900px]
-        bg-cyan-500/5
-        blur-[160px]
-        rounded-full
+        max-w-7xl
+        mx-auto
+        px-4
+        grid
+        lg:grid-cols-2
+        gap-14
+        items-center
         "
-      ></div>
+      >
 
-      <div className="container-custom relative z-10">
-        {/* BACK BUTTON */}
-        <Link
-          href="/doctors"
-          className="
-          inline-flex
-          items-center
-          gap-2
-          text-slate-600
-          font-semibold
-          hover:text-cyan-600
-          transition-all
-          duration-300
-          "
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Back to Doctors
-        </Link>
+        <div>
 
-        {/* MAIN */}
-        <div
-          className="
-          mt-12
-          grid
-          lg:grid-cols-2
-          gap-14
-          lg:gap-20
-          items-center
-          "
-        >
-          {/* IMAGE */}
-          <div
+          <img
+            src={doctor.image_url}
+            alt={doctor.name}
+
             className="
-            relative
-            overflow-hidden
-            rounded-[40px]
-            bg-slate-100
-            border
-            border-slate-200
-            shadow-[0_20px_80px_rgba(15,23,42,0.08)]
+            w-full
+            rounded-3xl
+            object-cover
+            shadow-2xl
+            "
+          />
+
+        </div>
+
+        <div>
+
+          <p
+            className="
+            text-cyan-600
+            font-bold
+            uppercase
+            tracking-[3px]
             "
           >
-            <img
-              src={doctor.image_url}
-              alt={doctor.name}
-              width={900}
-              height={1100}
-              className="
-              w-full
-              h-[500px]
-              lg:h-[720px]
-              object-cover
-              object-top
-              "
-            />
-          </div>
 
-          {/* CONTENT */}
-          <div>
-            {/* EXPERIENCE */}
-            <div
-              className="
-              inline-flex
-              items-center
-              gap-2
-              px-5
-              py-2.5
-              rounded-full
-              bg-cyan-50
-              border
-              border-cyan-100
-              text-cyan-700
-              font-bold
-              "
-            >
-              <Award className="w-5 h-5" />
-              {doctor.experience}+ Years Experience
+            Hajela Hospital
+
+          </p>
+
+          <h1
+            className="
+            mt-4
+            text-5xl
+            font-black
+            text-slate-900
+            "
+          >
+
+            {doctor.name}
+
+          </h1>
+
+          <p
+            className="
+            mt-4
+            text-2xl
+            font-semibold
+            text-cyan-700
+            "
+          >
+
+            {doctor.role}
+
+          </p>
+
+          <p
+            className="
+            mt-5
+            text-slate-600
+            leading-relaxed
+            "
+          >
+
+            {doctor.about}
+
+          </p>
+
+          <div
+            className="
+            mt-8
+            space-y-4
+            "
+          >
+
+            <div>
+
+              <span className="font-bold">
+                Degree:
+              </span>
+
+              {" "}
+
+              {doctor.degree}
+
             </div>
 
-            {/* NAME */}
-            <h1
-              className="
-              mt-7
-              text-4xl
-              md:text-5xl
-              lg:text-6xl
-              font-black
-              text-slate-900
-              leading-tight
-              "
-            >
-              {doctor.name}
-            </h1>
+            <div>
 
-            {/* ROLE / SPECIALIZATION */}
-            <p
+              <span className="font-bold">
+                Experience:
+              </span>
+
+              {" "}
+
+              {doctor.experience}
+
+            </div>
+
+          </div>
+
+          <div className="mt-10">
+
+            <h3
               className="
-              mt-5
               text-2xl
-              text-cyan-700
-              font-semibold
+              font-bold
+              text-slate-900
+              mb-4
               "
             >
-              {doctor.specialization}
-            </p>
 
-            {/* LINE */}
+              Expertise
+
+            </h3>
+
             <div
               className="
-              mt-7
-              w-20
-              h-[4px]
-              rounded-full
-              bg-gradient-to-r
-              from-cyan-500
-              to-blue-700
-              "
-            ></div>
-
-            {/* QUALIFICATION */}
-            <div
-              className="
-              mt-10
               flex
-              items-start
-              gap-5
+              flex-wrap
+              gap-3
               "
             >
-              <div
-                className="
-                w-14
-                h-14
-                rounded-2xl
-                bg-cyan-50
-                flex
-                items-center
-                justify-center
-                "
-              >
-                <GraduationCap className="w-7 h-7 text-cyan-700" />
-              </div>
 
-              <div>
-                <h3 className="text-xl font-bold text-slate-900">
-                  Qualification
-                </h3>
-                <p className="mt-2 text-slate-600 leading-relaxed">
-                  {doctor.degree ? doctor.degree.join(", ") : "N/A"}
-                </p>
-              </div>
-            </div>
+              {doctor.expertise?.map(
+                (item, index) => (
 
-            {/* SPECIALITY */}
-            <div
-              className="
-              mt-10
-              flex
-              items-start
-              gap-5
-              "
-            >
-              <div
-                className="
-                w-14
-                h-14
-                rounded-2xl
-                bg-blue-50
-                flex
-                items-center
-                justify-center
-                "
-              >
-                <BriefcaseMedical className="w-7 h-7 text-blue-700" />
-              </div>
+                  <div
+                    key={index}
 
-              <div>
-                <h3 className="text-xl font-bold text-slate-900">
-                  Specialization
-                </h3>
-                <p className="mt-2 text-slate-600 leading-relaxed">
-                  {doctor.specialization}
-                </p>
-              </div>
-            </div>
+                    className="
+                    px-4
+                    py-2
+                    bg-cyan-50
+                    text-cyan-700
+                    rounded-full
+                    font-medium
+                    "
+                  >
 
-            {/* ABOUT */}
-            <p
-              className="
-              mt-10
-              text-slate-600
-              leading-relaxed
-              text-base
-              lg:text-lg
-              "
-            >
-              {doctor.name} is one of the experienced and trusted
-              specialists at Hajela Hospital, committed to delivering
-              compassionate patient care with modern medical expertise,
-              precision and excellence.
-            </p>
+                    {item}
 
-            {/* BUTTONS */}
-            <div className="mt-12 flex flex-wrap gap-4">
-              {/* APPOINTMENT */}
-              <Link
-                href="/appointment"
-                className="
-                bg-gradient-to-r
-                from-cyan-600
-                to-blue-700
-                text-white
-                px-8
-                py-4
-                rounded-full
-                font-bold
-                shadow-[0_10px_40px_rgba(6,182,212,0.25)]
-                hover:scale-105
-                transition-all
-                duration-300
-                "
-              >
-                Book Appointment
-              </Link>
+                  </div>
 
-              {/* CONTACT */}
-              <Link
-                href="/contact"
-                className="
-                border
-                border-slate-300
-                text-slate-700
-                px-8
-                py-4
-                rounded-full
-                font-semibold
-                hover:bg-slate-100
-                transition-all
-                duration-300
-                "
-              >
-                Contact Hospital
-              </Link>
-
-              {/* WEBSITE */}
-              {doctor.website && (
-                <a
-                  href={doctor.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="
-                  border
-                  border-cyan-200
-                  bg-cyan-50
-                  text-cyan-700
-                  px-8
-                  py-4
-                  rounded-full
-                  font-bold
-                  hover:bg-cyan-600
-                  hover:text-white
-                  hover:border-cyan-600
-                  transition-all
-                  duration-300
-                  "
-                >
-                  Visit Official Website
-                </a>
+                )
               )}
+
             </div>
+
           </div>
+
         </div>
+
       </div>
+
     </main>
+
   );
+
 }
