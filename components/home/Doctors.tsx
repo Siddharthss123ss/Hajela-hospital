@@ -1,9 +1,13 @@
-// components/home/Doctors.tsx
-
 "use client";
 
 import Image from "next/image";
+
 import Link from "next/link";
+
+import {
+  useEffect,
+  useState
+} from "react";
 
 import {
   Swiper,
@@ -18,9 +22,57 @@ import {
 
 import "swiper/css";
 
-import { doctors } from "@/data/doctors";
+interface Doctor {
+
+  _id: string;
+
+  slug: string;
+
+  name: string;
+
+  role: string;
+
+  degree: string;
+
+  experience: string;
+
+  image_url: string;
+
+}
 
 export default function Doctors() {
+
+  const [doctors, setDoctors] =
+    useState<Doctor[]>([]);
+
+  useEffect(() => {
+
+    const fetchDoctors =
+      async () => {
+
+        try {
+
+          const res =
+            await fetch(
+              "/api/doctors"
+            );
+
+          const data =
+            await res.json();
+
+          setDoctors(data);
+
+        } catch (error) {
+
+          console.log(error);
+
+        }
+
+      };
+
+    fetchDoctors();
+
+  }, []);
 
   return (
 
@@ -219,9 +271,11 @@ export default function Doctors() {
                 >
 
                   <Image
-                    src={doctor.image}
+                    src={doctor.image_url}
                     alt={doctor.name}
                     fill
+                    unoptimized
+
                     className="
                     object-cover
                     object-top
@@ -327,6 +381,7 @@ export default function Doctors() {
 
                   <Link
                     href={`/doctors/${doctor.slug}`}
+
                     className="
                     mt-7
 

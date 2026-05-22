@@ -17,7 +17,7 @@ const technologies = [
   {
     title: "Robotic Surgery",
 
-    image: "/departments/robotic2.png",
+    image: "/departments/robotic1.png",
 
     desc:
       "Modern robotic-assisted surgical procedures offering greater precision, smaller incisions, faster recovery and advanced minimally invasive treatment solutions.",
