@@ -14,6 +14,7 @@ import Doctors from "@/components/home/Doctors";
 import Testimonials from "@/components/home/Testimonials";
 import Appointment from "@/components/home/Appointment";
 import Emergency from "@/components/home/Emergency";
+import Services from "@/components/home/Services";
 
 import Reveal from "@/components/common/Reveal";
 
@@ -62,6 +63,12 @@ export default function Home() {
       {/* DOCTORS */}
 
       <Doctors />
+
+      <Reveal>
+
+  <Services />
+
+</Reveal>
 
       {/* TESTIMONIALS */}
 

@@ -1,295 +1,725 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+
 import {
   Phone,
   Mail,
   MapPin,
   Clock3,
-  Loader2,
-  CheckCircle,
-  AlertCircle,
-  Search,
-  MessageSquare,
-  Calendar
+  Stethoscope,
+  Shield,
+  Heart,
+  Star,
+  ChevronRight,
 } from "lucide-react";
 
 export default function ContactPage() {
-  // 1. Form Inputs State
-  const [formData, setFormData] = useState({
-    full_name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
 
-  // 2. UI Status States (Form Submission)
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{
-    type: "success" | "error" | null;
-    message: string;
-  }>({ type: null, message: "" });
+  const departments = [
 
-  // 3. Search Enquiry States (Naya Section)
-  const [searchKey, setSearchKey] = useState(""); // Email ya Phone holder
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [searchError, setSearchError] = useState("");
+    {
+      department: "ENT & Voice Disorders",
 
-  // FIX: Typing Issue solved (Ab smoothly type hoga)
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value, // Bracket [] lagana zaroori tha dynamic key ke liye
-    }));
-  };
+      slug: "ent-voice-disorders",
 
-  // Form Submission Logic
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus({ type: null, message: "" });
+      doctor: "Dr. Anupriya Hajela Shah",
 
-    try {
-      const response = await fetch("/api/enquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      number: "7777802365",
 
-      const data = await response.json();
+      icon: "🩺",
 
-      if (!response.ok) {
-        throw new Error(data.error || "Something went wrong while sending enquiry.");
-      }
+      emergency: false,
 
-      setSubmitStatus({
-        type: "success",
-        message: "Thank you! Your message has been sent successfully.",
-      });
+      description:
+        "Advanced diagnosis and treatment for sinus problems, ear infections, hearing disorders, allergies, throat diseases and professional voice complications.",
+    },
 
-      setFormData({ full_name: "", email: "", phone: "", subject: "", message: "" });
-    } catch (error: any) {
-      setSubmitStatus({
-        type: "error",
-        message: error.message || "Failed to connect to server.",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    {
+      department: "IVF & Infertility Centre",
 
-  // Search Enquiry Logic (Email/Phone se status fetch karne ke liye)
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!searchKey.trim()) return;
+      slug: "ivf-infertility-centre",
 
-    setIsSearching(true);
-    setSearchError("");
-    setSearchResults([]);
+      doctor: "Dr. Supriya Hajela",
 
-    try {
-      // API call: /api/contact?search=email_or_phone (Aapke API route handler ke mutabik query send hogi)
-      const response = await fetch(`/api/enquiry?search=${encodeURIComponent(searchKey)}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
+      number: "7777802361",
 
-      const data = await response.json();
+      icon: "🧬",
 
-      if (!response.ok) {
-        throw new Error(data.error || "Enquiry not found.");
-      }
+      emergency: false,
 
-      // Agar direct array milta hai toh thik, warna backend data wrapper check karein
-      const results = Array.isArray(data) ? data : data.enquiries || [data];
-      setSearchResults(results);
+      description:
+        "Modern fertility treatments including IVF, ICSI, infertility diagnosis and reproductive healthcare consultation.",
+    },
 
-      if (results.length === 0) {
-        setSearchError("No data found for this email or phone number.");
-      }
-    } catch (error: any) {
-      setSearchError(error.message || "Something went wrong while fetching status.");
-    } finally {
-      setIsSearching(false);
-    }
-  };
+    {
+      department: "Maternity & Women Care",
+
+      slug: "maternity-women-care",
+
+      doctor: "Dr. Rajni Hajela",
+
+      number: "7777802361",
+
+      icon: "🌸",
+
+      emergency: false,
+
+      description:
+        "Complete women healthcare solutions including pregnancy care, gynecology consultation and maternity support.",
+    },
+
+    {
+      department: "General Medicine",
+
+      slug: "general-medicine",
+
+      doctor: "Dr. Sanjeev Johri,",
+
+      number: "9977744455",
+
+      icon: "💊",
+
+      emergency: false,
+
+      description:
+        "Preventive healthcare, chronic disease management, infections, fever treatment and routine medical consultations.",
+    },
+
+    {
+      department: "Orthopaedics & Joint Replacement",
+
+      slug: "orthopaedics-joint-replacement",
+
+      doctor: "Dr. Tanmay Shah",
+
+      number: "7777802366",
+
+      icon: "🦴",
+
+      emergency: true,
+
+      description:
+        "Advanced bone, joint and spine treatments including fracture management and robotic joint replacement surgeries.",
+    },
+
+    {
+      department: "Pediatrics & NICU",
+
+      slug: "pediatrics-nicu",
+
+      doctor: "Dr. Juned Hasan",
+
+      number: "9131365005",
+
+      icon: "👶",
+
+      emergency: false,
+
+      description:
+        "Healthcare services for newborns, infants and children with advanced NICU support and pediatric specialists.",
+    },
+
+    {
+      department: "Radiology & Imaging",
+
+      slug: "radiology-imaging",
+
+      doctor: "Radiology Specialist Team",
+
+      number: "7777802362",
+
+      icon: "🩻",
+
+      emergency: false,
+
+      description:
+        "Advanced diagnostic imaging facilities including digital X-rays, ultrasound scanning and precision radiology evaluations.",
+    },
+
+    {
+      department: "Sonology & Imaging Services",
+
+      slug: "sonology-imaging-services",
+
+      doctor: "Imaging & Sonography Team",
+
+      number: "7777802362",
+
+      icon: "📡",
+
+      emergency: false,
+
+      description:
+        "Advanced ultrasound scanning, pregnancy sonography, abdominal imaging and diagnostic radiology support.",
+    },
+
+    {
+      department: "Pathology",
+
+      slug: "pathology",
+
+      doctor: "Laboratory Diagnostic Team",
+
+      number: "7777802363",
+
+      icon: "🧪",
+
+      emergency: false,
+
+      description:
+        "Fast and accurate pathology testing, laboratory services and modern diagnostic evaluations with advanced technology.",
+    },
+
+    {
+      department: "ICCU & Critical Care",
+
+      slug: "iccu-critical-care",
+
+      doctor: "Critical Care Unit",
+
+      number: "7777802365",
+
+      icon: "❤️",
+
+      emergency: true,
+
+      description:
+        "Round-the-clock ICU monitoring, ventilator support and emergency intensive care management for critical patients.",
+    },
+
+    {
+      department: "Cochlear Implant Centre",
+
+      slug: "cochlear-implant-centre",
+
+      doctor: "ENT Surgical Team",
+
+      number: "7777802365",
+
+      icon: "🦻",
+
+      emergency: false,
+
+      description:
+        "Advanced cochlear implant procedures, speech rehabilitation and hearing recovery programs with expert ENT surgeons.",
+    },
+
+    {
+      department: "Emergency & Trauma Care",
+
+      slug: "emergency-trauma-care",
+
+      doctor: "Emergency Response Team",
+
+      number: "7777802365",
+
+      icon: "🚨",
+
+      emergency: true,
+
+      description:
+        "Rapid response emergency care unit with trauma management, ICU backup and critical healthcare specialists.",
+    },
+
+  ];
+
+  const features = [
+
+    {
+      icon: Shield,
+      text: "Advanced Multispeciality Healthcare",
+      color: "text-cyan-300",
+    },
+
+    {
+      icon: Heart,
+      text: "Experienced Doctors & Specialists",
+      color: "text-pink-300",
+    },
+
+    {
+      icon: Star,
+      text: "Trusted Patient Support System",
+      color: "text-yellow-300",
+    },
+
+  ];
 
   return (
-    <main className="pt-32 pb-24 bg-slate-50 min-h-screen">
-      <div className="container-custom px-4 max-w-7xl mx-auto space-y-20">
 
-        {/* SECTION 1: TOP HEADING & CORE CONTACT */}
-        <div>
-          <div className="text-center mb-16">
-            <p className="text-cyan-600 font-semibold text-lg">Contact Hajela Hospital</p>
-            <h1 className="mt-4 text-5xl lg:text-6xl font-bold text-slate-900">Get In Touch</h1>
+    <main
+      className="
+      pt-32
+      pb-24
+
+      bg-gradient-to-br
+      from-slate-50
+      via-white
+      to-cyan-50/30
+
+      min-h-screen
+      overflow-hidden
+      "
+    >
+
+      <div
+        className="
+        absolute
+        top-0
+        left-1/2
+        -translate-x-1/2
+
+        w-[700px]
+        h-[700px]
+
+        bg-cyan-200/20
+
+        rounded-full
+
+        blur-[140px]
+        "
+      ></div>
+
+      <div
+        className="
+        relative
+        z-10
+
+        container-custom
+        px-4
+
+        max-w-7xl
+        mx-auto
+        "
+      >
+
+        {/* HEADING */}
+
+        <div className="text-center mb-20">
+
+          <div
+            className="
+            inline-flex
+            items-center
+            gap-2
+
+            bg-white
+
+            border
+            border-slate-200
+
+            px-5
+            py-2
+
+            rounded-full
+
+            shadow-sm
+
+            mb-5
+            "
+          >
+
+            <Stethoscope
+              className="
+              w-4
+              h-4
+              text-cyan-600
+              "
+            />
+
+            <span
+              className="
+              text-cyan-700
+              font-semibold
+              text-sm
+              uppercase
+              tracking-wide
+              "
+            >
+
+              Hajela Hospital Bhopal
+
+            </span>
+
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-14">
-            {/* LEFT INFO CARDS */}
-            <div className="space-y-6">
-              <div className="bg-white rounded-[30px] p-6 shadow-md flex items-center gap-5">
-                <div className="bg-cyan-100 p-4 rounded-2xl"><Phone className="text-cyan-600 w-6 h-6" /></div>
-                <div>
-                  <h3 className="text-xl font-bold text-slate-900">Call Us</h3>
-                  <p className="text-slate-600">+91 07552773393</p>
-                </div>
-              </div>
-              <div className="bg-white rounded-[30px] p-6 shadow-md flex items-center gap-5">
-                <div className="bg-cyan-100 p-4 rounded-2xl"><Mail className="text-cyan-600 w-6 h-6" /></div>
-                <div>
-                  <h3 className="text-xl font-bold text-slate-900">Email Address</h3>
-                  <p className="text-slate-600">hajelahospital@gmail.com</p>
-                </div>
-              </div>
-              <div className="bg-white rounded-[30px] p-6 shadow-md flex items-center gap-5">
-                <div className="bg-cyan-100 p-4 rounded-2xl"><MapPin className="text-cyan-600 w-6 h-6" /></div>
-                <div>
-                  <h3 className="text-xl font-bold text-slate-900">Location</h3>
-                  <p className="text-slate-600">Geetanjali Complex, near Mata Mandir Square, Kotra Sultanabad, Bhopal, Madhya Pradesh 462003</p>
-                </div>
-              </div>
-              <div className="bg-white rounded-[30px] p-6 shadow-md flex items-center gap-5">
-                <div className="bg-cyan-100 p-4 rounded-2xl"><Clock3 className="text-cyan-600 w-6 h-6" /></div>
-                <div>
-                  <h3 className="text-xl font-bold text-slate-900">Working Hours</h3>
-                  <p className="text-slate-600">24/7 Emergency Services</p>
-                </div>
-              </div>
-            </div>
+          <h1
+            className="
+            text-5xl
+            lg:text-7xl
 
-            {/* RIGHT FORM */}
-            <div className="bg-white rounded-[40px] p-8 shadow-xl border border-slate-100">
-              <h2 className="text-3xl font-bold text-slate-900">Send Message</h2>
-              <p className="mt-2 text-slate-500 text-sm">Fill the form and we will contact you shortly.</p>
+            font-black
 
-              {submitStatus.type === "success" && (
-                <div className="mt-4 flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl">
-                  <CheckCircle className="w-5 h-5 text-green-600 shrink-0" />
-                  <p className="text-sm font-medium">{submitStatus.message}</p>
-                </div>
-              )}
+            text-slate-900
 
-              {submitStatus.type === "error" && (
-                <div className="mt-4 flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">
-                  <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
-                  <p className="text-sm font-medium">{submitStatus.message}</p>
-                </div>
-              )}
+            leading-tight
+            "
+          >
 
-              <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-                <input type="text" name="full_name" value={formData.full_name} onChange={handleChange} placeholder="Full Name *" required disabled={isSubmitting} className="w-full border border-slate-200 rounded-xl px-5 py-3.5 outline-none focus:border-cyan-500 transition-colors disabled:bg-slate-50" />
-                <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email Address *" required disabled={isSubmitting} className="w-full border border-slate-200 rounded-xl px-5 py-3.5 outline-none focus:border-cyan-500 transition-colors disabled:bg-slate-50" />
-                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number *" required disabled={isSubmitting} className="w-full border border-slate-200 rounded-xl px-5 py-3.5 outline-none focus:border-cyan-500 transition-colors disabled:bg-slate-50" />
-                <input type="text" name="subject" value={formData.subject} onChange={handleChange} placeholder="Subject *" required disabled={isSubmitting} className="w-full border border-slate-200 rounded-xl px-5 py-3.5 outline-none focus:border-cyan-500 transition-colors disabled:bg-slate-50" />
-                <textarea name="message" value={formData.message} onChange={handleChange} rows={4} placeholder="Your Message *" required disabled={isSubmitting} className="w-full border border-slate-200 rounded-xl px-5 py-3.5 outline-none focus:border-cyan-500 resize-none transition-colors disabled:bg-slate-50"></textarea>
-                
-                <button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-blue-700 to-cyan-500 text-white py-4 rounded-xl font-semibold hover:opacity-95 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2 shadow-md">
-                  {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : "Send Message"}
-                </button>
-              </form>
-            </div>
-          </div>
+            Department{" "}
+
+            <span
+              className="
+              bg-gradient-to-r
+              from-cyan-500
+              to-blue-700
+
+              bg-clip-text
+              text-transparent
+              "
+            >
+
+              Contact Directory
+
+            </span>
+
+          </h1>
+
+          <p
+            className="
+            mt-6
+
+            max-w-3xl
+            mx-auto
+
+            text-slate-500
+
+            text-lg
+
+            leading-relaxed
+            "
+          >
+
+            Connect directly with our hospital departments,
+            specialist doctors and healthcare support teams.
+
+          </p>
+
         </div>
 
-        <hr className="border-slate-200" />
+        {/* DEPARTMENTS */}
 
-        {/* SECTION 2: LIVE RESPONSE / STATUS TRACKER */}
-        <div className="bg-white rounded-[40px] p-8 md:p-12 shadow-xl border border-slate-100 max-w-4xl mx-auto">
-          <div className="text-center max-w-xl mx-auto mb-10">
-            <h2 className="text-3xl font-bold text-slate-900">Track Your Enquiry Response</h2>
-            <p className="mt-3 text-slate-500 text-sm">
-              Enter your registered Email Address or Phone Number to check replies or updates from our medical panel.
-            </p>
-          </div>
+        <div
+          className="
+          grid
+          md:grid-cols-2
+          xl:grid-cols-3
 
-          {/* Search Bar Input */}
-          <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto">
-            <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-              <input
-                type="text"
-                value={searchKey}
-                onChange={(e) => setSearchKey(e.target.value)}
-                placeholder="Enter Email or Phone Number..."
-                required
-                className="w-full border border-slate-200 rounded-2xl pl-12 pr-5 py-4 outline-none focus:border-cyan-500 transition-all shadow-inner bg-slate-50/50"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={isSearching}
-              className="bg-slate-900 hover:bg-slate-800 text-white font-medium px-8 py-4 rounded-2xl transition-colors flex items-center justify-center gap-2 shrink-0 disabled:opacity-50"
+          gap-7
+          "
+        >
+
+          {departments.map((dept, index) => (
+
+            <div
+              key={index}
+
+              className="
+              group
+
+              relative
+
+              bg-white
+
+              border
+              border-slate-100
+
+              rounded-[35px]
+
+              p-7
+
+              shadow-lg
+
+              hover:shadow-2xl
+              hover:-translate-y-1
+
+              transition-all
+              duration-300
+              "
             >
-              {isSearching ? <Loader2 className="w-5 h-5 animate-spin" /> : "Track Status"}
-            </button>
-          </form>
 
-          {/* Error Message */}
-          {searchError && (
-            <div className="mt-6 flex items-center gap-3 bg-amber-50 text-amber-800 px-5 py-4 rounded-2xl max-w-2xl mx-auto border border-amber-100">
-              <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
-              <p className="text-sm font-medium">{searchError}</p>
-            </div>
-          )}
+              {dept.emergency && (
 
-          {/* Search Output / Responses Dashboard */}
-          {searchResults.length > 0 && (
-            <div className="mt-10 space-y-6 max-w-3xl mx-auto">
-              <h3 className="text-lg font-bold text-slate-700 flex items-center gap-2">
-                <MessageSquare className="w-5 h-5 text-cyan-600" /> Found ({searchResults.length}) Enquiry Logs:
-              </h3>
-              
-              <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
-                {searchResults.map((item: any, idx: number) => (
-                  <div key={item._id || idx} className="border border-slate-100 bg-slate-50/50 rounded-3xl p-6 shadow-sm space-y-4">
-                    
-                    {/* Header Row */}
-                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200/60 pb-3">
-                      <div>
-                        <span className="text-xs font-semibold text-cyan-600 tracking-wider uppercase bg-cyan-50 px-2.5 py-1 rounded-md">
-                          {item.subject || "General Enquiry"}
-                        </span>
-                        <h4 className="font-bold text-slate-800 mt-1.5">{item.full_name}</h4>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                        <Calendar className="w-3.5 h-3.5" />
-                        {item.createdAt ? new Date(item.createdAt).toLocaleDateString() : "Just Now"}
-                      </div>
-                    </div>
+                <div
+                  className="
+                  absolute
+                  top-5
+                  right-5
 
-                    {/* Content Section */}
-                    <div className="grid md:grid-cols-2 gap-4 text-sm">
-                      {/* User's Original Message */}
-                      <div className="bg-white p-4 rounded-2xl border border-slate-100">
-                        <p className="font-semibold text-slate-400 text-xs uppercase tracking-wider">Your Message:</p>
-                        <p className="mt-1 text-slate-700 italic">"{item.message}"</p>
-                      </div>
+                  bg-red-500
 
-                      {/* Admin/Hospital Response Panel */}
-                      <div className={`p-4 rounded-2xl border ${item.response ? "bg-emerald-50/40 border-emerald-100" : "bg-amber-50/40 border-amber-100"}`}>
-                        <p className="font-semibold text-slate-400 text-xs uppercase tracking-wider">Hospital Reply:</p>
-                        {item.admin_response ? (
-                          <p className="mt-1 text-slate-800 font-medium whitespace-pre-line">{item.admin_response}</p>
-                        ) : (
-                          <p className="mt-1 text-amber-700 font-medium flex items-center gap-1.5 text-xs">
-                            <Clock3 className="w-3.5 h-3.5 animate-pulse" /> Pending Review — Our operators will update soon.
-                          </p>
-                        )}
-                      </div>
-                    </div>
+                  text-white
 
-                  </div>
-                ))}
+                  text-xs
+                  font-semibold
+
+                  px-3
+                  py-1
+
+                  rounded-full
+                  "
+                >
+
+                  Emergency
+
+                </div>
+
+              )}
+
+              <div
+                className="
+                text-5xl
+                "
+              >
+
+                {dept.icon}
+
               </div>
+
+              <h3
+                className="
+                mt-5
+
+                text-2xl
+
+                font-black
+
+                text-slate-900
+
+                leading-snug
+                "
+              >
+
+                {dept.department}
+
+              </h3>
+
+              <p
+                className="
+                mt-4
+
+                text-slate-500
+
+                text-sm
+
+                leading-relaxed
+
+                min-h-[90px]
+                "
+              >
+
+                {dept.description}
+
+              </p>
+
+              <div
+                className="
+                mt-5
+
+                bg-slate-50
+
+                border
+                border-slate-100
+
+                rounded-2xl
+
+                p-4
+                "
+              >
+
+                <p
+                  className="
+                  text-xs
+
+                  uppercase
+
+                  tracking-wider
+
+                  text-slate-400
+
+                  font-semibold
+                  "
+                >
+
+                  Specialist Doctor
+
+                </p>
+
+                <p
+                  className="
+                  mt-2
+
+                  text-cyan-700
+
+                  font-bold
+
+                  text-lg
+                  "
+                >
+
+                  {dept.doctor}
+
+                </p>
+
+              </div>
+
+              <div
+                className="
+                mt-4
+
+                bg-slate-50
+
+                border
+                border-slate-100
+
+                rounded-2xl
+
+                p-4
+                "
+              >
+
+                <p
+                  className="
+                  text-xs
+
+                  uppercase
+
+                  tracking-wider
+
+                  text-slate-400
+
+                  font-semibold
+                  "
+                >
+
+                  Department Contact
+
+                </p>
+
+                <p
+                  className="
+                  mt-2
+
+                  text-xl
+
+                  font-black
+
+                  text-slate-900
+                  "
+                >
+
+                  +91 {dept.number}
+
+                </p>
+
+              </div>
+
+              <div
+                className="
+                mt-7
+
+                grid
+                grid-cols-2
+
+                gap-3
+                "
+              >
+
+                <a
+                  href={`tel:+91${dept.number}`}
+
+                  className="
+                  inline-flex
+
+                  items-center
+                  justify-center
+                  gap-2
+
+                  bg-gradient-to-r
+                  from-cyan-500
+                  to-blue-600
+
+                  hover:from-cyan-400
+                  hover:to-blue-500
+
+                  text-white
+
+                  py-4
+
+                  rounded-2xl
+
+                  font-semibold
+
+                  shadow-lg
+
+                  transition-all
+                  duration-300
+                  "
+                >
+
+                  <Phone
+                    className="
+                    w-4
+                    h-4
+                    "
+                  />
+
+                  Call
+
+                </a>
+
+                <Link
+                  href={`/departments/${dept.slug}`}
+
+                  className="
+                  inline-flex
+
+                  items-center
+                  justify-center
+                  gap-2
+
+                  border
+                  border-slate-200
+
+                  hover:bg-slate-50
+
+                  text-slate-700
+
+                  py-4
+
+                  rounded-2xl
+
+                  font-semibold
+
+                  transition-all
+                  duration-300
+                  "
+                >
+
+                  View
+
+                  <ChevronRight
+                    className="
+                    w-4
+                    h-4
+                    "
+                  />
+
+                </Link>
+
+              </div>
+
             </div>
-          )}
+
+          ))}
+
         </div>
 
       </div>
+
     </main>
+
   );
+
 }

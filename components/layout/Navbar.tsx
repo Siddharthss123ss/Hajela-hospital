@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+
 import { useState } from "react";
 
 import {
@@ -12,11 +13,16 @@ import {
 
 export default function Navbar() {
 
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] =
+    useState(false);
 
-  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [galleryOpen, setGalleryOpen] =
+    useState(false);
 
-  const [mobileGalleryOpen, setMobileGalleryOpen] = useState(false);
+  const [
+    mobileGalleryOpen,
+    setMobileGalleryOpen,
+  ] = useState(false);
 
   return (
 
@@ -25,11 +31,14 @@ export default function Navbar() {
       fixed
       top-0
       left-0
+
       w-full
 
       z-50
 
-      bg-white
+      bg-white/95
+
+      backdrop-blur-xl
 
       border-b
       border-slate-200
@@ -49,7 +58,7 @@ export default function Navbar() {
 
         <div
           className="
-          h-[82px]
+          h-[84px]
 
           flex
           items-center
@@ -76,8 +85,8 @@ export default function Navbar() {
 
             <div
               className="
-              w-[58px]
-              h-[58px]
+              w-[55px]
+              h-[55px]
 
               rounded-full
 
@@ -87,6 +96,8 @@ export default function Navbar() {
               border-slate-200
 
               bg-white
+
+              shadow-md
               "
             >
 
@@ -114,13 +125,16 @@ export default function Navbar() {
 
                 font-black
 
-                text-[15px]
-                sm:text-[28px]
+                text-[14px]
+                sm:text-[18px]
+                lg:text-[28px]
 
                 tracking-tight
                 "
               >
+
                 HAJELA HOSPITAL
+
               </h1>
 
               <div
@@ -138,28 +152,36 @@ export default function Navbar() {
                   className="
                   text-cyan-700
 
-                  text-[10px]
-                  sm:text-[13px]
+                  text-[9px]
+                  sm:text-[11px]
+                  lg:text-[13px]
 
                   font-medium
                   "
                 >
+
                   Advanced Medical Care
+
                 </p>
 
                 <span className="text-slate-300">
+
                   •
+
                 </span>
 
                 <p
                   className="
                   text-slate-500
 
-                  text-[10px]
-                  sm:text-[13px]
+                  text-[9px]
+                  sm:text-[11px]
+                  lg:text-[13px]
                   "
                 >
+
                   Since 1995
+
                 </p>
 
               </div>
@@ -168,136 +190,188 @@ export default function Navbar() {
 
           </Link>
 
-          {/* CENTER CERTIFICATES */}
+          {/* CERTIFICATES */}
 
-          <div
-            className="
-            hidden
-            xl:flex
+<div
+  className="
+  flex
 
-            items-center
+  items-center
 
-            gap-3
-            "
-          >
+  gap-1
+  sm:gap-2
+  lg:gap-3
 
-            {/* NABH */}
+  ml-2
+  "
+>
 
-            <div
-              className="
-              flex
-              items-center
+  {/* NABH */}
 
-              gap-3
+  <div
+    className="
+    flex
+    items-center
 
-              rounded-full
+    gap-1
+    sm:gap-2
+    lg:gap-3
 
-              border
-              border-slate-200
+    rounded-full
 
-              bg-slate-50
+    border
+    border-slate-200
 
-              px-4
-              py-2
-              "
-            >
+    bg-slate-50
 
-              <img
-                src="/images/nabh.png"
-                alt="NABH"
+    px-1
+    sm:px-2
+    lg:px-4
 
-                className="
-                w-9
-                h-9
+    py-1
+    sm:py-2
 
-                object-contain
-                "
-              />
+    shadow-sm
+    "
+  >
 
-              <div>
+    <img
+      src="/images/nabh.png"
+      alt="NABH"
 
-                <p
-                  className="
-                  text-[12px]
+      className="
+      w-5
+      h-5
 
-                  font-semibold
+      sm:w-7
+      sm:h-7
 
-                  text-slate-800
-                  "
-                >
-                  NABH Accredited
-                </p>
+      lg:w-9
+      lg:h-9
 
-                <p
-                  className="
-                  text-[10px]
+      object-contain
+      "
+    />
 
-                  text-slate-500
-                  "
-                >
-                  Quality Healthcare
-                </p>
+    <div className="hidden sm:block">
 
-              </div>
+      <p
+        className="
+        text-[9px]
+        lg:text-[12px]
 
-            </div>
+        font-semibold
 
-            {/* GREEN */}
+        text-slate-800
 
-            <div
-              className="
-              flex
-              items-center
+        leading-none
+        "
+      >
 
-              gap-3
+        NABH Accredited
 
-              rounded-full
+      </p>
 
-              border
-              border-emerald-100
+      <p
+        className="
+        text-[7px]
+        lg:text-[10px]
 
-              bg-emerald-50
+        text-slate-500
 
-              px-4
-              py-2
-              "
-            >
+        mt-1
+        "
+      >
 
-              <img
-                src="/images/Green.avif"
-                alt="Green Hospital"
+        Quality Healthcare
 
-                className="
-                w-8
-                h-8
+      </p>
 
-                object-contain
-                "
-              />
+    </div>
 
-              <div>
+  </div>
 
-                <p
-                  className="
-                  text-[12px]
+  {/* GREEN */}
 
-                  font-semibold
+  <div
+    className="
+    flex
+    items-center
 
-                  text-emerald-700
-                  "
-                >
-                  Green Certified
-                </p>
+    gap-1
+    sm:gap-2
+    lg:gap-3
 
-                <p
-                  className="
-                  text-[10px]
+    rounded-full
 
-                  text-emerald-500
-                  "
-                >
-                  First Green Hospital
-                </p>
+    border
+    border-emerald-100
+
+    bg-emerald-50
+
+    px-1
+    sm:px-2
+    lg:px-4
+
+    py-1
+    sm:py-2
+
+    shadow-sm
+    "
+  >
+
+    <img
+      src="/images/Green.avif"
+      alt="Green Hospital"
+
+      className="
+      w-5
+      h-5
+
+      sm:w-7
+      sm:h-7
+
+      lg:w-9
+      lg:h-9
+
+      object-contain
+      "
+    />
+
+    <div className="hidden sm:block">
+
+      <p
+        className="
+        text-[9px]
+        lg:text-[12px]
+
+        font-semibold
+
+        text-emerald-700
+
+        leading-none
+        "
+      >
+
+        Green Certified
+
+      </p>
+
+      <p
+        className="
+        text-[7px]
+        lg:text-[10px]
+
+        text-emerald-500
+
+        mt-1
+        "
+      >
+
+        First Green Hospital
+
+      </p>
+
 
               </div>
 
@@ -314,7 +388,7 @@ export default function Navbar() {
 
             items-center
 
-            gap-8
+            gap-7
 
             text-[15px]
 
@@ -324,20 +398,88 @@ export default function Navbar() {
             "
           >
 
-            <Link href="/" className="hover:text-cyan-700 transition-all">
+            <Link
+              href="/"
+
+              className="
+              hover:text-cyan-700
+
+              transition-all
+              "
+            >
+
               Home
+
             </Link>
 
-            <Link href="/about" className="hover:text-cyan-700 transition-all">
+            <Link
+              href="/about"
+
+              className="
+              hover:text-cyan-700
+
+              transition-all
+              "
+            >
+
               About
+
             </Link>
 
-            <Link href="/departments" className="hover:text-cyan-700 transition-all">
+            <Link
+              href="/departments"
+
+              className="
+              hover:text-cyan-700
+
+              transition-all
+              "
+            >
+
               Departments
+
             </Link>
 
-            <Link href="/doctors" className="hover:text-cyan-700 transition-all">
+            <Link
+              href="/doctors"
+
+              className="
+              hover:text-cyan-700
+
+              transition-all
+              "
+            >
+
               Doctors
+
+            </Link>
+
+            <Link
+              href="/services"
+
+              className="
+              hover:text-cyan-700
+
+              transition-all
+              "
+            >
+
+              Services
+
+            </Link>
+
+            <Link
+              href="/awards"
+
+              className="
+              hover:text-cyan-700
+
+              transition-all
+              "
+            >
+
+              Awards
+
             </Link>
 
             {/* GALLERY */}
@@ -345,7 +487,9 @@ export default function Navbar() {
             <div className="relative">
 
               <button
-                onClick={() => setGalleryOpen(!galleryOpen)}
+                onClick={() =>
+                  setGalleryOpen(!galleryOpen)
+                }
 
                 className="
                 flex
@@ -367,6 +511,7 @@ export default function Navbar() {
                   className={`
                   transition-all
                   duration-300
+
                   ${
                     galleryOpen
                       ? "rotate-180"
@@ -423,7 +568,9 @@ export default function Navbar() {
                   hover:bg-slate-50
                   "
                 >
-                  Events Images
+
+                  Event Images
+
                 </Link>
 
                 <Link
@@ -440,7 +587,9 @@ export default function Navbar() {
                   hover:bg-slate-50
                   "
                 >
+
                   Video Gallery
+
                 </Link>
 
                 <Link
@@ -455,15 +604,27 @@ export default function Navbar() {
                   hover:bg-slate-50
                   "
                 >
+
                   News
+
                 </Link>
 
               </div>
 
             </div>
 
-            <Link href="/contact" className="hover:text-cyan-700 transition-all">
+            <Link
+              href="/contact"
+
+              className="
+              hover:text-cyan-700
+
+              transition-all
+              "
+            >
+
               Contact
+
             </Link>
 
           </nav>
@@ -472,7 +633,7 @@ export default function Navbar() {
 
           <div className="flex items-center gap-4">
 
-            {/* APPOINTMENT BUTTON */}
+            {/* APPOINTMENT */}
 
             <Link
               href="/appointment"
@@ -494,7 +655,9 @@ export default function Navbar() {
               px-6
               py-3
 
-              rounded-sm
+              rounded-xl
+
+              shadow-md
 
               hover:bg-[#004f6d]
 
@@ -508,10 +671,12 @@ export default function Navbar() {
 
             </Link>
 
-            {/* MOBILE MENU */}
+            {/* MOBILE BUTTON */}
 
             <button
-              onClick={() => setMobileOpen(!mobileOpen)}
+              onClick={() =>
+                setMobileOpen(!mobileOpen)
+              }
 
               className="
               lg:hidden
@@ -589,11 +754,15 @@ export default function Navbar() {
             text-slate-900
             "
           >
+
             Hajela Hospital
+
           </h2>
 
           <button
-            onClick={() => setMobileOpen(false)}
+            onClick={() =>
+              setMobileOpen(false)
+            }
           >
 
             <X size={30} />
@@ -602,7 +771,7 @@ export default function Navbar() {
 
         </div>
 
-        {/* LINKS */}
+        {/* MOBILE LINKS */}
 
         <div
           className="
@@ -635,12 +804,24 @@ export default function Navbar() {
             Doctors
           </Link>
 
+          <Link href="/services" className="py-4 border-b border-slate-100">
+            Services
+          </Link>
+
+          <Link href="/awards" className="py-4 border-b border-slate-100">
+            Awards
+          </Link>
+
           {/* MOBILE GALLERY */}
 
           <div className="border-b border-slate-100">
 
             <button
-              onClick={() => setMobileGalleryOpen(!mobileGalleryOpen)}
+              onClick={() =>
+                setMobileGalleryOpen(
+                  !mobileGalleryOpen
+                )
+              }
 
               className="
               w-full
@@ -661,6 +842,7 @@ export default function Navbar() {
                 className={`
                 transition-all
                 duration-300
+
                 ${
                   mobileGalleryOpen
                     ? "rotate-180"
@@ -723,7 +905,7 @@ export default function Navbar() {
             Contact
           </Link>
 
-          {/* MOBILE BUTTON */}
+          {/* MOBILE APPOINTMENT */}
 
           <Link
             href="/appointment"
@@ -743,7 +925,7 @@ export default function Navbar() {
 
             py-4
 
-            rounded-sm
+            rounded-xl
 
             font-semibold
             "
@@ -762,7 +944,9 @@ export default function Navbar() {
       {/* OVERLAY */}
 
       <div
-        onClick={() => setMobileOpen(false)}
+        onClick={() =>
+          setMobileOpen(false)
+        }
 
         className={`
         lg:hidden

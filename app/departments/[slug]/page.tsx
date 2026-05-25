@@ -1,77 +1,65 @@
-import type { Metadata } from "next";
-
-import { departments } from "@/data/departments";
-
 import Image from "next/image";
 
-type Props = {
+import { notFound } from "next/navigation";
 
-  params: Promise<{ slug: string }>;
+import {
+  Phone,
+  CheckCircle2,
+  ShieldAlert,
+} from "lucide-react";
 
-};
+interface Department {
 
-/* DYNAMIC SEO */
+  _id: string;
 
-export async function generateMetadata({
-  params,
-}: Props): Promise<Metadata> {
+  name: string;
 
-  const { slug } = await params;
+  slug: string;
 
-  const dept = departments.find(
-    (item) => item.slug === slug
-  );
+  image_url: string;
 
-  if (!dept) {
+  doctor_name: string;
 
-    return {
+  contact_number: string;
 
-      title: "Department Not Found | Hajela Hospital",
+  description: string;
 
-    };
+  facilities: string[];
 
-  }
+  is_emergency_dept: boolean;
 
-  return {
+}
 
-    title: `${dept.title} | Hajela Hospital Bhopal`,
+async function getDepartment(
+  slug: string
+): Promise<Department | null> {
 
-    description: dept.description,
+  try {
 
-    keywords: [
+    const res =
+      await fetch(
 
-      dept.title,
-      `${dept.title} Bhopal`,
-      `Best ${dept.title} in Bhopal`,
-      `${dept.title} Hospital Bhopal`,
-      `Advanced ${dept.title}`,
-      "Hajela Hospital",
-      "Best Hospital in Bhopal",
-      "Multispeciality Hospital",
-
-    ],
-
-    openGraph: {
-
-      title:
-        `${dept.title} | Hajela Hospital Bhopal`,
-
-      description: dept.description,
-
-      images: [
+        `http://localhost:3000/api/departments/${slug}`,
 
         {
-          url: dept.image,
-          width: 1200,
-          height: 630,
-          alt: dept.title,
-        },
+          cache: "no-store",
+        }
 
-      ],
+      );
 
-    },
+    if (!res.ok)
+      return null;
 
-  };
+    const dept =
+      await res.json();
+
+    return dept;
+
+  } catch (error) {
+
+    return null;
+
+  }
 
 }
 
@@ -81,332 +69,583 @@ export default async function DepartmentPage({
 
 }: {
 
-  params: Promise<{ slug: string }>;
+  params: Promise<{
+    slug: string;
+  }>;
 
 }) {
 
-  const { slug } = await params;
+  const { slug } =
+    await params;
 
-  const dept = departments.find(
-    (item) => item.slug === slug
-  );
+  const dept =
+    await getDepartment(slug);
 
-  if (!dept) {
-
-    return (
-
-      <div
-        className="
-        pt-40
-
-        text-center
-
-        text-3xl
-
-        font-bold
-        "
-      >
-        Department Not Found
-      </div>
-
-    );
-
-  }
+  if (!dept)
+    notFound();
 
   return (
 
-    <>
+    <main
+      className="
+      min-h-screen
 
-      {/* SCHEMA */}
+      bg-gradient-to-b
+      from-slate-50
+      via-white
+      to-cyan-50/30
 
-      <script
-        type="application/ld+json"
+      pt-32
+      pb-24
+      "
+    >
 
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+      <div
+        className="
+        container-custom
 
-            "@context":
-              "https://schema.org",
+        max-w-7xl
+        mx-auto
 
-            "@type":
-              "MedicalSpecialty",
+        px-4
+        "
+      >
 
-            name: dept.title,
+        {/* HERO IMAGE */}
 
-            description:
-              dept.description,
+      {/* IMAGE */}
 
-            image: dept.image,
+<div
+  className="
+  relative
 
-            medicalSpecialty:
-              dept.title,
+  w-full
 
-            hospitalAffiliation: {
+  h-[340px]
+  sm:h-[520px]
+  lg:h-[720px]
 
-              "@type":
-                "Hospital",
+  overflow-hidden
 
-              name:
-                "Hajela Hospital",
+  rounded-[40px]
 
-            },
+  shadow-2xl
 
-            areaServed: {
+  bg-black
+  "
+>
 
-              "@type":
-                "City",
+  <Image
+    src={dept.image_url}
+    alt={dept.name}
 
-              name: "Bhopal",
+    fill
 
-            },
+    priority
 
-          }),
-        }}
-      />
+    className="
+    object-cover
 
-      <main className="bg-slate-50 min-h-screen pt-28">
+    object-center
 
-        {/* HERO */}
+    scale-110
+    "
 
-        <section className="relative h-[55vh] overflow-hidden">
+    sizes="
+    (max-width: 768px) 100vw,
+    (max-width: 1200px) 100vw,
+    1400px
+    "
+  />
 
-          <Image
-            src={dept.image}
+  {/* DARK OVERLAY */}
 
-            alt={`${dept.title} at Hajela Hospital Bhopal`}
+  <div
+    className="
+    absolute
+    inset-0
 
-            fill
+    bg-gradient-to-t
+    from-black/80
+    via-black/20
+    to-transparent
 
-            priority
+    z-10
+    "
+  />
 
-            className="object-cover"
-          />
+  {/* TITLE */}
 
-          <div className="absolute inset-0 bg-black/50"></div>
+  <div
+    className="
+    absolute
+
+    bottom-8
+    left-8
+    right-8
+
+    z-20
+    "
+  >
+
+    <h1
+      className="
+      text-3xl
+      sm:text-5xl
+      lg:text-7xl
+
+      font-black
+
+      text-white
+
+      drop-shadow-2xl
+
+      leading-tight
+      "
+    >
+
+      {dept.name}
+
+    </h1>
+
+  </div>
+
+  {/* EMERGENCY */}
+
+  {dept.is_emergency_dept && (
+
+    <div
+      className="
+      absolute
+      top-6
+      right-6
+
+      bg-red-500
+
+      text-white
+
+      px-5
+      py-2
+
+      rounded-full
+
+      font-bold
+
+      shadow-lg
+
+      z-20
+      "
+    >
+
+      24/7 Emergency
+
+    </div>
+
+  )}
+
+</div>
+
+        {/* CONTENT */}
+
+        <div
+          className="
+          grid
+          lg:grid-cols-3
+
+          gap-10
+
+          mt-14
+          "
+        >
+
+          {/* LEFT */}
 
           <div
             className="
-            absolute
-            inset-0
-
-            flex
-            items-center
-            justify-center
-
-            text-center
-
-            px-4
+            lg:col-span-2
             "
           >
 
-            <div>
+            {/* DESCRIPTION */}
+
+            <div
+              className="
+              bg-white
+
+              rounded-[35px]
+
+              p-8
+
+              shadow-lg
+
+              border
+              border-slate-100
+              "
+            >
 
               <p
                 className="
-                text-cyan-300
+                text-slate-600
+
+                text-lg
+
+                leading-relaxed
+                "
+              >
+
+                {dept.description}
+
+              </p>
+
+            </div>
+
+            {/* FACILITIES */}
+
+            <div
+              className="
+              bg-white
+
+              rounded-[35px]
+
+              p-8
+
+              shadow-lg
+
+              border
+              border-slate-100
+
+              mt-8
+              "
+            >
+
+              <h2
+                className="
+                text-3xl
+
+                font-black
+
+                text-slate-900
+
+                mb-8
+                "
+              >
+
+                Department Facilities
+
+              </h2>
+
+              <div
+                className="
+                grid
+                md:grid-cols-2
+
+                gap-5
+                "
+              >
+
+                {dept.facilities.map(
+
+                  (
+                    facility,
+                    index
+                  ) => (
+
+                    <div
+                      key={index}
+
+                      className="
+                      flex
+                      items-start
+
+                      gap-3
+
+                      bg-slate-50
+
+                      p-5
+
+                      rounded-2xl
+
+                      border
+                      border-slate-100
+                      "
+                    >
+
+                      <CheckCircle2
+                        className="
+                        text-cyan-600
+
+                        mt-0.5
+
+                        flex-shrink-0
+                        "
+                        size={20}
+                      />
+
+                      <p
+                        className="
+                        text-slate-700
+
+                        font-medium
+                        "
+                      >
+
+                        {facility}
+
+                      </p>
+
+                    </div>
+
+                  )
+
+                )}
+
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* RIGHT */}
+
+          <div>
+
+            <div
+              className="
+              bg-white
+
+              rounded-[35px]
+
+              p-8
+
+              shadow-lg
+
+              border
+              border-slate-100
+
+              sticky
+              top-28
+              "
+            >
+
+              <p
+                className="
+                text-xs
 
                 uppercase
 
                 tracking-[4px]
 
-                font-semibold
+                text-cyan-600
 
-                mb-4
+                font-bold
                 "
               >
-                Hajela Hospital Bhopal
+
+                Specialist Doctor
+
               </p>
 
-              <h1
+              <h3
                 className="
-                text-4xl
-                lg:text-6xl
+                mt-4
+
+                text-3xl
 
                 font-black
 
-                text-white
+                text-slate-900
                 "
               >
-                {dept.title}
-              </h1>
 
-              <p
-                className="
-                mt-5
+                {dept.doctor_name}
 
-                text-slate-200
+              </h3>
 
-                max-w-2xl
-
-                mx-auto
-
-                leading-relaxed
-                "
-              >
-                {dept.short}
-              </p>
-
-            </div>
-
-          </div>
-
-        </section>
-
-        {/* CONTENT */}
-
-        <section className="py-20">
-
-          <div className="container-custom">
-
-            <div
-              className="
-              grid
-              lg:grid-cols-2
-
-              gap-14
-
-              items-center
-              "
-            >
-
-              {/* IMAGE */}
+              {/* CONTACT */}
 
               <div
                 className="
-                relative
+                mt-8
 
-                h-[500px]
+                bg-cyan-50
 
-                overflow-hidden
+                border
+                border-cyan-100
 
-                rounded-[35px]
+                rounded-3xl
 
-                shadow-xl
+                p-5
                 "
               >
 
-                <Image
-                  src={dept.image}
-
-                  alt={`${dept.title} Department Hajela Hospital`}
-
-                  fill
-
-                  className="object-cover"
-                />
-
-              </div>
-
-              {/* TEXT */}
-
-              <div>
-
-                <p
-                  className="
-                  text-cyan-600
-
-                  uppercase
-
-                  tracking-[3px]
-
-                  font-bold
-
-                  text-sm
-
-                  mb-4
-                  "
-                >
-                  Specialized Department
-                </p>
-
-                <h2
-                  className="
-                  text-4xl
-
-                  font-black
-
-                  text-slate-900
-
-                  leading-tight
-                  "
-                >
-                  {dept.title}
-                </h2>
-
-                <p
-                  className="
-                  mt-6
-
-                  text-slate-600
-
-                  leading-relaxed
-
-                  text-base
-                  lg:text-lg
-                  "
-                >
-                  {dept.description}
-                </p>
-
-                {/* SERVICES */}
-
                 <div
                   className="
-                  mt-10
+                  flex
+                  items-center
 
-                  grid
-                  sm:grid-cols-2
-
-                  gap-4
+                  gap-3
                   "
                 >
 
-                  {dept.services.map(
-                    (service, index) => (
+                  <Phone
+                    className="
+                    text-cyan-600
+                    "
+                  />
 
-                      <div
-                        key={index}
+                  <div>
 
-                        className="
-                        bg-white
+                    <p
+                      className="
+                      text-xs
 
-                        rounded-2xl
+                      uppercase
 
-                        px-5
-                        py-4
+                      tracking-wider
 
-                        shadow-md
+                      text-slate-500
 
-                        border
-                        border-slate-100
+                      font-semibold
+                      "
+                    >
 
-                        hover:shadow-lg
+                      Contact Number
 
-                        transition-all
-                        duration-300
-                        "
-                      >
+                    </p>
 
-                        {service}
+                    <p
+                      className="
+                      text-xl
 
-                      </div>
+                      font-black
 
-                    )
-                  )}
+                      text-slate-900
+
+                      mt-1
+                      "
+                    >
+
+                      +91 {dept.contact_number}
+
+                    </p>
+
+                  </div>
 
                 </div>
 
               </div>
 
+              {/* CALL BUTTON */}
+
+              <a
+                href={`tel:+91${dept.contact_number}`}
+
+                className="
+                mt-8
+
+                inline-flex
+
+                items-center
+                justify-center
+
+                gap-2
+
+                w-full
+
+                bg-gradient-to-r
+                from-cyan-500
+                to-blue-700
+
+                hover:from-cyan-400
+                hover:to-blue-600
+
+                text-white
+
+                py-4
+
+                rounded-2xl
+
+                font-bold
+
+                shadow-lg
+
+                transition-all
+                duration-300
+                "
+              >
+
+                <Phone size={18} />
+
+                Call Department
+
+              </a>
+
+              {/* EMERGENCY BOX */}
+
+              {dept.is_emergency_dept && (
+
+                <div
+                  className="
+                  mt-6
+
+                  flex
+                  items-start
+
+                  gap-3
+
+                  rounded-2xl
+
+                  bg-red-50
+
+                  border
+                  border-red-100
+
+                  p-5
+                  "
+                >
+
+                  <ShieldAlert
+                    className="
+                    text-red-500
+
+                    flex-shrink-0
+
+                    mt-0.5
+                    "
+                  />
+
+                  <p
+                    className="
+                    text-sm
+
+                    text-red-700
+
+                    leading-relaxed
+
+                    font-medium
+                    "
+                  >
+
+                    This department provides
+                    emergency medical support
+                    and remains operational
+                    24×7.
+
+                  </p>
+
+                </div>
+
+              )}
+
             </div>
 
           </div>
 
-        </section>
+        </div>
 
-      </main>
+      </div>
 
-    </>
+    </main>
 
   );
 

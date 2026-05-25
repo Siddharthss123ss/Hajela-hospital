@@ -449,50 +449,110 @@ export default function Technology() {
                 "
               >
 
-                {[
-                  "Modern Technology",
-                  "Expert Specialists",
-                  "Advanced Patient Care",
-                ].map((item, index) => (
+                {(
+  active.title === "ICCU & NICU Care"
 
-                  <div
-                    key={index}
+    ? [
+        "24/7 Critical Monitoring",
+        "Ventilator Support Systems",
+        "Neonatal Intensive Care",
+      ]
 
-                    className="
-                    rounded-2xl
+    : active.title === "Robotic & Laparoscopic Surgery"
 
-                    border
-                    border-slate-200
+    ? [
+        "Minimally Invasive Procedures",
+        "Advanced Operation Theatres",
+        "Faster Recovery Support",
+      ]
 
-                    bg-slate-50
+    : active.title === "IVF & Fertility Centre"
 
-                    px-5
-                    py-5
+    ? [
+        "IVF & ICSI Treatments",
+        "Fertility Consultation",
+        "Reproductive Healthcare",
+      ]
 
-                    text-center
+    : active.title === "ENT & Voice Disorders"
 
-                    hover:bg-cyan-50
+    ? [
+        "Microsurgical ENT Care",
+        "Sinus & Allergy Treatment",
+        "Voice Disorder Solutions",
+      ]
 
-                    transition-all
-                    duration-300
-                    "
-                  >
+    : active.title === "Cochlear Implantation Centre"
 
-                    <p
-                      className="
-                      text-sm
+    ? [
+        "Advanced Hearing Implants",
+        "Hearing Rehabilitation",
+        "Expert ENT Surgeons",
+      ]
 
-                      font-semibold
+    : active.title === "Advanced Radiology & Imaging"
 
-                      text-slate-700
-                      "
-                    >
-                      {item}
-                    </p>
+    ? [
+        "Digital Imaging Systems",
+        "Ultrasound & Doppler",
+        "Accurate Diagnostics",
+      ]
 
-                  </div>
+    : active.title === "Emergency & Trauma Care"
 
-                ))}
+    ? [
+        "24/7 Emergency Response",
+        "Rapid Trauma Support",
+        "Critical Care Specialists",
+      ]
+
+    : [
+        "Advanced Laboratory Testing",
+        "Accurate Health Reports",
+        "Comprehensive Diagnostics",
+      ]
+
+).map((item, index) => (
+
+  <div
+    key={index}
+
+    className="
+    rounded-2xl
+
+    border
+    border-slate-200
+
+    bg-slate-50
+
+    px-5
+    py-5
+
+    text-center
+
+    hover:bg-cyan-50
+
+    transition-all
+    duration-300
+    "
+  >
+
+    <p
+      className="
+      text-sm
+
+      font-semibold
+
+      text-slate-700
+      "
+    >
+      {item}
+    </p>
+
+  </div>
+
+))}
+
 
               </div>
 

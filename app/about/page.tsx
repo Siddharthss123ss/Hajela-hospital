@@ -610,20 +610,20 @@ export default function AboutPage() {
 
         </div>
 
-        {/* ORGANIZATIONS & INSURANCE */}
+    {/* ORGANIZATIONS + INSURANCE + TPA */}
 
 <div
   className="
   mt-24
 
   grid
-  lg:grid-cols-2
+  lg:grid-cols-3
 
   gap-10
   "
 >
 
-  {/* ORGANIZATIONS */}
+  {/* GOVERNMENT */}
 
   <div
     className="
@@ -684,13 +684,19 @@ export default function AboutPage() {
       grid
 
       gap-4
+
+      max-h-[650px]
+
+      overflow-y-auto
+
+      pr-2
       "
     >
 
       {[
         "Recognized hospital for Central Govt Health Scheme for Central Govt. Employees",
         "Bharat Sanchar Nigam Limited (BSNL)",
-        "Police Health Protection Scheme (PHPS) for Police personals of Dept. of Home (M.P)",
+        "Police Health Protection Scheme (PHPS)",
         "Maulana Azad National Institute of Technology (MANIT)",
         "M.P. Tourism Development Corporation (MPSTDC)",
         "Food Corporation of India (FCI)",
@@ -707,15 +713,15 @@ export default function AboutPage() {
         "National Judicial Academy (NJA)",
         "M.P. State Government for Family Planning Operation",
         "M.P State Civil Supplies Corporation",
-        "M.P State Agricultural Marketing Board (Mandi Board)",
+        "M.P State Agricultural Marketing Board",
         "Advanced Materials & Processes Research Institute (AMPRI)",
-        "Judiciary Officials - In-service / Retired",
+        "Judiciary Officials",
         "School of Planning and Architecture (SPA)",
         "VNS Group of Colleges, Bhopal",
         "Central Board of Secondary Education (CBSE)",
         "Maulana Azad Urdu University",
         "Central Institute of Petrochemicals Engineering & Technology (CIPET)",
-        "Makhanlal Chaturvedi University of Journalism and Communication",
+        "Makhanlal Chaturvedi University",
         "National Horticulture Board (NHB)",
         "Jawahar Navodaya Vidyalaya",
         "Rashtriya Bal Swasthya Karyakram (RBSK)",
@@ -793,7 +799,7 @@ export default function AboutPage() {
       mb-4
       "
     >
-      Cashless & Insurance
+      Insurance Companies
     </p>
 
     <h2
@@ -811,7 +817,7 @@ export default function AboutPage() {
       "
     >
       Approved Insurance
-      Companies & TPA's
+      Companies
     </h2>
 
     <div
@@ -819,39 +825,26 @@ export default function AboutPage() {
       grid
 
       gap-4
+
+      max-h-[650px]
+
+      overflow-y-auto
+
+      pr-2
       "
     >
 
       {[
-        "Alankit Healthcare TPA Limited",
         "Aditya Birla Health Insurance",
         "Cholamandalam MS General Insurance",
-        "East West Assist (Volo Health Insurance TPA)",
-        "Ericson Insurance TPA Pvt Ltd",
-        "Family Health Plan Insurance TPA Limited",
-        "Focus Health Insurance TPA Pvt. Ltd",
-        "Future Generali India Insurance Co",
-        "Genins India Insurance TPA Pvt Ltd",
-        "Good Health Plan Insurance TPA Limited",
-        "Grand Healthcare Service India Pvt. Ltd",
+        "Future Generali India Insurance",
         "HDFC Ergo General Insurance",
-        "Health India Insurance TPA Ltd",
-        "Health Insurance TPA Pvt Ltd",
-        "Heritage Health Services TPA",
         "ICICI Prudential Life Insurance",
-        "IFFCO-TOKIO General Insurance Co Ltd",
-        "Liberty General Insurance Co. Ltd",
-        "M.D. India Health Insurance TPA Pvt. Ltd",
-        "Medvantage Insurance TPA Pvt Ltd",
-        "Med Save Health Insurance TPA Ltd",
-        "Medi Assist Insurance TPA Pvt. Ltd",
-        "Paramount Health Services TPA Pvt Ltd",
-        "Park Mediclaim TPA Health Services Pvt. Ltd",
-        "Raksha Health Insurance TPA Pvt. Ltd",
-        "Reliance General Health Insurance",
-        "SBI General Insurance Co Ltd",
+        "IFFCO TOKIO General Insurance",
+        "Liberty General Insurance",
+        "Reliance General Insurance",
+        "SBI General Insurance",
         "Universal Sompo General Insurance",
-        "Vidal Health Insurance TPA Pvt Ltd",
       ].map((item, index) => (
 
         <div
@@ -881,15 +874,138 @@ export default function AboutPage() {
 
         </div>
 
-    
+      ))}
 
-              ))}
+    </div>
 
-            </div>
+  </div>
 
-          </div>
+  {/* TPA */}
+
+  <div
+    className="
+    rounded-[36px]
+
+    border
+    border-white/10
+
+    bg-gradient-to-br
+    from-emerald-500/10
+    to-cyan-500/10
+
+    backdrop-blur-2xl
+
+    p-8
+    lg:p-10
+
+    shadow-[0_10px_60px_rgba(0,0,0,0.25)]
+    "
+  >
+
+    <p
+      className="
+      text-emerald-400
+
+      uppercase
+
+      tracking-[4px]
+
+      font-bold
+
+      text-sm
+
+      mb-4
+      "
+    >
+      Cashless & TPA
+    </p>
+
+    <h2
+      className="
+      text-3xl
+      lg:text-4xl
+
+      font-black
+
+      text-white
+
+      leading-tight
+
+      mb-8
+      "
+    >
+      Approved TPA
+      Partners
+    </h2>
+
+    <div
+      className="
+      grid
+
+      gap-4
+
+      max-h-[650px]
+
+      overflow-y-auto
+
+      pr-2
+      "
+    >
+
+      {[
+        "Alankit Healthcare TPA",
+        "East West Assist",
+        "Ericson Insurance TPA",
+        "Family Health Plan TPA",
+        "Focus Health Insurance TPA",
+        "Genins India Insurance TPA",
+        "Good Health Plan TPA",
+        "Health India Insurance TPA",
+        "Heritage Health Services TPA",
+        "M.D. India Health Insurance TPA",
+        "Medvantage Insurance TPA",
+        "Med Save Health Insurance TPA",
+        "Medi Assist Insurance TPA",
+        "Paramount Health Services TPA",
+        "Park Mediclaim TPA",
+        "Raksha Health Insurance TPA",
+        "Vidal Health Insurance TPA",
+      ].map((item, index) => (
+
+        <div
+          key={index}
+
+          className="
+          rounded-2xl
+
+          border
+          border-white/10
+
+          bg-white/[0.05]
+
+          px-5
+          py-4
+
+          text-slate-200
+
+          hover:bg-emerald-500/10
+
+          transition-all
+          duration-300
+          "
+        >
+
+          {index + 1}. {item}
 
         </div>
+
+      ))}
+
+    </div>
+
+  </div>
+
+</div>
 
       </div>
 

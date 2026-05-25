@@ -1,190 +1,109 @@
 "use client";
 
 import {
-  useState,
-  useEffect,
-  FormEvent
-} from "react";
-
-import {
-  Calendar,
-  ArrowRight,
-  Heart,
+  Phone,
   Shield,
-  Ambulance,
+  Heart,
   Star,
+  Stethoscope,
 } from "lucide-react";
-
-interface Department {
-
-  _id: string;
-
-  name: string;
-
-}
 
 export default function Appointment() {
 
-  const [formData, setFormData] = useState({
+  const departments = [
 
-    name: "",
-    phone: "",
-    department: "",
-    date: "",
-    message: "",
+    {
+      title: "IVF & Infertility Centre",
+      number: "7777802361",
+      icon: "🧬",
+    },
 
-  });
+    {
+      title: "General Medicine",
+      number: "9977744455",
+      icon: "💊",
+    },
 
-  const [isSubmitting, setIsSubmitting] =
-    useState(false);
+    {
+      title: "Maternity & Women Care",
+      number: "7777802361",
+      icon: "🌸",
+    },
 
-  const [departments, setDepartments] =
-    useState<Department[]>([]);
+    {
+      title: "Pathology",
+      number: "7777802363",
+      icon: "🧪",
+    },
 
-  useEffect(() => {
+    {
+      title: "ICCU & Critical Care",
+      number: "7777802365",
+      icon: "❤️",
+    },
 
-    const fetchDepartments =
-      async () => {
+    {
+      title: "Cochlear Implant Centre",
+      number: "7777802365",
+      icon: "🦻",
+    },
 
-        try {
+    {
+      title: "Sonology & Imaging",
+      number: "7777802362",
+      icon: "📡",
+    },
 
-          const res =
-            await fetch(
-              "/api/departments"
-            );
+    {
+      title: "ENT & Voice Disorders",
+      number: "7777802365",
+      icon: "🩺",
+    },
 
-          const data =
-            await res.json();
+    {
+      title: "Orthopaedics & Joint Replacement",
+      number: "7777802366",
+      icon: "🦴",
+    },
 
-          setDepartments(data);
+    {
+      title: "Radiology & Imaging",
+      number: "7777802362",
+      icon: "🩻",
+    },
 
-        } catch (error) {
+    {
+      title: "Pediatrics & NICU",
+      number: "9131365005",
+      icon: "👶",
+    },
 
-          console.log(error);
+    {
+      title: "Emergency & Trauma Care",
+      number: "7777802365",
+      icon: "🚨",
+    },
 
-        }
-
-      };
-
-    fetchDepartments();
-
-  }, []);
-
-  const handleSubmit = async (
-    e: FormEvent<HTMLFormElement>
-  ) => {
-
-    e.preventDefault();
-
-    try {
-
-      setIsSubmitting(true);
-
-      const response =
-        await fetch(
-          "/api/appointments",
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-
-            body: JSON.stringify({
-
-              patient_name:
-                formData.name,
-
-              patient_phone:
-                formData.phone,
-
-              patient_email:
-                "demo@gmail.com",
-
-              doctor_id:
-                "6a0c9c72ea047527e5f85f17",
-
-              dept_id:
-                "6a0c9e6cea047527e5f85f24",
-
-              appointment_date:
-                formData.date,
-
-              time_slot:
-                "04:00 PM - 06:00 PM",
-
-              reason:
-                formData.message,
-
-              status:
-                "pending",
-
-            }),
-
-          }
-        );
-
-      const data =
-        await response.json();
-
-      if (!response.ok) {
-
-        throw new Error(
-          data.error ||
-          "Booking failed"
-        );
-
-      }
-
-      alert(
-        "Appointment booked successfully!"
-      );
-
-      setFormData({
-
-        name: "",
-        phone: "",
-        department: "",
-        date: "",
-        message: "",
-
-      });
-
-    } catch (error) {
-
-      console.log(error);
-
-      alert(
-        "Failed to book appointment"
-      );
-
-    } finally {
-
-      setIsSubmitting(false);
-
-    }
-
-  };
+  ];
 
   const features = [
 
     {
-      icon: Ambulance,
-      text: "24/7 Emergency Support",
-      color: "text-red-400",
-    },
-
-    {
       icon: Shield,
-      text: "NABH Accredited",
-      color: "text-blue-400",
+      text: "Trusted Multispeciality Healthcare",
+      color: "text-cyan-300",
     },
 
     {
       icon: Heart,
-      text: "Advanced Technology",
-      color: "text-pink-400",
+      text: "Advanced Patient Care Facilities",
+      color: "text-pink-300",
+    },
+
+    {
+      icon: Star,
+      text: "Experienced Specialists & Surgeons",
+      color: "text-yellow-300",
     },
 
   ];
@@ -195,47 +114,81 @@ export default function Appointment() {
       id="appointment"
 
       className="
-      py-16
-      md:py-20
+      relative
+      py-20
+      md:py-24
       lg:py-28
+
       bg-gradient-to-br
       from-slate-50
       via-white
-      to-cyan-50/30
+      to-cyan-50/40
+
       overflow-hidden
-      relative
       "
     >
 
+      {/* BACKGROUND */}
+
       <div
         className="
+        absolute
+        top-0
+        left-1/2
+        -translate-x-1/2
+
+        w-[700px]
+        h-[700px]
+
+        bg-cyan-200/20
+
+        rounded-full
+
+        blur-[140px]
+        "
+      ></div>
+
+      <div
+        className="
+        relative
+        z-10
+
         max-w-7xl
         mx-auto
+
         px-4
         sm:px-6
         lg:px-8
-        relative
-        z-10
         "
       >
 
-        <div className="text-center mb-10 md:mb-16">
+        {/* HEADING */}
+
+        <div className="text-center mb-16">
 
           <div
             className="
             inline-flex
             items-center
             gap-2
-            bg-white/80
-            px-4
-            py-1.5
-            rounded-full
+
+            bg-white
+
+            border
+            border-slate-200
+
             shadow-sm
-            mb-4
+
+            px-5
+            py-2
+
+            rounded-full
+
+            mb-5
             "
           >
 
-            <Calendar
+            <Stethoscope
               className="
               w-4
               h-4
@@ -245,15 +198,15 @@ export default function Appointment() {
 
             <span
               className="
-              text-cyan-600
+              text-cyan-700
               font-semibold
-              text-xs
+              text-sm
               uppercase
-              tracking-wider
+              tracking-wide
               "
             >
 
-              Book Appointment
+              Contact Departments
 
             </span>
 
@@ -261,64 +214,116 @@ export default function Appointment() {
 
           <h2
             className="
-            text-3xl
-            sm:text-4xl
+            text-4xl
             md:text-5xl
-            font-bold
-            text-slate-800
+            lg:text-6xl
+
+            font-black
+
+            text-slate-900
+
+            leading-tight
             "
           >
 
-            Schedule Your{" "}
+            Connect With{" "}
 
             <span
               className="
               bg-gradient-to-r
-              from-blue-900
-              via-cyan-600
-              to-cyan-500
+              from-cyan-500
+              to-blue-700
+
               bg-clip-text
               text-transparent
               "
             >
 
-              Visit
+              Our Departments
 
             </span>
 
           </h2>
 
+          <p
+            className="
+            mt-6
+
+            max-w-3xl
+            mx-auto
+
+            text-slate-500
+
+            text-base
+            md:text-lg
+
+            leading-relaxed
+            "
+          >
+
+            Easily connect with our specialized departments
+            for consultations, healthcare support, diagnostics
+            and patient assistance directly through call support.
+
+          </p>
+
         </div>
+
+        {/* MAIN CONTAINER */}
 
         <div
           className="
           relative
+
           bg-gradient-to-br
-          from-blue-900
-          via-indigo-900
-          to-cyan-800
-          rounded-3xl
-          md:rounded-[3rem]
-          shadow-2xl
+          from-blue-950
+          via-indigo-950
+          to-cyan-900
+
+          rounded-[2.5rem]
+
           overflow-hidden
+
+          shadow-[0_30px_100px_rgba(15,23,42,0.25)]
           "
         >
+
+          {/* GLOW */}
+
+          <div
+            className="
+            absolute
+            -top-24
+            -right-24
+
+            w-72
+            h-72
+
+            bg-cyan-400/20
+
+            rounded-full
+
+            blur-[90px]
+            "
+          ></div>
 
           <div
             className="
             relative
             z-10
+
             grid
             lg:grid-cols-2
             "
           >
 
+            {/* LEFT */}
+
             <div
               className="
               p-8
-              md:p-10
-              lg:p-12
-              xl:p-14
+              md:p-12
+              lg:p-14
               "
             >
 
@@ -327,18 +332,26 @@ export default function Appointment() {
                 inline-flex
                 items-center
                 gap-2
+
                 bg-white/10
-                px-3
-                py-1.5
+
+                border
+                border-white/10
+
+                px-4
+                py-2
+
                 rounded-full
-                mb-6
+
+                mb-8
                 "
               >
 
                 <Star
                   className="
-                  w-3.5
-                  h-3.5
+                  w-4
+                  h-4
+
                   text-yellow-400
                   fill-yellow-400
                   "
@@ -347,12 +360,12 @@ export default function Appointment() {
                 <span
                   className="
                   text-white/90
-                  text-xs
+                  text-sm
                   font-medium
                   "
                 >
 
-                  4.9/5 Patient Rating
+                  Hajela Hospital Bhopal
 
                 </span>
 
@@ -360,39 +373,59 @@ export default function Appointment() {
 
               <h3
                 className="
-                text-3xl
-                md:text-4xl
-                lg:text-5xl
-                font-bold
+                text-4xl
+                md:text-5xl
+
+                font-black
+
                 text-white
+
                 leading-tight
                 "
               >
 
-                Schedule Your Visit
+                Direct Department
 
                 <span
                   className="
                   block
-                  text-cyan-300
-                  text-2xl
-                  md:text-3xl
                   mt-2
+
+                  text-cyan-300
                   "
                 >
 
-                  With Our Specialists
+                  Contact Support
 
                 </span>
 
               </h3>
 
+              <p
+                className="
+                mt-6
+
+                text-slate-300
+
+                leading-relaxed
+
+                text-base
+                md:text-lg
+                "
+              >
+
+                Contact our healthcare departments directly
+                for treatment information, appointments,
+                diagnostics and medical support assistance.
+
+              </p>
+
+              {/* FEATURES */}
+
               <div
                 className="
-                mt-8
-                md:mt-10
-                space-y-3
-                md:space-y-4
+                mt-10
+                space-y-5
                 "
               >
 
@@ -404,16 +437,19 @@ export default function Appointment() {
                     className="
                     flex
                     items-center
-                    gap-3
+                    gap-4
                     "
                   >
 
                     <div
                       className="
-                      w-8
-                      h-8
+                      w-10
+                      h-10
+
                       rounded-full
+
                       bg-white/10
+
                       flex
                       items-center
                       justify-center
@@ -422,8 +458,8 @@ export default function Appointment() {
 
                       <item.icon
                         className={`
-                        w-4
-                        h-4
+                        w-5
+                        h-5
                         ${item.color}
                         `}
                       />
@@ -433,11 +469,12 @@ export default function Appointment() {
                     <p
                       className="
                       text-white
-                      text-sm
-                      md:text-base
+                      text-base
                       "
                     >
+
                       {item.text}
+
                     </p>
 
                   </div>
@@ -448,12 +485,16 @@ export default function Appointment() {
 
             </div>
 
+            {/* RIGHT */}
+
             <div
               className="
               bg-white/10
               backdrop-blur-xl
+
               border-l
-              border-white/20
+              border-white/10
+
               p-6
               md:p-8
               lg:p-10
@@ -462,284 +503,133 @@ export default function Appointment() {
 
               <div
                 className="
-                flex
-                items-center
-                gap-3
-                mb-6
+                grid
+                md:grid-cols-2
+                gap-5
                 "
               >
 
-                <div
-                  className="
-                  w-1
-                  h-8
-                  bg-gradient-to-b
-                  from-cyan-400
-                  to-blue-500
-                  rounded-full
-                  "
-                ></div>
+                {departments.map((dept, index) => (
 
-                <h4
-                  className="
-                  text-xl
-                  md:text-2xl
-                  font-bold
-                  text-white
-                  "
-                >
+                  <div
+                    key={index}
 
-                  Make An Appointment
+                    className="
+                    group
 
-                </h4>
+                    bg-white/10
+
+                    border
+                    border-white/10
+
+                    rounded-3xl
+
+                    p-6
+
+                    hover:bg-white/15
+                    hover:-translate-y-1
+
+                    transition-all
+                    duration-300
+                    "
+                  >
+
+                    <div
+                      className="
+                      text-4xl
+                      "
+                    >
+
+                      {dept.icon}
+
+                    </div>
+
+                    <h4
+                      className="
+                      mt-4
+
+                      text-white
+
+                      text-xl
+
+                      font-bold
+
+                      leading-snug
+                      "
+                    >
+
+                      {dept.title}
+
+                    </h4>
+
+                    <p
+                      className="
+                      mt-3
+
+                      text-cyan-200
+
+                      text-lg
+
+                      font-medium
+                      "
+                    >
+
+                      +91 {dept.number}
+
+                    </p>
+
+                    <a
+                      href={`tel:+91${dept.number}`}
+
+                      className="
+                      mt-6
+
+                      inline-flex
+
+                      items-center
+                      justify-center
+                      gap-2
+
+                      w-full
+
+                      bg-gradient-to-r
+                      from-cyan-500
+                      to-blue-600
+
+                      hover:from-cyan-400
+                      hover:to-blue-500
+
+                      text-white
+
+                      py-3.5
+
+                      rounded-2xl
+
+                      font-semibold
+
+                      shadow-lg
+
+                      transition-all
+                      duration-300
+                      "
+                    >
+
+                      <Phone
+                        className="
+                        w-4
+                        h-4
+                        "
+                      />
+
+                      Call Department
+
+                    </a>
+
+                  </div>
+
+                ))}
 
               </div>
-
-              <form
-                onSubmit={handleSubmit}
-
-                className="
-                space-y-4
-                md:space-y-5
-                "
-              >
-
-                <input
-                  type="text"
-
-                  value={formData.name}
-
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      name: e.target.value,
-                    })
-                  }
-
-                  placeholder="Enter your full name"
-
-                  required
-
-                  className="
-                  w-full
-                  px-4
-                  py-3.5
-                  rounded-xl
-                  bg-white/10
-                  border
-                  border-white/20
-                  text-white
-                  placeholder:text-white/40
-                  outline-none
-                  focus:border-cyan-400
-                  "
-                />
-
-                <input
-                  type="tel"
-
-                  value={formData.phone}
-
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      phone: e.target.value,
-                    })
-                  }
-
-                  placeholder="+91 98765 43210"
-
-                  required
-
-                  className="
-                  w-full
-                  px-4
-                  py-3.5
-                  rounded-xl
-                  bg-white/10
-                  border
-                  border-white/20
-                  text-white
-                  placeholder:text-white/40
-                  outline-none
-                  focus:border-cyan-400
-                  "
-                />
-
-                <select
-                  value={formData.department}
-
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      department: e.target.value,
-                    })
-                  }
-
-                  required
-
-                  className="
-                  w-full
-                  px-4
-                  py-3.5
-                  rounded-xl
-                  bg-white/10
-                  border
-                  border-white/20
-                  text-white
-                  outline-none
-                  focus:border-cyan-400
-                  "
-                >
-
-                  <option
-                    value=""
-                    className="
-                    text-slate-800
-                    "
-                  >
-
-                    Select Department
-
-                  </option>
-
-                  {
-                    departments.map(
-                      (dept) => (
-
-                        <option
-                          key={dept._id}
-
-                          value={dept.name}
-
-                          className="
-                          text-slate-800
-                          "
-                        >
-
-                          {dept.name}
-
-                        </option>
-
-                      )
-                    )
-                  }
-
-                </select>
-
-                <input
-                  type="date"
-
-                  value={formData.date}
-
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      date: e.target.value,
-                    })
-                  }
-
-                  required
-
-                  className="
-                  w-full
-                  px-4
-                  py-3.5
-                  rounded-xl
-                  bg-white/10
-                  border
-                  border-white/20
-                  text-white
-                  outline-none
-                  focus:border-cyan-400
-                  "
-                />
-
-                <textarea
-                  value={formData.message}
-
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      message: e.target.value,
-                    })
-                  }
-
-                  placeholder="Describe your symptoms..."
-
-                  rows={4}
-
-                  className="
-                  w-full
-                  px-4
-                  py-3
-                  rounded-xl
-                  bg-white/10
-                  border
-                  border-white/20
-                  text-white
-                  placeholder:text-white/40
-                  outline-none
-                  focus:border-cyan-400
-                  resize-none
-                  "
-                />
-
-                <button
-                  type="submit"
-
-                  disabled={isSubmitting}
-
-                  className="
-                  group
-                  relative
-                  w-full
-                  bg-gradient-to-r
-                  from-cyan-500
-                  to-blue-600
-                  text-white
-                  font-semibold
-                  py-3.5
-                  rounded-xl
-                  hover:shadow-xl
-                  transition-all
-                  duration-300
-                  "
-                >
-
-                  <span
-                    className="
-                    relative
-                    z-10
-                    flex
-                    items-center
-                    justify-center
-                    gap-2
-                    "
-                  >
-
-                    {isSubmitting ? (
-                      <>Processing...</>
-                    ) : (
-                      <>
-                        Book Appointment
-
-                        <ArrowRight
-                          className="
-                          w-4
-                          h-4
-                          group-hover:translate-x-1
-                          transition-transform
-                          "
-                        />
-                      </>
-                    )}
-
-                  </span>
-
-                </button>
-
-              </form>
 
             </div>
 
