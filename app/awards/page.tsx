@@ -11,12 +11,6 @@ const trophies = [
   },
 
   {
-    title: "Kayastha Leadership Award",
-    subtitle: "Presented with Vishwas Sarang",
-    image: "/awards/KAYASTHA.jpg",
-  },
-
-  {
     title: "NABH Certification Ceremony",
     subtitle: "National Quality Healthcare Recognition",
     image: "/awards/nabh.jpg",

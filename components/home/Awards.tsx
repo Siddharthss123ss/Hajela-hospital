@@ -11,12 +11,6 @@ const featuredAwards = [
   },
 
   {
-    title: "Kayastha Leadership Award",
-    subtitle: "Presented with Vishwas Sarang",
-    image: "/awards/KAYASTHA.jpg",
-  },
-
-  {
     title: "NABH Certification Ceremony",
     subtitle: "Quality & Patient Safety Recognition",
     image: "/awards/nabh.jpg",
