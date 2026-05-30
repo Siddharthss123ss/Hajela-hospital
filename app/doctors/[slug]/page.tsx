@@ -21,6 +21,12 @@ interface Doctor {
 
   experience: string;
 
+  department: string;
+
+  opd_timing: string;
+
+  appointment_number: string;
+
   about: string;
 
   image_url: string;
@@ -228,29 +234,175 @@ export default function DoctorDetailPage() {
             "
           >
 
-            <div>
+            <div
+  className="
+  mt-8
+  grid
+  md:grid-cols-2
+  gap-5
+  "
+>
 
-              <span className="font-bold">
-                Degree:
-              </span>
+  <div
+    className="
+    bg-slate-50
+    p-4
+    rounded-2xl
+    "
+  >
 
-              {" "}
+    <span className="font-bold text-slate-900">
+      Degree
+    </span>
 
-              {doctor.degree}
+    <p className="mt-2 text-slate-600">
+      {doctor.degree}
+    </p>
 
-            </div>
+  </div>
 
-            <div>
+  <div
+    className="
+    bg-slate-50
+    p-4
+    rounded-2xl
+    "
+  >
 
-              <span className="font-bold">
-                Experience:
-              </span>
+    <span className="font-bold text-slate-900">
+      Experience
+    </span>
 
-              {" "}
+    <p className="mt-2 text-slate-600">
+      {doctor.experience}
+    </p>
 
-              {doctor.experience}
+  </div>
 
-            </div>
+  <div
+    className="
+    bg-slate-50
+    p-4
+    rounded-2xl
+    "
+  >
+
+    <span className="font-bold text-slate-900">
+      Department
+    </span>
+
+    <p className="mt-2 text-slate-600">
+      {doctor.department}
+    </p>
+
+  </div>
+
+  <div
+    className="
+    bg-slate-50
+    p-4
+    rounded-2xl
+    "
+  >
+
+    <span className="font-bold text-slate-900">
+      OPD Timing
+    </span>
+
+    <p className="mt-2 text-slate-600">
+      {doctor.opd_timing}
+    </p>
+
+  </div>
+
+</div>
+
+<div
+  className="
+  mt-5
+  p-5
+  bg-cyan-50
+  rounded-2xl
+  border
+  border-cyan-100
+  "
+>
+
+  <span
+    className="
+    font-bold
+    text-cyan-800
+    text-lg
+    "
+  >
+    Appointment & Contact
+  </span>
+
+  <p
+    className="
+    mt-2
+    text-slate-600
+    "
+  >
+    {doctor.appointment_number}
+  </p>
+
+  <div
+    className="
+    mt-4
+    flex
+    flex-wrap
+    gap-3
+    "
+  >
+
+    <a
+      href={`tel:${doctor.appointment_number.split("/")[0].replace(/\s+/g, "")}`}
+      className="
+      px-6
+      py-3
+
+      rounded-xl
+
+      bg-green-600
+      text-white
+
+      font-semibold
+
+      hover:bg-green-700
+
+      transition-all
+      "
+    >
+      📞 Call Now
+    </a>
+
+    <a
+      href="/contact"
+      className="
+      px-6
+      py-3
+
+      rounded-xl
+
+      border-2
+      border-cyan-600
+
+      text-cyan-700
+
+      font-semibold
+
+      hover:bg-cyan-50
+
+      transition-all
+      "
+    >
+      📍 Contact Hospital
+    </a>
+
+  </div>
+
+</div>
 
           </div>
 

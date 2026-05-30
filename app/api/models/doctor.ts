@@ -1,12 +1,9 @@
-import mongoose,
-{
+import mongoose, {
   Schema,
   Document
-}
-from "mongoose";
+} from "mongoose";
 
-export interface IDoctor
-extends Document {
+export interface IDoctor extends Document {
 
   name: string;
 
@@ -18,6 +15,12 @@ extends Document {
 
   experience: string;
 
+  department: string;
+
+  opd_timing: string;
+
+  appointment_number: string;
+
   about: string;
 
   expertise: string[];
@@ -26,8 +29,7 @@ extends Document {
 
 }
 
-const DoctorSchema =
-new Schema<IDoctor>(
+const DoctorSchema = new Schema<IDoctor>(
 
   {
 
@@ -49,26 +51,43 @@ new Schema<IDoctor>(
 
     degree: {
       type: String,
+      default: "",
     },
 
     experience: {
       type: String,
+      default: "",
+    },
+
+    department: {
+      type: String,
+      default: "",
+    },
+
+    opd_timing: {
+      type: String,
+      default: "",
+    },
+
+    appointment_number: {
+      type: String,
+      default: "",
     },
 
     about: {
       type: String,
+      default: "",
     },
 
     expertise: [
-
       {
         type: String,
       }
-
     ],
 
     image_url: {
       type: String,
+      default: "",
     },
 
   },

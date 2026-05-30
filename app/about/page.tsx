@@ -445,7 +445,7 @@ export default function AboutPage() {
           >
 
             <img
-              src="https://res.cloudinary.com/dko6aobxx/image/upload/q_auto/f_auto/v1779436483/anoop_pdxflj.jpg"
+              src="https://res.cloudinary.com/dko6aobxx/image/upload/v1780139450/DR_ANOOP_HAJELA_e4uevn.png"
               alt="Dr. Anoop Hajela"
 
               className="

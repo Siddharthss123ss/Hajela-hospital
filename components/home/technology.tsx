@@ -17,7 +17,7 @@ const technologies = [
   {
     title: "Robotic Surgery",
 
-    image: "/departments/robotic1.png",
+    image: "https://res.cloudinary.com/dko6aobxx/image/upload/q_auto/f_auto/v1779735786/joint_vec8wa.png",
 
     desc:
       "Modern robotic-assisted surgical procedures offering greater precision, smaller incisions, faster recovery and advanced minimally invasive treatment solutions.",
@@ -26,7 +26,7 @@ const technologies = [
   {
     title: "IVF & Fertility Centre",
 
-    image: "/hospital/ivf.PNG",
+    image: "https://res.cloudinary.com/dko6aobxx/image/upload/q_auto/f_auto/v1779735781/maternity_uacxmm.jpg",
 
     desc:
       "Comprehensive fertility and reproductive healthcare services including IVF, ICSI, infertility consultation and personalized fertility treatments with modern reproductive technology.",
@@ -35,7 +35,7 @@ const technologies = [
   {
     title: "ENT & Voice Disorders",
 
-    image: "/hospital/ents.jpeg",
+    image: "https://res.cloudinary.com/dko6aobxx/image/upload/q_auto/f_auto/v1779735777/ents_y8wv64.jpg",
 
     desc:
       "Specialized ENT treatments for ear, nose, throat, sinus, allergy and voice disorders using advanced diagnostic and minimally invasive surgical techniques.",
@@ -44,7 +44,7 @@ const technologies = [
   {
     title: "Cochlear Implantation Centre",
 
-    image: "/hospital/cochlear.jpeg",
+    image: "https://res.cloudinary.com/dko6aobxx/image/upload/q_auto/f_auto/v1779735782/cochlear_tucvv0.png",
 
     desc:
       "Advanced cochlear implant procedures helping patients restore hearing abilities with expert ENT surgeons, hearing rehabilitation and modern implant technologies.",

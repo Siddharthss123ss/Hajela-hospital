@@ -1,5 +1,4 @@
 import ScrollTop from "@/components/ui/ScrollTop";
-import WhatsappButton from "@/components/ui/WhatsappButton";
 
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -90,9 +89,6 @@ export default function Home() {
 
       <Footer />
 
-      {/* FLOATING BUTTONS */}
-
-      <WhatsappButton />
 
       <ScrollTop />
 
