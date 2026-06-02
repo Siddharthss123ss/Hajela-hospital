@@ -4,15 +4,15 @@ import { Award } from "@/app/api/models/award";
 import { upload_image, delete_image } from "@/lib/cloudinary"; // Dono functions load kiye
 
 interface IParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-// 1. PUT: Update Award (Handles over-writing Cloudinary assets safely)
 export async function PUT(request: Request, { params }: IParams) {
   await db_connect();
-  const { id } = params;
+
+  const { id } = await params;
 
   try {
     const body = await request.json();
@@ -68,7 +68,8 @@ export async function PUT(request: Request, { params }: IParams) {
 // 2. DELETE: Removes completely from MongoDB AND Cloudinary Cloud storage
 export async function DELETE(request: Request, { params }: IParams) {
   await db_connect();
-  const { id } = params;
+
+  const { id } = await params;
 
   try {
     const targetAward = await Award.findById(id);
