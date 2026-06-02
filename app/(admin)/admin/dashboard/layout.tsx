@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from 'react';
 import {
-  LayoutDashboard, Layers, UserCheck, Calendar,
+  LayoutDashboard, Layers, UserCheck,
   HelpCircle, Star, Image, Activity, LogOut, Menu, X,
-  Wrench
+  Wrench,
+  Trophy,
+  Key
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -25,11 +27,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: 'Dashboard', icon: <LayoutDashboard size={18} />, href: '/admin/dashboard' },
     { name: 'Departments', icon: <Layers size={18} />, href: '/admin/dashboard/departments' },
     { name: 'Doctors', icon: <UserCheck size={18} />, href: '/admin/dashboard/doctors' },
-    { name: 'Appointments', icon: <Calendar size={18} />, href: '/admin/dashboard/appointments' },
+    { name: 'Awards', icon: <Trophy size={18} />, href: '/admin/dashboard/awards' },
     { name: 'Enquiries', icon: <HelpCircle size={18} />, href: '/admin/dashboard/enquiries' },
     { name: 'Reviews', icon: <Star size={18} />, href: '/admin/dashboard/reviews' },
     { name: 'Gallery', icon: <Image size={18} />, href: '/admin/dashboard/gallery' },
     { name: 'Services', icon: <Wrench size={18} />, href: '/admin/dashboard/services' },
+    { name: 'Password', icon: <Key size={18} />, href: '/admin/dashboard/change-password' },
   ];
 
   return (

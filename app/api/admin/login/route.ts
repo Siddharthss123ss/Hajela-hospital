@@ -1,103 +1,88 @@
+"use server"
 import { NextRequest, NextResponse } from "next/server";
-
-import bcrypt from "bcryptjs";
+import  dbConnect  from "@/lib/db";
+import { user as User } from "@/app/api/models/user";
 import jwt from "jsonwebtoken";
-
-import db_connect from "@/lib/db";
-
-import { user } from "@/app/api/models/user";
+import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
   try {
-    await db_connect();
+
+    await dbConnect();
+
 
     const { email, password } = await req.json();
 
-    // default admin init
-    let existingAdmin = await user.findOne({
-      email: "admin@hajelahospital.com",
-    });
-
-    if (!existingAdmin) {
-      const hashedPassword = await bcrypt.hash(
-        "admin123",
-        10
+    if (!email || !password) {
+      return NextResponse.json(
+        { error: "Email and password are required" },
+        { status: 400 }
       );
-
-      existingAdmin = await user.create({
-        email: "admin@hajelahospital.com",
-        password_hash: hashedPassword,
-        role: "admin",
-        must_change_password: true,
-      });
     }
 
-    const foundUser = await user.findOne({ email });
+
+    const foundUser = await User.findOne({ email: email.toLowerCase().trim() });
 
     if (!foundUser) {
       return NextResponse.json(
-        {
-          error: "Invalid credentials",
-        },
-        {
-          status: 401,
-        }
+        { error: "Invalid email or password" },
+        { status: 401 }
       );
     }
 
-    const isPasswordValid = await bcrypt.compare(
-      password,
-      foundUser.password_hash
-    );
 
-    if (!isPasswordValid) {
+    const isPasswordMatch = await bcrypt.compare(password, foundUser.password_hash);
+
+    if (!isPasswordMatch) {
       return NextResponse.json(
-        {
-          error: "Invalid credentials",
-        },
-        {
-          status: 401,
-        }
+        { error: "Invalid email or password" },
+        { status: 401 }
+      );
+    }
+
+
+    const JWT_SECRET = process.env.JWT_SECRET;
+    if (!JWT_SECRET) {
+      console.error("JWT_SECRET is missing in environment variables!");
+      return NextResponse.json(
+        { error: "Internal server configuration error" },
+        { status: 500 }
       );
     }
 
     const token = jwt.sign(
       {
-        id: foundUser._id,
+        userId: foundUser._id,
+        email: foundUser.email,
         role: foundUser.role,
       },
-      process.env.JWT_SECRET as string,
-      {
-        expiresIn: "7d",
-      }
+      JWT_SECRET,
+      { expiresIn: "1d" }
     );
+
 
     const response = NextResponse.json({
       success: true,
-      must_change_password:
-        foundUser.must_change_password,
+      message: "Login successful",
+      must_change_password: foundUser.must_change_password,
     });
 
+
     response.cookies.set("admin_token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === "production", 
       sameSite: "strict",
+      maxAge: 60 * 60 * 24,
       path: "/",
-      maxAge: 60 * 60 * 24 * 7,
     });
 
     return response;
 
-  } catch (error) {
-    console.log(error);
-
+  } catch (error: any) {
+    console.error("Login API Error:", error);
     return NextResponse.json(
-      {
-        error: "Login failed",
-      },
-      {
-        status: 500,
-      }
+      { error: "Something went wrong. Please try again later." },
+      { status: 500 }
     );
   }
 }
