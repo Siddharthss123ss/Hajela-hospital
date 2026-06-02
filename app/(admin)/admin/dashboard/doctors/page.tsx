@@ -1,76 +1,78 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { FiUser, FiActivity, FiClock, FiCalendar, FiAward, FiPlus, FiEdit2, FiTrash2, FiAlertCircle, FiCamera, FiBookOpen } from 'react-icons/fi';
+import { FiUser, FiActivity, FiClock, FiCalendar, FiAward, FiPlus, FiEdit2, FiTrash2, FiAlertCircle, FiCamera } from 'react-icons/fi';
 
-interface IDepartmentField {
-  _id: string;
-  name: string;
-}
-
+// Aapke Mongoose Model ke exact data types se sync kiya hai
 interface IDoctorData {
   _id: string;
   name: string;
-  dept_id: IDepartmentField | string | null;
-  specialization: string;
-  degree: string[];
-  experience: number;
+  slug: string;
+  role: string;
+  degree: string;
+  experience: string;
+  department: string;
+  opd_timing: string;
+  appointment_number: string;
   about: string;
-  awards: string[];
-  image_url?: string;
-  available_days: string[];
-  start_time: string;
-  end_time: string;
-  is_active: boolean;
+  expertise: string[];
+  image_url: string;
 }
 
 const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 export default function DoctorManagement() {
   const [doctors, setDoctors] = useState<IDoctorData[]>([]);
-  const [departments, setDepartments] = useState<IDepartmentField[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Form States (Ab ye MongoDB keys se 100% match karti hain)
   const [name, setName] = useState('');
-  const [deptId, setDeptId] = useState('');
-  const [specialization, setSpecialization] = useState('');
+  const [slug, setSlug] = useState('');
+  const [role, setRole] = useState('');
   const [degree, setDegree] = useState('');
   const [experience, setExperience] = useState('');
+  const [department, setDepartment] = useState('');
+  const [opdTiming, setOpdTiming] = useState('');
+  const [appointmentNumber, setAppointmentNumber] = useState('');
   const [about, setAbout] = useState('');
-  const [awards, setAwards] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [isActive, setIsActive] = useState(true);
-  const [availableDays, setAvailableDays] = useState<string[]>([]);
-  const [image, setImage] = useState<string | null>(null);
+  const [expertise, setExpertise] = useState<string[]>([]);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    Promise.all([fetchDoctors(), fetchDepartments()]).finally(() => setLoading(false));
+    fetchDoctors().finally(() => setLoading(false));
   }, []);
+
+  // Automatic slug generate karne ke liye utility function
+  const generateSlug = (text: string) => {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_-]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setName(value);
+    if (!editingId) {
+      setSlug(generateSlug(value)); // Naya doctor banate waqt auto-slug
+    }
+  };
 
   async function fetchDoctors() {
     try {
+      setError(null);
       const res = await fetch('/api/doctors');
       if (!res.ok) throw new Error();
       const data = await res.json();
       setDoctors(data);
     } catch {
-      setError("Failed to load doctors");
-    }
-  }
-
-  async function fetchDepartments() {
-    try {
-      const res = await fetch('/api/departments');
-      if (!res.ok) throw new Error();
-      const data = await res.json();
-      setDepartments(data);
-    } catch {
-      setError("Failed to load departments");
+      setError("Failed to load doctors directory");
     }
   }
 
@@ -79,51 +81,51 @@ export default function DoctorManagement() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result as string);
+        setImageUrl(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleDayToggle = (day: string) => {
-    setAvailableDays(prev => 
-      prev.includes(day) ? prev.filter(d => d !== day) : [...prev, day]
+  const handleExpertiseToggle = (item: string) => {
+    setExpertise(prev => 
+      prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]
     );
   };
 
   const resetForm = () => {
     setName('');
-    setDeptId('');
-    setSpecialization('');
+    setSlug('');
+    setRole('');
     setDegree('');
     setExperience('');
+    setDepartment('');
+    setOpdTiming('');
+    setAppointmentNumber('');
     setAbout('');
-    setAwards('');
-    setStartTime('');
-    setEndTime('');
-    setIsActive(true);
-    setAvailableDays([]);
-    setImage(null);
+    setExpertise([]);
+    setImageUrl(null);
     setEditingId(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
 
+    // Exact database format object payload
     const payload = {
       name,
-      dept_id: deptId,
-      specialization,
-      degree: degree.split(',').map(d => d.trim()).filter(Boolean),
-      experience: Number(experience),
+      slug: slug.toLowerCase().trim() || generateSlug(name),
+      role,
+      degree,
+      experience,
+      department,
+      opd_timing: opdTiming,
+      appointment_number: appointmentNumber,
       about,
-      awards: awards.split(',').map(a => a.trim()).filter(Boolean),
-      available_days: availableDays,
-      start_time: startTime,
-      end_time: endTime,
-      is_active: isActive,
-      ...(image && { image })
+      expertise,
+      image_url: imageUrl || "",
     };
 
     try {
@@ -136,43 +138,44 @@ export default function DoctorManagement() {
         body: JSON.stringify(payload)
       });
 
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Operation failed");
+      }
 
       resetForm();
       fetchDoctors();
-    } catch {
-      setError("Operation failed");
+    } catch (err: any) {
+      setError(err.message || "Something went wrong while saving profile");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handleEdit = (doc: IDoctorData) => {
-    const extractedDeptId = doc.dept_id && typeof doc.dept_id === 'object' ? doc.dept_id._id : doc.dept_id || '';
-    
     setEditingId(doc._id);
     setName(doc.name);
-    setDeptId(extractedDeptId);
-    setSpecialization(doc.specialization);
-    setDegree(doc.degree.join(', '));
-    setExperience(doc.experience.toString());
+    setSlug(doc.slug);
+    setRole(doc.role);
+    setDegree(doc.degree);
+    setExperience(doc.experience);
+    setDepartment(doc.department);
+    setOpdTiming(doc.opd_timing);
+    setAppointmentNumber(doc.appointment_number);
     setAbout(doc.about);
-    setAwards(doc.awards.join(', '));
-    setStartTime(doc.start_time);
-    setEndTime(doc.end_time);
-    setIsActive(doc.is_active);
-    setAvailableDays(doc.available_days);
-    setImage(null);
+    setExpertise(doc.expertise || []);
+    setImageUrl(doc.image_url || null);
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure?")) return;
+    if (!confirm("Are you sure you want to delete this doctor?")) return;
     try {
+      setError(null);
       const res = await fetch(`/api/doctors/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error();
       fetchDoctors();
     } catch {
-      setError("Delete failed");
+      setError("Failed to delete doctor account");
     }
   };
 
@@ -181,7 +184,7 @@ export default function DoctorManagement() {
       <div className="flex min-h-[400px] items-center justify-center bg-zinc-950 text-zinc-400">
         <div className="flex items-center gap-3">
           <div className="h-6 w-6 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent"></div>
-          <p className="text-sm font-medium">Loading...</p>
+          <p className="text-sm font-medium">Loading Database...</p>
         </div>
       </div>
     );
@@ -200,10 +203,11 @@ export default function DoctorManagement() {
 
         <div className="grid gap-8 lg:grid-cols-3">
           
+          {/* Form Side */}
           <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 h-fit max-h-[90vh] overflow-y-auto custom-scrollbar">
             <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
               {editingId ? <FiEdit2 className="text-emerald-400" /> : <FiPlus className="text-emerald-400" />}
-              {editingId ? 'Update Doctor' : 'Add Doctor'}
+              {editingId ? 'Update Doctor Profile' : 'Register New Doctor'}
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -212,105 +216,110 @@ export default function DoctorManagement() {
                 <input 
                   type="text" 
                   value={name} 
-                  onChange={(e) => setName(e.target.value)} 
+                  onChange={handleNameChange} 
                   required 
                   className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                  placeholder="Dr. Saurabh Kumar"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Department</label>
-                <select 
-                  value={deptId} 
-                  onChange={(e) => setDeptId(e.target.value)} 
-                  required 
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none cursor-pointer"
-                >
-                  <option value="">Select Department</option>
-                  {departments.map((d) => (
-                    <option key={d._id} value={d._id}>{d.name}</option>
-                  ))}
-                </select>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Slug URL (Unique Identifer)</label>
+                <input 
+                  type="text" 
+                  value={slug} 
+                  onChange={(e) => setSlug(generateSlug(e.target.value))} 
+                  required
+                  disabled={!!editingId}
+                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none disabled:opacity-50"
+                  placeholder="dr-saurabh-kumar"
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">Specialization</label>
+                  <label className="block text-xs font-medium text-zinc-400 mb-1">Role/Designation</label>
                   <input 
                     type="text" 
-                    value={specialization} 
-                    onChange={(e) => setSpecialization(e.target.value)} 
+                    value={role} 
+                    onChange={(e) => setRole(e.target.value)} 
                     required 
                     className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                    placeholder="Paediatrician"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">Experience (Years)</label>
+                  <label className="block text-xs font-medium text-zinc-400 mb-1">Experience Status</label>
                   <input 
-                    type="number" 
+                    type="text" 
                     value={experience} 
                     onChange={(e) => setExperience(e.target.value)} 
                     required 
                     className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                    placeholder="14+ Years"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Degrees (Comma Separated)</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Department</label>
                 <input 
                   type="text" 
-                  value={degree} 
-                  onChange={(e) => setDegree(e.target.value)} 
-                  placeholder="MD, MBBS"
+                  value={department} 
+                  onChange={(e) => setDepartment(e.target.value)} 
+                  required 
                   className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                  placeholder="Paediatricians & Neonatology"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Awards (Comma Separated)</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Degrees/Qualifications</label>
                 <input 
                   type="text" 
-                  value={awards} 
-                  onChange={(e) => setAwards(e.target.value)} 
-                  placeholder="Best Cardiologist 2024"
+                  value={degree} 
+                  onChange={(e) => setDegree(e.target.value)} 
+                  required
+                  placeholder="MBBS, MD Paediatrics, Fellowship in Neonatology"
                   className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">Start Time</label>
+                  <label className="block text-xs font-medium text-zinc-400 mb-1">OPD Timing Info</label>
                   <input 
                     type="text" 
-                    placeholder="09:00 AM"
-                    value={startTime} 
-                    onChange={(e) => setStartTime(e.target.value)} 
+                    placeholder="Mon-Sat | 1:30 PM - 3:00 PM"
+                    value={opdTiming} 
+                    onChange={(e) => setOpdTiming(e.target.value)} 
+                    required
                     className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">End Time</label>
+                  <label className="block text-xs font-medium text-zinc-400 mb-1">Appointment Numbers</label>
                   <input 
                     type="text" 
-                    placeholder="05:00 PM"
-                    value={endTime} 
-                    onChange={(e) => setEndTime(e.target.value)} 
+                    placeholder="+91-9575052525 / 2773392"
+                    value={appointmentNumber} 
+                    onChange={(e) => setAppointmentNumber(e.target.value)} 
+                    required
                     className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-2">Available Days</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-2">Expertise Badges (Select Schedule Days / Areas)</label>
                 <div className="flex flex-wrap gap-1.5">
                   {DAYS_OF_WEEK.map((day) => {
-                    const isSelected = availableDays.includes(day);
+                    const isSelected = expertise.includes(day);
                     return (
                       <button
                         type="button"
                         key={day}
-                        onClick={() => handleDayToggle(day)}
+                        onClick={() => handleExpertiseToggle(day)}
                         className={`text-xs px-2.5 py-1.5 rounded-md border transition-colors cursor-pointer ${
                           isSelected 
                             ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
@@ -325,18 +334,19 @@ export default function DoctorManagement() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">About Bio</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">About Biography</label>
                 <textarea 
                   value={about} 
                   onChange={(e) => setAbout(e.target.value)} 
                   required 
                   rows={3}
+                  placeholder="Write a small professional bio description..."
                   className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none resize-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Profile Image</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Cloudinary/Profile Image</label>
                 <input 
                   type="file" 
                   accept="image/*"
@@ -345,26 +355,13 @@ export default function DoctorManagement() {
                 />
               </div>
 
-              <div className="flex items-center gap-2 py-1">
-                <input 
-                  type="checkbox" 
-                  id="active"
-                  checked={isActive} 
-                  onChange={(e) => setIsActive(e.target.checked)} 
-                  className="h-4 w-4 rounded border-zinc-800 bg-zinc-950 text-emerald-500 focus:ring-0 cursor-pointer"
-                />
-                <label htmlFor="active" className="text-sm font-medium text-zinc-300 cursor-pointer select-none">
-                  Is Active Profile
-                </label>
-              </div>
-
               <div className="flex gap-2 pt-2">
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm py-2.5 px-4 rounded-lg transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm py-2.5 px-4 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
                 >
-                  {isSubmitting ? 'Saving...' : editingId ? 'Update' : 'Save'}
+                  {isSubmitting ? 'Syncing...' : editingId ? 'Update Doctor' : 'Save Profile'}
                 </button>
                 {editingId && (
                   <button 
@@ -379,16 +376,17 @@ export default function DoctorManagement() {
             </form>
           </div>
 
+          {/* Directory Grid View Side */}
           <div className="lg:col-span-2">
             <div className="mb-6">
-              <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">Doctors</h1>
-              <p className="mt-1 text-sm text-zinc-400">Manage directory setup and schedules</p>
+              <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">Hospital Doctors Directory</h1>
+              <p className="mt-1 text-sm text-zinc-400">Live operational sync status with Hajela Hospital Schema</p>
             </div>
 
             {doctors.length === 0 ? (
               <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-800 bg-zinc-900/50 py-16 text-center">
                 <FiUser className="mx-auto h-12 w-12 text-zinc-600" />
-                <h3 className="mt-4 text-sm font-semibold text-zinc-200">No doctors registered</h3>
+                <h3 className="mt-4 text-sm font-semibold text-zinc-200">No doctors verified inside MongoDB</h3>
               </div>
             ) : (
               <div className="grid gap-4 sm:grid-cols-2">
@@ -409,21 +407,18 @@ export default function DoctorManagement() {
                         <div className="space-y-1">
                           <h3 className="font-semibold text-white text-lg leading-snug">{doc.name}</h3>
                           <p className="text-xs font-medium text-emerald-400 flex items-center gap-1">
-                            <FiActivity className="text-[10px]" /> {doc.specialization}
+                            <FiActivity className="text-[10px]" /> {doc.role}
                           </p>
                           <p className="text-xs text-zinc-400">
-                            Dept: <span className="text-zinc-300">{typeof doc.dept_id === 'object' && doc.dept_id ? doc.dept_id.name : 'N/A'}</span>
+                            Dept: <span className="text-zinc-300">{doc.department || 'General'}</span>
                           </p>
-                          <p className="text-xs text-zinc-500 font-medium">Exp: {doc.experience} Years</p>
+                          <p className="text-xs text-zinc-500 font-medium">Exp: {doc.experience}</p>
                         </div>
                       </div>
 
-                      <div className="mt-4 flex flex-wrap gap-1">
-                        {doc.degree.map((deg, idx) => (
-                          <span key={idx} className="flex items-center gap-1 bg-zinc-950 text-zinc-400 text-[11px] px-2 py-0.5 rounded border border-zinc-800">
-                            <FiBookOpen className="text-[10px] text-zinc-500" /> {deg}
-                          </span>
-                        ))}
+                      <div className="mt-3 text-xs text-zinc-400 bg-zinc-950 border border-zinc-800/50 p-2 rounded-md">
+                        <span className="text-[11px] block font-semibold text-zinc-500 uppercase tracking-wider mb-0.5">Qualifications:</span>
+                        {doc.degree}
                       </div>
 
                       <p className="mt-3 text-xs text-zinc-400 line-clamp-3 italic">"{doc.about}"</p>
@@ -431,18 +426,16 @@ export default function DoctorManagement() {
                       <div className="mt-4 space-y-2 border-t border-zinc-800/60 pt-3 text-xs">
                         <div className="flex items-center gap-2 text-zinc-400">
                           <FiClock className="text-zinc-500 shrink-0" />
-                          <span>Timing: <strong className="text-zinc-200 font-normal">{doc.start_time || 'N/A'} - {doc.end_time || 'N/A'}</strong></span>
+                          <span>OPD: <strong className="text-zinc-200 font-normal">{doc.opd_timing || 'N/A'}</strong></span>
                         </div>
                         <div className="flex items-start gap-2 text-zinc-400">
                           <FiCalendar className="text-zinc-500 shrink-0 mt-0.5" />
-                          <p className="line-clamp-1">Days: <span className="text-zinc-300">{doc.available_days.join(', ') || 'None'}</span></p>
+                          <p className="line-clamp-1">Expertise Days: <span className="text-emerald-400">{doc.expertise?.join(', ') || 'None'}</span></p>
                         </div>
-                        {doc.awards.length > 0 && (
-                          <div className="flex items-start gap-2 text-zinc-400">
-                            <FiAward className="text-amber-500 shrink-0 mt-0.5" />
-                            <p className="line-clamp-1 text-zinc-300">{doc.awards.join(' | ')}</p>
-                          </div>
-                        )}
+                        <div className="flex items-center gap-2 text-zinc-400">
+                          <FiAward className="text-amber-500 shrink-0" />
+                          <span>Call: <strong className="text-zinc-300 font-normal">{doc.appointment_number}</strong></span>
+                        </div>
                       </div>
                     </div>
 
