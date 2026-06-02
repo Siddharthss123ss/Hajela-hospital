@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 import {
   Phone,
@@ -267,7 +268,10 @@ export default function Appointment() {
 
           </p>
 
+          
+
         </div>
+        
 
         {/* MAIN CONTAINER */}
 
@@ -625,7 +629,11 @@ export default function Appointment() {
 
                     </a>
 
+                    
+
                   </div>
+
+                  
 
                 ))}
 
@@ -636,10 +644,47 @@ export default function Appointment() {
           </div>
 
         </div>
+        <div className="flex justify-center mt-8">
+
+  <Link
+    href="/contact"
+    className="
+    inline-flex
+    items-center
+    justify-center
+    gap-2
+
+    px-8
+    py-4
+
+    rounded-2xl
+
+    bg-gradient-to-r
+    from-cyan-500
+    to-blue-600
+
+    hover:from-cyan-400
+    hover:to-blue-500
+
+    text-white
+    font-semibold
+
+    shadow-lg
+
+    transition-all
+    duration-300
+    "
+  >
+    📞 View All Contacts
+  </Link>
+
+</div>
 
       </div>
+      
 
     </section>
+    
 
   );
 

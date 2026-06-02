@@ -148,7 +148,7 @@ export default function AboutPage() {
 
           {[
             {
-              title: "30+ Years",
+              title: "31+ Years",
               desc: "Healthcare Excellence",
             },
 
@@ -159,7 +159,7 @@ export default function AboutPage() {
 
             {
               title: "NABH",
-              desc: "Accredited Hospital",
+              desc: "Fully Accredited Hospital",
             },
 
             {
@@ -556,19 +556,38 @@ export default function AboutPage() {
               Dr. Anoop Hajela
             </h2>
 
-            <p
-              className="
-              mt-3
+           <ul
+  className="
+  mt-3
 
-              text-cyan-300
+  text-cyan-300
 
-              text-lg
+  text-lg
 
-              font-semibold
-              "
-            >
-              Managing Director • Senior Anaesthesiologist
-            </p>
+  font-semibold
+
+  space-y-2
+
+  list-disc
+  pl-6
+  "
+>
+
+  <li>Proprietor & Director</li>
+
+  <li>Senior Anaesthesiologist</li>
+
+  <li>NABH Ambassador - Climate Change Resilience and Sustainability</li>
+
+  <li>Chairman - QPAC (Quality Promotion and Advisory Council) for MP, Quality Council of India</li>
+
+  <li>State Lead - Health & Environment Leadership Platform (HELP)</li>
+
+  <li>President - AHPI, MP Chapter</li>
+
+  <li>Director - India Waste Management Pvt. Ltd., Bhopal (M.P.)</li>
+
+</ul>
 
             <p
               className="
@@ -600,10 +619,11 @@ export default function AboutPage() {
       prestigious recognitions including 1st
       Fully NABH Accreditation, Healthcare
       Excellence Awards, Green Hospital
-      Certifications, and the Oscar Award
-      for Best Green Hospital — reflecting
+      Certifications,
+       — reflecting
       his commitment towards innovation,
       sustainability, and compassionate care.
+      
             </p>
 
           </div>
@@ -617,7 +637,8 @@ export default function AboutPage() {
   mt-24
 
   grid
-  lg:grid-cols-3
+  lg:grid-cols-1
+xl:grid-cols-3
 
   gap-10
   "
@@ -685,49 +706,58 @@ export default function AboutPage() {
 
       gap-4
 
-      max-h-[650px]
+      max-h-[800px]
 
       overflow-y-auto
+      scrollbar-thin
+scrollbar-thumb-cyan-500/30
+scrollbar-track-transparent
 
       pr-2
       "
     >
 
-      {[
-        "Recognized hospital for Central Govt Health Scheme for Central Govt. Employees",
-        "Bharat Sanchar Nigam Limited (BSNL)",
-        "Police Health Protection Scheme (PHPS)",
-        "Maulana Azad National Institute of Technology (MANIT)",
-        "M.P. Tourism Development Corporation (MPSTDC)",
-        "Food Corporation of India (FCI)",
-        "Central Pollution Control Board (C.P.C.B)",
-        "Indira Gandhi National Open University (IGNOU)",
-        "Indian Institute of Forest Management (IIFM)",
-        "Indian Oil Corporation Ltd (IOC)",
-        "Indian Institute of Soil & Science (IISS)",
-        "National Institute of Technical Teachers' Training Institute & Research (NITTTR)",
-        "Central Institute of Agricultural Engineering (CIAE)",
-        "Central Power Research Institute (CPRI)",
-        "Indian Institute of Science Education & Research Centre (IISER)",
-        "Narmada Hydroelectric Development Corporation (NHDC)",
-        "National Judicial Academy (NJA)",
-        "M.P. State Government for Family Planning Operation",
-        "M.P State Civil Supplies Corporation",
-        "M.P State Agricultural Marketing Board",
-        "Advanced Materials & Processes Research Institute (AMPRI)",
-        "Judiciary Officials",
-        "School of Planning and Architecture (SPA)",
-        "VNS Group of Colleges, Bhopal",
-        "Central Board of Secondary Education (CBSE)",
-        "Maulana Azad Urdu University",
-        "Central Institute of Petrochemicals Engineering & Technology (CIPET)",
-        "Makhanlal Chaturvedi University",
-        "National Horticulture Board (NHB)",
-        "Jawahar Navodaya Vidyalaya",
-        "Rashtriya Bal Swasthya Karyakram (RBSK)",
-        "Public Health and Family Welfare Department",
-        "National Green Tribunal Central Zonal Bench (NGT)",
-      ].map((item, index) => (
+     {[
+  "Archaeological Survey of India (ASI)",
+  "Bhopal Memorial Hospital & Research Centre (BMHRC)",
+  "Central Bureau of Investigation (CBI)",
+  "Central Government Health Scheme (CGHS) – Serving Employees & Pensioners",
+  "Central Ground Water Board (CGWB)",
+  "Food Corporation of India (FCI)",
+  "National Institute of Design, Madhya Pradesh",
+  "Narmada Hydroelectric Development Corporation (NHDC)",
+  "Police Health Protection Scheme (PHPS)",
+  "Reserve Bank of India (RBI)",
+  "Rashtriya Bal Swasthya Karyakram (RBSK)",
+  "Advanced Materials & Processes Research Institute (AMPRI)",
+  "Bharat Sanchar Nigam Limited (BSNL)",
+  "Central Board of Secondary Education (CBSE)",
+  "Central Institute of Agricultural Engineering (CIAE)",
+  "Central Institute of Petrochemicals Engineering & Technology (CIPET)",
+  "Central Pollution Control Board (CPCB)",
+  "Central Power Research Institute (CPRI)",
+  "Indian Institute of Forest Management (IIFM)",
+  "Indian Institute of Science Education & Research (IISER)",
+  "Indian Institute of Soil Science (IISS)",
+  "Indian Oil Corporation Limited (IOCL)",
+  "Indira Gandhi National Open University (IGNOU)",
+  "Jawahar Navodaya Vidyalaya",
+  "Judiciary Officials – In-service / Retired",
+  "Makhanlal Chaturvedi National University of Journalism & Communication",
+  "Maulana Azad National Institute of Technology (MANIT)",
+  "Maulana Azad National Urdu University (MANUU)",
+  "Madhya Pradesh Government – Family Planning Operations",
+  "Madhya Pradesh State Agricultural Marketing Board (Mandi Board)",
+  "Madhya Pradesh State Civil Supplies Corporation",
+  "Madhya Pradesh Tourism Development Corporation (MPTDC)",
+  "National Green Tribunal (NGT)",
+  "National Horticulture Board (NHB)",
+  "National Institute of Technical Teachers' Training & Research (NITTTR)",
+  "National Judicial Academy (NJA)",
+  "Public Health & Family Welfare Department",
+  "School of Planning & Architecture (SPA), Bhopal",
+  "VNS Group of Institutions, Bhopal"
+].map((item, index) => (
 
         <div
           key={index}
@@ -746,6 +776,7 @@ export default function AboutPage() {
           text-slate-200
 
           hover:bg-cyan-500/10
+          hover:translate-x-1
 
           transition-all
           duration-300
@@ -826,26 +857,31 @@ export default function AboutPage() {
 
       gap-4
 
-      max-h-[650px]
+      max-h-[800px]
 
       overflow-y-auto
+      scrollbar-thin
+scrollbar-thumb-cyan-500/30
+scrollbar-track-transparent
 
       pr-2
       "
     >
 
       {[
-        "Aditya Birla Health Insurance",
-        "Cholamandalam MS General Insurance",
-        "Future Generali India Insurance",
-        "HDFC Ergo General Insurance",
-        "ICICI Prudential Life Insurance",
-        "IFFCO TOKIO General Insurance",
-        "Liberty General Insurance",
-        "Reliance General Insurance",
-        "SBI General Insurance",
-        "Universal Sompo General Insurance",
-      ].map((item, index) => (
+  "Aditya Birla Health Insurance",
+  "Cholamandalam MS General Insurance Company Limited",
+  "Future Generali India Insurance Company Limited",
+  "Go Digit General Insurance Limited",
+  "HDFC ERGO General Insurance Company Limited",
+  "ICICI Prudential Life Insurance",
+  "IFFCO-TOKIO General Insurance Company Limited",
+  "IndusInd General Insurance (Formerly Reliance General Insurance Company Limited)",
+  "Liberty General Insurance Limited",
+  "SBI General Insurance Company Limited",
+  "TATA AIG General Insurance Company Limited",
+  "Universal Sompo General Insurance Company Limited"
+].map((item, index) => (
 
         <div
           key={index}
@@ -863,7 +899,8 @@ export default function AboutPage() {
 
           text-slate-200
 
-          hover:bg-blue-500/10
+         hover:bg-cyan-500/10
+hover:translate-x-1
 
           transition-all
           duration-300
@@ -944,33 +981,37 @@ export default function AboutPage() {
 
       gap-4
 
-      max-h-[650px]
+      max-h-[800px]
 
       overflow-y-auto
+      scrollbar-thin
+scrollbar-thumb-cyan-500/30
+scrollbar-track-transparent
 
       pr-2
       "
     >
 
       {[
-        "Alankit Healthcare TPA",
-        "East West Assist",
-        "Ericson Insurance TPA",
-        "Family Health Plan TPA",
-        "Focus Health Insurance TPA",
-        "Genins India Insurance TPA",
-        "Good Health Plan TPA",
-        "Health India Insurance TPA",
-        "Heritage Health Services TPA",
-        "M.D. India Health Insurance TPA",
-        "Medvantage Insurance TPA",
-        "Med Save Health Insurance TPA",
-        "Medi Assist Insurance TPA",
-        "Paramount Health Services TPA",
-        "Park Mediclaim TPA",
-        "Raksha Health Insurance TPA",
-        "Vidal Health Insurance TPA",
-      ].map((item, index) => (
+  "Alankit Health Care TPA Limited",
+  "Ericson Insurance TPA Pvt. Ltd.",
+  "Family Health Plan Insurance TPA Limited (FHPL)",
+  "Focus Health Services TPA Pvt. Ltd.",
+  "Genins India Insurance TPA Limited",
+  "Good Health Insurance TPA Limited",
+  "Health India Insurance TPA Services Pvt. Ltd.",
+  "Health Insurance TPA of India Limited (HITPA)",
+  "Heritage Health Insurance TPA Pvt. Ltd.",
+  "MDIndia Health Insurance TPA Pvt. Ltd.",
+  "Medi Assist Insurance TPA Pvt. Ltd.",
+  "Medsave Health Insurance TPA Limited",
+  "Medvantage Insurance TPA Pvt. Ltd.",
+  "Paramount Health Services & Insurance TPA Pvt. Ltd.",
+  "Park Mediclaim Insurance TPA Pvt. Ltd.",
+  "Safeway Insurance TPA Pvt. Ltd.",
+  "Vidal Health Insurance TPA Pvt. Ltd.",
+  "Volo Health Insurance TPA Pvt. Ltd. (Formerly East West Assist Insurance TPA Pvt. Ltd.)"
+].map((item, index) => (
 
         <div
           key={index}
@@ -988,7 +1029,9 @@ export default function AboutPage() {
 
           text-slate-200
 
-          hover:bg-emerald-500/10
+          
+          hover:bg-cyan-500/10
+hover:translate-x-1
 
           transition-all
           duration-300

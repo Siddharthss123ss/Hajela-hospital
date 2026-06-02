@@ -5,7 +5,11 @@ import { upload_image, delete_image } from '@/lib/cloudinary';
 
 export async function GET() {
   await db_connect();
-  const depts = await department.find({});
+
+  const depts = await department
+    .find({})
+    .sort({ order: 1 });
+
   return NextResponse.json(depts);
 }
 

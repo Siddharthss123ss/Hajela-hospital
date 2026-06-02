@@ -854,51 +854,40 @@ export default function Footer() {
           </p>
 
           <div
-            className="
-            flex
+  className="
+  flex
 
-            gap-6
-            "
-          >
+  gap-6
+  "
+>
 
-            <Link
-              href="/privacy"
+  <Link href="/privacy">
+    Privacy Policy
+  </Link>
 
-              className="
-              hover:text-cyan-400
+  <Link href="/terms">
+    Terms & Conditions
+  </Link>
 
-              transition-all
-              "
-            >
-              Privacy Policy
-            </Link>
+  <Link href="/sitemap">
+    Sitemap
+  </Link>
 
-            <Link
-              href="/terms"
+  <Link
+    href="/admin/dashboard"
+    className="
+text-slate-500
 
-              className="
-              hover:text-cyan-400
+hover:text-cyan-400
 
-              transition-all
-              "
-            >
-              Terms & Conditions
-            </Link>
+transition-all
+duration-300
+"
+  >
+    Hospital Administration
+  </Link>
 
-            <Link
-              href="/sitemap"
-
-              className="
-              hover:text-cyan-400
-
-              transition-all
-              "
-            >
-              Sitemap
-            </Link>
-
-          </div>
-
+</div>
           <p
             className="
             flex

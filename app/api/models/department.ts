@@ -8,6 +8,7 @@ export interface IDepartment extends Document {
   image_url: string;
   image_id: string;
   is_emergency_dept: boolean;
+  order: number;
 }
 
 const DepartmentSchema = new Schema<IDepartment>({
@@ -18,6 +19,7 @@ const DepartmentSchema = new Schema<IDepartment>({
   image_url: { type: String },
   image_id: { type: String },
   is_emergency_dept: { type: Boolean, default: false },
+  order: { type: Number, default: 999 }
 });
 
 export const department = mongoose.models.department || mongoose.model<IDepartment>('department', DepartmentSchema);
