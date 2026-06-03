@@ -1,31 +1,66 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
-async function getServices() {
-  // 🔴 FIX: Absolute URL use kar
-  const baseUrl = process.env.VERCEL_URL 
-    ? `https://${process.env.VERCEL_URL}` 
-    : 'http://localhost:3000';
-  
-  const res = await fetch(`${baseUrl}/api/services`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch services");
-  }
-
-  return res.json();
+interface Service {
+  _id: string;
+  name: string;
+  slug: string;
+  image_url: string;
+  description: string;
+  facilities: string[];
 }
 
-export default async function ServicesPage() {
-  const services = await getServices();
+export default function ServicesPage() {
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    async function fetchServices() {
+      try {
+        const res = await fetch("/api/services");
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        setServices(data);
+      } catch (err) {
+        console.error(err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchServices();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-red-500">Something went wrong</h1>
+          <p className="mt-2 text-slate-500">Unable to load services. Please try again later.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-cyan-50/30 pt-32 pb-24">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
-          <p className="text-cyan-600 uppercase tracking-[4px] font-bold text-sm mb-4">Hospital Services</p>
+          <p className="text-cyan-600 uppercase tracking-[4px] font-bold text-sm mb-4">
+            Hospital Services
+          </p>
           <h1 className="text-4xl lg:text-6xl font-black text-slate-900">
             Patient Care
             <span className="bg-gradient-to-r from-cyan-500 to-blue-700 bg-clip-text text-transparent">
@@ -35,7 +70,7 @@ export default async function ServicesPage() {
         </div>
 
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
-          {services.map((service: any) => (
+          {services.map((service) => (
             <Link
               key={service._id}
               href={`/services/${service.slug}`}
@@ -43,7 +78,7 @@ export default async function ServicesPage() {
             >
               <div className="relative h-64 overflow-hidden">
                 <Image
-                  src={service.image_url.replace("/upload/", "/upload/f_auto,q_auto,w_800/")}
+                  src={service.image_url?.replace("/upload/", "/upload/f_auto,q_auto,w_800/") || "/placeholder.jpg"}
                   alt={service.name}
                   fill
                   sizes="(max-width:768px) 100vw, (max-width:1280px) 50vw, 33vw"
