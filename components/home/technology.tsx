@@ -26,7 +26,7 @@ const technologies = [
   {
     title: "IVF & Fertility Centre",
 
-    image: "https://res.cloudinary.com/dko6aobxx/image/upload/q_auto/f_auto/v1779735781/maternity_uacxmm.jpg",
+    image: "https://res.cloudinary.com/dko6aobxx/image/upload/q_auto/f_auto/v1780432945/ivf_p6mo6n.jpg",
 
     desc:
       "Comprehensive fertility and reproductive healthcare services including IVF, ICSI, infertility consultation and personalized fertility treatments with modern reproductive technology.",
