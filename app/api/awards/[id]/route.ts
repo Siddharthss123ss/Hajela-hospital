@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import db_connect from "@/lib/db";
 import { Award } from "@/app/api/models/award";
-import { upload_image, delete_image } from "@/lib/cloudinary"; // Dono functions load kiye
+import { upload_image, delete_image } from "@/lib/cloudinary";
+
+// 🔴 Vercel caching ke liye
+export const dynamic = 'force-dynamic';
 
 interface IParams {
   params: Promise<{
@@ -9,14 +12,48 @@ interface IParams {
   }>;
 }
 
-export async function PUT(request: Request, { params }: IParams) {
-  await db_connect();
-
-  const { id } = await params;
-
+// 🔴 GET by ID — Add this if needed
+export async function GET(request: Request, { params }: IParams) {
   try {
+    await db_connect();
+    const { id } = await params;
+
+    const award = await Award.findById(id).lean();
+
+    if (!award) {
+      return NextResponse.json({ error: "Award not found" }, { status: 404 });
+    }
+
+    // 🔴 Cache headers for faster loading
+    return NextResponse.json(award, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+      },
+    });
+  } catch (error) {
+    console.error("GET Award Error:", error);
+    return NextResponse.json({ error: "Failed to fetch award" }, { status: 500 });
+  }
+}
+
+export async function PUT(request: Request, { params }: IParams) {
+  try {
+    await db_connect();
+
+    const { id } = await params;
+
+    // 🔴 Validate ID
+    if (!id) {
+      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
     const body = await request.json();
     const { title, description, image, year, category } = body;
+
+    // 🔴 Validate required fields
+    if (!title || !category) {
+      return NextResponse.json({ error: "Title and category are required" }, { status: 400 });
+    }
 
     // Pehle existing award fetch karo taaki purani image_id mil sake
     const existingAward = await Award.findById(id);
@@ -29,7 +66,7 @@ export async function PUT(request: Request, { params }: IParams) {
       image_id: existingAward.image_id
     };
 
-    // Agar frontend se nayi image stream aayi h
+    // Agar frontend se nayi image stream aayi hai
     if (image && image.startsWith("data:image")) {
       try {
         // 1. Purani image Cloudinary se udao
@@ -41,6 +78,7 @@ export async function PUT(request: Request, { params }: IParams) {
         updatedImageData.image_url = uploadResult.url;
         updatedImageData.image_id = uploadResult.public_id;
       } catch (err) {
+        console.error("Image upload error:", err);
         return NextResponse.json({ error: "Failed to cycle image asset on cloud" }, { status: 500 });
       }
     }
@@ -60,18 +98,25 @@ export async function PUT(request: Request, { params }: IParams) {
     );
 
     return NextResponse.json(updatedAward, { status: 200 });
+    
   } catch (error) {
+    console.error("PUT Award Error:", error);
     return NextResponse.json({ error: "Failed to modify record" }, { status: 500 });
   }
 }
 
-// 2. DELETE: Removes completely from MongoDB AND Cloudinary Cloud storage
+// DELETE: Removes completely from MongoDB AND Cloudinary Cloud storage
 export async function DELETE(request: Request, { params }: IParams) {
-  await db_connect();
-
-  const { id } = await params;
-
   try {
+    await db_connect();
+
+    const { id } = await params;
+
+    // 🔴 Validate ID
+    if (!id) {
+      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
     const targetAward = await Award.findById(id);
     if (!targetAward) {
       return NextResponse.json({ error: "Record already absent" }, { status: 404 });
@@ -86,10 +131,12 @@ export async function DELETE(request: Request, { params }: IParams) {
     await Award.findByIdAndDelete(id);
 
     return NextResponse.json(
-      { message: "Award and Cloudinary Asset sync-deleted successfully" },
+      { message: "Award and Cloudinary Asset sync-deleted successfully", success: true },
       { status: 200 }
     );
+    
   } catch (error) {
+    console.error("DELETE Award Error:", error);
     return NextResponse.json({ error: "Failed to execute destruction pipeline" }, { status: 500 });
   }
 }

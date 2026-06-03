@@ -17,11 +17,16 @@ interface IAward {
 export default function AwardsPage() {
   const [awards, setAwards] = useState<IAward[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     async function getAwards() {
       try {
-        const res = await fetch("/api/awards", { cache: "no-store" });
+        // 🔴 Better caching strategy
+        const res = await fetch("/api/awards", { 
+          cache: "force-cache",
+          next: { revalidate: 3600 } // Revalidate every hour
+        });
         if (res.ok) {
           const data = await res.json();
           setAwards(data);
@@ -35,9 +40,13 @@ export default function AwardsPage() {
     getAwards();
   }, []);
 
-  // Filtering runtime records matching schema identifiers strictly
   const trophies = awards.filter((item) => item.category === "trophy award");
   const certifications = awards.filter((item) => item.category === "certifications");
+
+  // 🔴 Handle image load
+  const handleImageLoad = (id: string) => {
+    setLoadedImages(prev => ({ ...prev, [id]: true }));
+  };
 
   if (loading) {
     return (
@@ -175,19 +184,25 @@ export default function AwardsPage() {
                   shadow-[0_20px_80px_rgba(0,0,0,0.45)]
                   "
                 >
-                  {/* IMAGE */}
-                  <div className="relative overflow-hidden h-[320px] w-full">
+                  {/* IMAGE with optimized loading */}
+                  <div className="relative overflow-hidden h-[320px] w-full bg-slate-800/50">
+                    {!loadedImages[item._id] && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 animate-pulse" />
+                    )}
                     <Image
                       src={item.image_url}
                       alt={item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="
-                      object-cover
-                      group-hover:scale-110
-                      transition-all
-                      duration-700
-                      "
+                      className={`
+                        object-cover
+                        transition-all duration-700
+                        ${loadedImages[item._id] ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}
+                        group-hover:scale-110
+                      `}
+                      onLoad={() => handleImageLoad(item._id)}
+                      priority={trophies.indexOf(item) < 3} // 🔴 First 3 images priority
+                      quality={85}
                     />
                     <div
                       className="
@@ -314,19 +329,24 @@ export default function AwardsPage() {
                   shadow-[0_15px_60px_rgba(0,0,0,0.4)]
                   "
                 >
-                  {/* IMAGE */}
-                  <div className="relative overflow-hidden h-[250px] w-full">
+                  {/* IMAGE with optimized loading */}
+                  <div className="relative overflow-hidden h-[250px] w-full bg-slate-800/50">
+                    {!loadedImages[item._id] && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 animate-pulse" />
+                    )}
                     <Image
                       src={item.image_url}
                       alt={item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                      className="
-                      object-cover
-                      group-hover:scale-105
-                      transition-all
-                      duration-700
-                      "
+                      className={`
+                        object-cover
+                        transition-all duration-700
+                        ${loadedImages[item._id] ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}
+                        group-hover:scale-105
+                      `}
+                      onLoad={() => handleImageLoad(item._id)}
+                      quality={80}
                     />
                     <div
                       className="

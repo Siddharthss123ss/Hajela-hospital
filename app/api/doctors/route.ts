@@ -1,43 +1,37 @@
-import { NextResponse }
-from "next/server";
+import { NextResponse } from "next/server";
+import db_connect from "@/lib/db";
+import { doctor } from "../models/doctor";
 
-import db_connect
-from "@/lib/db";
-
-import { doctor }
-from "../models/doctor";
+// 🔴 Vercel caching ke liye
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // 1 hour cache
 
 export async function GET() {
-
-  await db_connect();
-
   try {
+    await db_connect();
 
-    const doctors =
-      await doctor.find({});
+    // 🔴 .lean() for faster response (2-3x faster)
+    // 🔴 sort by order for consistent display
+    // 🔴 select only needed fields (exclude __v, image_id if not needed)
+    const doctors = await doctor
+      .find({})
+      .select('-__v') // 🔴 Exclude version field
+      .sort({ order: 1, name: 1 })
+      .lean();
 
-    return NextResponse.json(
-      doctors,
-      { status: 200 }
-    );
+    // 🔴 Cache headers for Vercel CDN
+    return NextResponse.json(doctors, {
+      status: 200,
+      headers: {
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+      },
+    });
 
   } catch (error) {
-
-    console.log(error);
-
+    console.error("Doctors API Error:", error);
     return NextResponse.json(
-
-      {
-        error:
-          "unable to fetch"
-      },
-
-      {
-        status: 500
-      }
-
+      { error: "Unable to fetch doctors" },
+      { status: 500 }
     );
-
   }
-
 }

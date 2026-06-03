@@ -1,38 +1,90 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
 
-const awardSchema = new mongoose.Schema(
+// 🔴 Interface for TypeScript
+export interface IAward extends Document {
+  title: string;
+  description: string;
+  image_url: string;
+  image_id: string;
+  year: string;
+  category: "trophy award" | "certifications";
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+const awardSchema = new Schema<IAward>(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, 'Title is required'],
       trim: true,
+      maxlength: [200, 'Title cannot exceed 200 characters'],
+      index: true, // 🔴 For faster search
     },
     description: {
       type: String,
-      required: true,
+      required: [true, 'Description is required'],
+      trim: true,
     },
     image_url: {
       type: String,
-      required: true,
+      required: [true, 'Image URL is required'],
+      trim: true,
     },
     image_id: {
       type: String,
-      required: true,
+      required: [true, 'Image ID is required'],
+      trim: true,
+      unique: true, // 🔴 Prevent duplicate Cloudinary IDs
     },
     year: {
       type: String,
-      required: true,
+      required: [true, 'Year is required'],
+      trim: true,
+      validate: {
+        validator: function(v: string) {
+          return /^\d{4}$/.test(v); // 🔴 Validate 4-digit year
+        },
+        message: 'Year must be a valid 4-digit year (e.g., 2024)'
+      },
+      index: true, // 🔴 For filtering by year
     },
     category: {
       type: String,
-      required: true,
-      enum: ["trophy award", "certifications"],
+      required: [true, 'Category is required'],
+      enum: {
+        values: ["trophy award", "certifications"],
+        message: 'Category must be either "trophy award" or "certifications"'
+      },
+      index: true, // 🔴 For filtering by category
     },
   },
   {
-    timestamps: true,
+    timestamps: true, // ✅ Already hai — Good!
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
-export const Award =
-  mongoose.models.Award || mongoose.model("Award", awardSchema);
+// 🔴 Compound index for common queries
+awardSchema.index({ year: -1, category: 1 });
+awardSchema.index({ category: 1, year: -1 });
+
+// 🔴 Virtual field for formatted display
+awardSchema.virtual('displayTitle').get(function() {
+  return `${this.title} (${this.year})`;
+});
+
+// 🔴 Static method to get years
+awardSchema.statics.getAvailableYears = function() {
+  return this.distinct('year').sort({ year: -1 });
+};
+
+// 🔴 Static method to get by category
+awardSchema.statics.findByCategory = function(category: string) {
+  return this.find({ category }).sort({ year: -1 }).lean();
+};
+
+// 🔴 Prevent model re-compilation error
+export const Award: Model<IAward> =
+  mongoose.models.Award || mongoose.model<IAward>("Award", awardSchema);

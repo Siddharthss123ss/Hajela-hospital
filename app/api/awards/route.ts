@@ -1,16 +1,30 @@
 import { NextResponse } from "next/server";
 import db_connect from "@/lib/db";
 import { Award } from "@/app/api/models/award";
-import { upload_image } from "@/lib/cloudinary"; // Aapka helper function
+import { upload_image } from "@/lib/cloudinary";
 
-// 1. GET: Fetch all awards
+// 🔴 Vercel caching ke liye
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+// 1. GET: Fetch all awards (Optimized)
 export async function GET() {
-  await db_connect();
-
   try {
-    const awards = await Award.find({}).sort({ year: -1 });
-    return NextResponse.json(awards, { status: 200 });
+    await db_connect();
+
+    const awards = await Award.find({})
+      .sort({ year: -1 })
+      .lean(); // 🔴 .lean() for faster response (2-3x speed)
+
+    // 🔴 Cache headers for Vercel CDN
+    return NextResponse.json(awards, { 
+      status: 200,
+      headers: {
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+      },
+    });
   } catch (error) {
+    console.error("GET Awards Error:", error); // 🔴 Log error for debugging
     return NextResponse.json(
       { error: "Failed to fetch awards catalog" },
       { status: 500 }
@@ -20,52 +34,76 @@ export async function GET() {
 
 // 2. POST: Upload Image to Cloudinary & Save to MongoDB
 export async function POST(request: Request) {
-  await db_connect();
-
   try {
+    await db_connect();
+
     const body = await request.json();
-    const { title, description, image, year, category } = body; 
-    // frontend se raw 'image' string (base64) aayegi
+    const { title, description, image, year, category } = body;
 
-    // Basic fields validation
-    if (!title || !description || !image || !year || !category) {
+    // 🔴 Better validation with error messages
+    const missingFields = [];
+    if (!title) missingFields.push('title');
+    if (!description) missingFields.push('description');
+    if (!image) missingFields.push('image');
+    if (!year) missingFields.push('year');
+    if (!category) missingFields.push('category');
+
+    if (missingFields.length > 0) {
       return NextResponse.json(
-        { error: "All fields including image are strictly required" },
+        { error: `Missing required fields: ${missingFields.join(', ')}` },
         { status: 400 }
       );
     }
 
-    if (!["trophy award", "certifications"].includes(category)) {
+    // 🔴 Category validation (case insensitive)
+    const validCategories = ["trophy award", "certifications"];
+    if (!validCategories.includes(category.toLowerCase())) {
       return NextResponse.json(
-        { error: "Invalid category code matched" },
+        { error: "Invalid category. Allowed: 'trophy award', 'certifications'" },
         { status: 400 }
       );
     }
 
-    // --- Cloudinary Integration Here ---
+    // 🔴 Year validation
+    const currentYear = new Date().getFullYear();
+    if (year < 1900 || year > currentYear + 5) {
+      return NextResponse.json(
+        { error: `Year must be between 1900 and ${currentYear + 5}` },
+        { status: 400 }
+      );
+    }
+
+    // --- Cloudinary Integration ---
     let uploadedImage;
     try {
-      // file string aur folder name pass kiya
-      uploadedImage = await upload_image(image, "awards"); 
+      uploadedImage = await upload_image(image, "awards");
+      
+      // 🔴 Verify upload success
+      if (!uploadedImage?.url || !uploadedImage?.public_id) {
+        throw new Error("Invalid upload response");
+      }
     } catch (uploadError) {
+      console.error("Cloudinary Upload Error:", uploadError);
       return NextResponse.json(
-        { error: "Cloudinary media upload failed" },
+        { error: "Cloudinary media upload failed. Please try again." },
         { status: 500 }
       );
     }
 
-    // Create entry in MongoDB using Cloudinary response
+    // Create entry in MongoDB
     const newAward = await Award.create({
-      title,
-      description,
-      image_url: uploadedImage.url,       // secure_url save hua
-      image_id: uploadedImage.public_id,  // public_id save hua delete karne ke liye
-      year,
-      category,
+      title: title.trim(),
+      description: description.trim(),
+      image_url: uploadedImage.url,
+      image_id: uploadedImage.public_id,
+      year: Number(year), // 🔴 Ensure number type
+      category: category.toLowerCase(),
     });
 
     return NextResponse.json(newAward, { status: 201 });
+    
   } catch (error) {
+    console.error("POST Award Error:", error);
     return NextResponse.json(
       { error: "Internal Server Error during transaction" },
       { status: 500 }

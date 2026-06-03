@@ -2,9 +2,7 @@
 
 "use client";
 
-
 import { useEffect, useState } from "react";
-
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -15,81 +13,55 @@ import {
 } from "lucide-react";
 
 interface Doctor {
-
   _id: string;
-
   slug: string;
-
   name: string;
-
   role: string;
-
   degree: string;
-
   experience: string;
-
   image_url: string;
-
   about: string;
-
   expertise: string[];
-
 }
 
 export default function DoctorsPage() {
-
-  const [doctors, setDoctors] =
-    useState<Doctor[]>([]);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [error, setError] =
-    useState("");
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-
-    const fetchDoctors =
-      async () => {
-
-        try {
-
-          const res =
-            await fetch(
-              "/api/doctors"
-            );
-
-          if (!res.ok) {
-
-            throw new Error(
-              "Failed to fetch"
-            );
-
-          }
-
-          const data =
-            await res.json();
-
-          setDoctors(data);
-
-        } catch (err: any) {
-
-          setError(err.message);
-
-        } finally {
-
-          setLoading(false);
-
+    const fetchDoctors = async () => {
+      try {
+        const res = await fetch("/api/doctors");
+        if (!res.ok) {
+          throw new Error("Failed to fetch");
         }
-
-      };
-
+        const data = await res.json();
+        setDoctors(data);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchDoctors();
-
   }, []);
 
-  return (
+  // 🔴 Handle image load
+  const handleImageLoad = (id: string) => {
+    setLoadedImages(prev => ({ ...prev, [id]: true }));
+  };
 
+  // 🔴 Optimize Cloudinary URL
+  const getOptimizedImageUrl = (url: string) => {
+    if (url?.includes('cloudinary')) {
+      return url.replace('/upload/', '/upload/q_auto,f_auto,w_600,c_limit/');
+    }
+    return url;
+  };
+
+  return (
     <main
       className="
       relative
@@ -103,9 +75,7 @@ export default function DoctorsPage() {
       overflow-hidden
       "
     >
-
       {/* GLOW */}
-
       <div
         className="
         absolute
@@ -120,23 +90,9 @@ export default function DoctorsPage() {
         "
       />
 
-      <div
-        className="
-        container-custom
-        relative
-        z-10
-        "
-      >
-
+      <div className="container-custom relative z-10">
         {/* HERO */}
-
-        <div
-          className="
-          text-center
-          mb-20
-          "
-        >
-
+        <div className="text-center mb-20">
           <div
             className="
             inline-flex
@@ -153,18 +109,9 @@ export default function DoctorsPage() {
             text-sm
             "
           >
-
-            <Stethoscope
-              className="
-              w-4
-              h-4
-              "
-            />
-
+            <Stethoscope className="w-4 h-4" />
             Hajela Hospital Specialists
-
           </div>
-
           <h1
             className="
             mt-7
@@ -176,9 +123,7 @@ export default function DoctorsPage() {
             leading-tight
             "
           >
-
             Meet Our Expert
-
             <span
               className="
               bg-gradient-to-r
@@ -190,9 +135,7 @@ export default function DoctorsPage() {
             >
               {" "}Doctors
             </span>
-
           </h1>
-
           <p
             className="
             mt-7
@@ -204,20 +147,13 @@ export default function DoctorsPage() {
             leading-relaxed
             "
           >
-
-            Our highly experienced
-            doctors provide advanced,
-            compassionate and world-class
-            medical care.
-
+            Our highly experienced doctors provide advanced,
+            compassionate and world-class medical care.
           </p>
-
         </div>
 
         {/* LOADING */}
-
         {loading && (
-
           <div
             className="
             flex
@@ -228,33 +164,15 @@ export default function DoctorsPage() {
             gap-4
             "
           >
-
-            <Loader2
-              className="
-              w-10
-              h-10
-              text-cyan-600
-              animate-spin
-              "
-            />
-
-            <p
-              className="
-              text-slate-500
-              font-medium
-              "
-            >
+            <Loader2 className="w-10 h-10 text-cyan-600 animate-spin" />
+            <p className="text-slate-500 font-medium">
               Loading specialists...
             </p>
-
           </div>
-
         )}
 
         {/* ERROR */}
-
         {error && (
-
           <div
             className="
             text-center
@@ -268,35 +186,17 @@ export default function DoctorsPage() {
             p-8
             "
           >
-
-            <p
-              className="
-              text-red-600
-              font-semibold
-              text-lg
-              "
-            >
+            <p className="text-red-600 font-semibold text-lg">
               Error loading data
             </p>
-
-            <p
-              className="
-              text-red-500
-              text-sm
-              mt-1
-              "
-            >
+            <p className="text-red-500 text-sm mt-1">
               {error}
             </p>
-
           </div>
-
         )}
 
         {/* GRID */}
-
         {!loading && !error && (
-
           <div
             className="
             grid
@@ -306,9 +206,7 @@ export default function DoctorsPage() {
             gap-8
             "
           >
-
-            {doctors.map((doctor) => (
-
+            {doctors.map((doctor, index) => (
               <div
                 key={doctor._id}
                 className="
@@ -325,45 +223,33 @@ export default function DoctorsPage() {
                 duration-500
                 "
               >
-
-                {/* IMAGE */}
-
-                <div
-                  className="
-                  relative
-                  h-[340px]
-                  bg-slate-100
-                  overflow-hidden
-                  "
-                >
-
+                {/* IMAGE - Optimized */}
+                <div className="relative h-[340px] bg-slate-200 overflow-hidden">
+                  {/* 🔴 Skeleton loader */}
+                  {!loadedImages[doctor._id] && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 animate-pulse" />
+                  )}
+                  
                   <Image
-                      src={doctor.image_url.replace(
-                        "/upload/",
-                        "/upload/f_auto,q_auto,w_600/"
-                      )}
-                      alt={doctor.name}
-                      fill
-                      sizes="(max-width:768px) 100vw, (max-width:1280px) 50vw, 25vw"
-                      className="
+                    src={getOptimizedImageUrl(doctor.image_url)}
+                    alt={doctor.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                    className={`
                       object-cover
                       object-top
+                      transition-all duration-700
+                      ${loadedImages[doctor._id] ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}
                       group-hover:scale-105
-                      transition-all
-                      duration-700
-                      "
-                    />
-
+                    `}
+                    onLoad={() => handleImageLoad(doctor._id)}
+                    priority={index < 4} // 🔴 First 4 images priority
+                    quality={85}
+                  />
                 </div>
 
                 {/* CONTENT */}
-
-                <div
-                  className="
-                  p-7
-                  "
-                >
-
+                <div className="p-7">
                   <div
                     className="
                     inline-flex
@@ -380,16 +266,8 @@ export default function DoctorsPage() {
                     font-bold
                     "
                   >
-
-                    <Award
-                      className="
-                      w-4
-                      h-4
-                      "
-                    />
-
+                    <Award className="w-4 h-4" />
                     {doctor.experience}
-
                   </div>
 
                   <h2
@@ -401,22 +279,11 @@ export default function DoctorsPage() {
                     leading-snug
                     "
                   >
-
                     {doctor.name}
-
                   </h2>
 
-                  <p
-                    className="
-                    mt-2
-                    text-cyan-700
-                    font-semibold
-                    text-base
-                    "
-                  >
-
+                  <p className="mt-2 text-cyan-700 font-semibold text-base">
                     {doctor.role}
-
                   </p>
 
                   <p
@@ -428,9 +295,7 @@ export default function DoctorsPage() {
                     min-h-[70px]
                     "
                   >
-
                     {doctor.degree}
-
                   </p>
 
                   <div
@@ -467,32 +332,15 @@ export default function DoctorsPage() {
                     duration-300
                     "
                   >
-
                     View Profile
-
-                    <ChevronRight
-                      className="
-                      w-4
-                      h-4
-                      "
-                    />
-
+                    <ChevronRight className="w-4 h-4" />
                   </Link>
-
                 </div>
-
               </div>
-
             ))}
-
           </div>
-
         )}
-
       </div>
-
     </main>
-
   );
-
 }
