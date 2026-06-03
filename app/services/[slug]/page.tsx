@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
-import { CheckCircle2 } from "lucide-react";
 import db_connect from "@/lib/db";
 import { service } from "@/app/api/models/service";
+import Image from "next/image";
+import { CheckCircle2 } from "lucide-react";
 
 interface Service {
   _id: string;
@@ -13,7 +13,6 @@ interface Service {
   facilities: string[];
 }
 
-// 🔴 Direct database se fetch (NO API call)
 async function getService(slug: string): Promise<Service | null> {
   try {
     await db_connect();
@@ -25,22 +24,8 @@ async function getService(slug: string): Promise<Service | null> {
   }
 }
 
-// 🔴 Generate static params for Vercel
-export async function generateStaticParams() {
-  try {
-    await db_connect();
-    const services = await service.find({}).lean();
-    
-    console.log("✅ Generating service pages for:", services.length);
-    
-    return services.map((serv) => ({
-      slug: serv.slug,
-    }));
-  } catch (error) {
-    console.error("GenerateStaticParams error:", error);
-    return [];
-  }
-}
+// 🔴 IMPORTANT: Dynamic rendering — build time pe page nahi banega
+export const dynamic = 'force-dynamic';
 
 export default async function ServicePage({
   params,
@@ -65,15 +50,13 @@ export default async function ServicePage({
     <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-cyan-50/30 pt-32 pb-24">
       <div className="max-w-7xl mx-auto px-4">
         
-        {/* HERO IMAGE */}
         <div className="relative h-[420px] overflow-hidden rounded-[40px] shadow-2xl bg-slate-800">
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700 animate-pulse" />
           <Image
             src={getOptimizedImageUrl(service.image_url)}
             alt={service.name}
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
-            className="object-cover transition-all duration-700"
+            className="object-cover"
             priority
             quality={90}
           />
@@ -85,13 +68,11 @@ export default async function ServicePage({
           </div>
         </div>
 
-        {/* CONTENT */}
         <div className="mt-12 bg-white rounded-[35px] p-8 shadow-lg">
           <p className="text-slate-600 text-lg leading-relaxed">
             {service.description}
           </p>
 
-          {/* FACILITIES */}
           {service.facilities && service.facilities.length > 0 && (
             <div className="mt-10">
               <h2 className="text-3xl font-black text-slate-900 mb-8">
@@ -99,10 +80,7 @@ export default async function ServicePage({
               </h2>
               <div className="grid md:grid-cols-2 gap-5">
                 {service.facilities.map((facility, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start gap-3 bg-slate-50 p-5 rounded-2xl border border-slate-100 hover:bg-cyan-50 transition-all duration-300"
-                  >
+                  <div key={index} className="flex items-start gap-3 bg-slate-50 p-5 rounded-2xl border border-slate-100 hover:bg-cyan-50 transition-all duration-300">
                     <CheckCircle2 className="text-cyan-600 mt-0.5 flex-shrink-0" size={20} />
                     <p className="text-slate-700 font-medium">{facility}</p>
                   </div>
