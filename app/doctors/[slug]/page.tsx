@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 import {
   useEffect,
   useState
@@ -158,21 +158,27 @@ export default function DoctorDetailPage() {
         "
       >
 
-        <div>
-
-          <img
-            src={doctor.image_url}
-            alt={doctor.name}
-
-            className="
-            w-full
-            rounded-3xl
-            object-cover
-            shadow-2xl
-            "
-          />
-
-        </div>
+       <div
+  className="
+  relative
+  w-full
+  h-[600px]
+  rounded-3xl
+  overflow-hidden
+  shadow-2xl
+  "
+>
+  <Image
+    src={doctor.image_url.replace(
+      "/upload/",
+      "/upload/f_auto,q_auto,w_600/"
+    )}
+    alt={doctor.name}
+    fill
+    sizes="(max-width:768px) 100vw, 50vw"
+    className="object-cover"
+  />
+</div>
 
         <div>
 

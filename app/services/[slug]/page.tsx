@@ -29,16 +29,14 @@ async function getService(
 
   try {
 
-    const res =
-      await fetch(
+    const res = await fetch(
+  `http://localhost:3000/api/services/${slug}`,
+  {
+    cache: "no-store",
+  }
+);
 
-        `http://localhost:3000/api/services/${slug}`,
-
-        {
-          cache: "no-store",
-        }
-
-      );
+    
 
     if (!res.ok)
       return null;
@@ -118,14 +116,15 @@ export default async function ServicePage({
           "
         >
 
-          <Image
-            src={service.image_url}
-            alt={service.name}
-            fill
-            className="
-            object-cover
-            "
-          />
+          
+
+<Image
+  src={service.image_url}
+  alt={service.name}
+  fill
+  sizes="(max-width:768px) 100vw, 33vw"
+  className="object-cover"
+/>
 
           <div
             className="

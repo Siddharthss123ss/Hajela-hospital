@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 import { useEffect, useState } from "react";
 
@@ -349,23 +350,21 @@ export default function Services() {
                     "
                   >
 
-                    <img
-                      src={service.image_url}
-
-                      alt={service.name}
-
-                      className="
-                      h-full
-                      w-full
-
-                      object-cover
-
-                      group-hover:scale-110
-
-                      transition-all
-                      duration-700
-                      "
-                    />
+                   <Image
+  src={service.image_url.replace(
+    "/upload/",
+    "/upload/f_auto,q_auto,w_800/"
+  )}
+  alt={service.name}
+  fill
+  sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 25vw"
+  className="
+  object-cover
+  group-hover:scale-110
+  transition-all
+  duration-700
+  "
+/>
 
                     <div
                       className="

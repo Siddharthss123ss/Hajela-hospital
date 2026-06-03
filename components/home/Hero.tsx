@@ -292,7 +292,7 @@ export default function Hero() {
         >
 
           <source
-            src="https://res.cloudinary.com/dko6aobxx/video/upload/q_auto/f_auto/v1779440823/IMG_0374_urxqpz.mov"
+            src="https://res.cloudinary.com/dko6aobxx/video/upload/q_auto/f_auto/v1780489705/Hajela_Hospital_1_minute_Video_yvkwvl.mp4"
             type="video/mp4"
           />
 

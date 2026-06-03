@@ -2,10 +2,11 @@
 
 "use client";
 
+
 import { useEffect, useState } from "react";
 
 import Link from "next/link";
-
+import Image from "next/image";
 import {
   Stethoscope,
   Award,
@@ -336,19 +337,22 @@ export default function DoctorsPage() {
                   "
                 >
 
-                  <img
-                    src={doctor.image_url}
-                    alt={doctor.name}
-                    className="
-                    w-full
-                    h-full
-                    object-cover
-                    object-top
-                    group-hover:scale-105
-                    transition-all
-                    duration-700
-                    "
-                  />
+                  <Image
+                      src={doctor.image_url.replace(
+                        "/upload/",
+                        "/upload/f_auto,q_auto,w_600/"
+                      )}
+                      alt={doctor.name}
+                      fill
+                      sizes="(max-width:768px) 100vw, (max-width:1280px) 50vw, 25vw"
+                      className="
+                      object-cover
+                      object-top
+                      group-hover:scale-105
+                      transition-all
+                      duration-700
+                      "
+                    />
 
                 </div>
 
