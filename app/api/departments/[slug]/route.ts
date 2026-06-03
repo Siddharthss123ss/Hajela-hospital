@@ -32,7 +32,7 @@ export async function GET(
     // 🔴 .lean() + select only needed fields (faster response)
     const dept = await department
       .findOne({ slug })
-      .select('-__v') // 🔴 Exclude version field
+      .select('-__v') // Exclude version field
       .lean();
 
     if (!dept) {

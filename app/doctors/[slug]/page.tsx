@@ -1,7 +1,7 @@
-"use client";
+import { notFound } from "next/navigation";
+import db_connect from "@/lib/db";
+import { doctor } from "@/app/api/models/doctor";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 
 interface Doctor {
   slug: string;
@@ -17,31 +17,47 @@ interface Doctor {
   expertise: string[];
 }
 
-export default function DoctorDetailPage() {
-  const params = useParams();
-  const slug = params.slug as string;
-  const [doctor, setDoctor] = useState<Doctor | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [imageLoaded, setImageLoaded] = useState(false);
+// 🔴 Direct database se fetch (NO API call)
+async function getDoctor(slug: string): Promise<Doctor | null> {
+  try {
+    await db_connect();
+    const doc = await doctor.findOne({ slug }).lean();
+    return doc as Doctor | null;
+  } catch (error) {
+    console.error("Failed to fetch doctor:", error);
+    return null;
+  }
+}
 
-  useEffect(() => {
-    const fetchDoctor = async () => {
-      try {
-        const res = await fetch(`/api/doctors/${slug}`);
-        const data = await res.json();
-        setDoctor(data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (slug) {
-      fetchDoctor();
-    }
-  }, [slug]);
+// 🔴 Generate static params for Vercel
+export async function generateStaticParams() {
+  try {
+    await db_connect();
+    const doctors = await doctor.find({}).lean();
+    
+    console.log("✅ Generating doctor pages for:", doctors.length);
+    
+    return doctors.map((doc) => ({
+      slug: doc.slug,
+    }));
+  } catch (error) {
+    console.error("GenerateStaticParams error:", error);
+    return [];
+  }
+}
 
-  // 🔴 Optimize Cloudinary URL
+export default async function DoctorDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const doctor = await getDoctor(slug);
+
+  if (!doctor) {
+    notFound();
+  }
+
   const getOptimizedImageUrl = (url: string) => {
     if (url?.includes('cloudinary')) {
       return url.replace('/upload/', '/upload/q_auto,f_auto,w_800,c_limit/');
@@ -49,48 +65,18 @@ export default function DoctorDetailPage() {
     return url;
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="flex flex-col items-center gap-3">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-600"></div>
-          <p className="text-slate-500 font-medium">Loading doctor profile...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!doctor) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-red-500">Doctor Not Found</h1>
-          <p className="mt-2 text-slate-500">The doctor you're looking for doesn't exist.</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <main className="min-h-screen bg-white pt-32 pb-20">
       <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-14 items-start">
         
-        {/* IMAGE SECTION - Optimized */}
+        {/* IMAGE SECTION */}
         <div className="relative w-full h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl bg-slate-100">
-          {/* 🔴 Skeleton loader */}
-          {!imageLoaded && (
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 animate-pulse" />
-          )}
           <Image
             src={getOptimizedImageUrl(doctor.image_url)}
             alt={doctor.name}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
-            className={`
-              object-cover transition-all duration-700
-              ${imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}
-            `}
-            onLoad={() => setImageLoaded(true)}
+            className="object-cover"
             priority
             quality={85}
           />

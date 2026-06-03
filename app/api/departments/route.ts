@@ -5,7 +5,7 @@ import { upload_image, delete_image } from '@/lib/cloudinary';
 
 // 🔴 Vercel caching ke liye
 export const dynamic = 'force-dynamic';
-export const revalidate = 3600; // 🔴 Change 0 to 3600 (1 hour cache)
+export const revalidate = 3600;
 
 export async function GET() {
   try {
@@ -13,11 +13,10 @@ export async function GET() {
     
     const depts = await department
       .find({})
-      .select('-__v') // 🔴 Exclude version field (faster response)
+      .select('-__v') // Exclude version field
       .sort({ order: 1 })
       .lean();
 
-    // 🔴 Cache headers for faster loading
     return NextResponse.json(depts, {
       status: 200,
       headers: {
@@ -40,15 +39,15 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { image, ...rest } = body;
 
-    // 🔴 Validation
-    if (!rest.name || !rest.slug) {  // 🔴 'title' se 'name' fix
+    // Validation
+    if (!rest.name || !rest.slug) {
       return NextResponse.json(
         { error: 'Name and slug are required' },
         { status: 400 }
       );
     }
 
-    // 🔴 Check if slug already exists
+    // Check if slug already exists
     const existing = await department.findOne({ slug: rest.slug });
     if (existing) {
       return NextResponse.json(
@@ -101,7 +100,7 @@ export async function PUT(req: Request) {
       );
     }
 
-    // 🔴 Check slug uniqueness (excluding current)
+    // Check slug uniqueness (excluding current)
     if (rest.slug && rest.slug !== current.slug) {
       const existing = await department.findOne({ 
         slug: rest.slug, 
