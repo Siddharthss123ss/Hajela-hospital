@@ -8,6 +8,7 @@ export interface IAward extends Document {
   image_id: string;
   year: string;
   category: "trophy award" | "certifications";
+  order: number;  // 🔴 ADD THIS FIELD
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -19,7 +20,7 @@ const awardSchema = new Schema<IAward>(
       required: [true, 'Title is required'],
       trim: true,
       maxlength: [200, 'Title cannot exceed 200 characters'],
-      index: true, // 🔴 For faster search
+      index: true,
     },
     description: {
       type: String,
@@ -35,7 +36,7 @@ const awardSchema = new Schema<IAward>(
       type: String,
       required: [true, 'Image ID is required'],
       trim: true,
-      unique: true, // 🔴 Prevent duplicate Cloudinary IDs
+      unique: true,
     },
     year: {
       type: String,
@@ -43,11 +44,11 @@ const awardSchema = new Schema<IAward>(
       trim: true,
       validate: {
         validator: function(v: string) {
-          return /^\d{4}$/.test(v); // 🔴 Validate 4-digit year
+          return /^\d{4}$/.test(v);
         },
         message: 'Year must be a valid 4-digit year (e.g., 2024)'
       },
-      index: true, // 🔴 For filtering by year
+      index: true,
     },
     category: {
       type: String,
@@ -56,19 +57,26 @@ const awardSchema = new Schema<IAward>(
         values: ["trophy award", "certifications"],
         message: 'Category must be either "trophy award" or "certifications"'
       },
-      index: true, // 🔴 For filtering by category
+      index: true,
+    },
+    // 🔴 ADD ORDER FIELD HERE
+    order: {
+      type: Number,
+      default: 999,
+      index: true,
     },
   },
   {
-    timestamps: true, // ✅ Already hai — Good!
+    timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
 );
 
-// 🔴 Compound index for common queries
+// 🔴 Compound indexes
 awardSchema.index({ year: -1, category: 1 });
 awardSchema.index({ category: 1, year: -1 });
+awardSchema.index({ order: 1, year: -1 }); // 🔴 ADD THIS for sorting
 
 // 🔴 Virtual field for formatted display
 awardSchema.virtual('displayTitle').get(function() {
@@ -80,9 +88,14 @@ awardSchema.statics.getAvailableYears = function() {
   return this.distinct('year').sort({ year: -1 });
 };
 
-// 🔴 Static method to get by category
+// 🔴 Static method to get by category (sorted by order)
 awardSchema.statics.findByCategory = function(category: string) {
-  return this.find({ category }).sort({ year: -1 }).lean();
+  return this.find({ category }).sort({ order: 1, year: -1 }).lean();
+};
+
+// 🔴 Static method to get all sorted by order
+awardSchema.statics.findAllSorted = function() {
+  return this.find({}).sort({ order: 1, year: -1 }).lean();
 };
 
 // 🔴 Prevent model re-compilation error

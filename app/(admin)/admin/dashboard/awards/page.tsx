@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { FiAward, FiPlus, FiTrash2, FiEdit2, FiAlertCircle, FiCheck, FiCamera, FiCalendar, FiTag } from 'react-icons/fi';
+import { 
+  FiAward, FiPlus, FiTrash2, FiEdit2, FiAlertCircle, 
+  FiCheck, FiCamera, FiCalendar, FiTag, FiArrowUp, FiArrowDown 
+} from 'react-icons/fi';
 
 interface IAwardData {
   _id: string;
@@ -11,6 +14,7 @@ interface IAwardData {
   image_id: string;
   year: string;
   category: "trophy award" | "certifications";
+  order: number;  // 🔴 ADD ORDER FIELD
 }
 
 export default function AwardManagement() {
@@ -23,7 +27,8 @@ export default function AwardManagement() {
   const [description, setDescription] = useState('');
   const [year, setYear] = useState('');
   const [category, setCategory] = useState<'trophy award' | 'certifications'>('trophy award');
-  const [image, setImage] = useState<string | null>(null); // Base64 string raw handler
+  const [order, setOrder] = useState<number>(999);  // 🔴 ADD ORDER STATE
+  const [image, setImage] = useState<string | null>(null);
   
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,7 +42,9 @@ export default function AwardManagement() {
       const res = await fetch('/api/awards');
       if (!res.ok) throw new Error();
       const data = await res.json();
-      setAwards(data);
+      // Sort by order before setting
+      const sorted = data.sort((a: IAwardData, b: IAwardData) => (a.order || 999) - (b.order || 999));
+      setAwards(sorted);
     } catch {
       setError("Failed to fetch awards catalog from DB cluster.");
     } finally {
@@ -61,6 +68,7 @@ export default function AwardManagement() {
     setDescription('');
     setYear('');
     setCategory('trophy award');
+    setOrder(999);
     setImage(null);
     setEditingId(null);
   };
@@ -70,13 +78,13 @@ export default function AwardManagement() {
     setIsSubmitting(true);
     setError(null);
 
-    // Payload configuration matching backend requirements
     const payload = {
       title,
       description,
       year,
       category,
-      ...(image && { image }) // Base64 image bhejenge agar user ne image load ki h
+      order,  // 🔴 ADD ORDER TO PAYLOAD
+      ...(image && { image })
     };
 
     try {
@@ -109,7 +117,8 @@ export default function AwardManagement() {
     setDescription(awd.description);
     setYear(awd.year);
     setCategory(awd.category);
-    setImage(null); // Image input blank rakhenge jab tak naya image select na ho
+    setOrder(awd.order || 999);
+    setImage(null);
   };
 
   const handleDelete = async (id: string) => {
@@ -121,6 +130,55 @@ export default function AwardManagement() {
     } catch {
       setError("Deletion execution pipeline dropped.");
     }
+  };
+
+  // 🔴 Move award up (decrease order)
+  const moveUp = async (index: number) => {
+    if (index === 0) return;
+    const newAwards = [...awards];
+    const temp = newAwards[index];
+    newAwards[index] = newAwards[index - 1];
+    newAwards[index - 1] = temp;
+    
+    // Update orders
+    for (let i = 0; i < newAwards.length; i++) {
+      newAwards[i].order = i + 1;
+    }
+    
+    setAwards(newAwards);
+    
+    // Save to database
+    for (const award of newAwards) {
+      await fetch(`/api/awards/${award._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order: award.order })
+      });
+    }
+    fetchAwards();
+  };
+
+  const moveDown = async (index: number) => {
+    if (index === awards.length - 1) return;
+    const newAwards = [...awards];
+    const temp = newAwards[index];
+    newAwards[index] = newAwards[index + 1];
+    newAwards[index + 1] = temp;
+    
+    for (let i = 0; i < newAwards.length; i++) {
+      newAwards[i].order = i + 1;
+    }
+    
+    setAwards(newAwards);
+    
+    for (const award of newAwards) {
+      await fetch(`/api/awards/${award._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order: award.order })
+      });
+    }
+    fetchAwards();
   };
 
   if (loading) {
@@ -138,7 +196,6 @@ export default function AwardManagement() {
     <div className="min-h-screen bg-zinc-950 p-6 text-zinc-100 sm:p-8">
       <div className="mx-auto max-w-7xl">
         
-        {/* Error Notification Alert */}
         {error && (
           <div className="mb-6 flex items-center gap-3 rounded-lg border border-rose-500/20 bg-rose-500/10 p-4 text-rose-400">
             <FiAlertCircle className="h-5 w-5 shrink-0" />
@@ -148,7 +205,7 @@ export default function AwardManagement() {
 
         <div className="grid gap-8 lg:grid-cols-3">
           
-          {/* Form Control Side Panel */}
+          {/* Form Panel */}
           <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 h-fit">
             <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
               {editingId ? <FiEdit2 className="text-emerald-400" /> : <FiPlus className="text-emerald-400" />}
@@ -168,7 +225,7 @@ export default function AwardManagement() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 <div>
                   <label className="block text-xs font-medium text-zinc-400 mb-1">Conferred Year</label>
                   <input 
@@ -190,6 +247,16 @@ export default function AwardManagement() {
                     <option value="trophy award">Trophy Award</option>
                     <option value="certifications">Certifications</option>
                   </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-zinc-400 mb-1">Display Order</label>
+                  <input 
+                    type="number" 
+                    value={order} 
+                    onChange={(e) => setOrder(parseInt(e.target.value))} 
+                    placeholder="1,2,3..."
+                    className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                  />
                 </div>
               </div>
 
@@ -239,7 +306,7 @@ export default function AwardManagement() {
             </form>
           </div>
 
-          {/* Directory Monitoring Grid Display */}
+          {/* Awards List */}
           <div className="lg:col-span-2">
             <div className="mb-6">
               <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">Accreditations & Honors</h1>
@@ -253,17 +320,22 @@ export default function AwardManagement() {
               </div>
             ) : (
               <div className="grid gap-4 sm:grid-cols-2">
-                {awards.map((awd) => (
+                {awards.map((awd, idx) => (
                   <div key={awd._id} className="flex flex-col justify-between rounded-xl border border-zinc-800 bg-zinc-900 p-5 transition-all hover:border-zinc-700">
                     <div>
                       <div className="flex items-start justify-between gap-2">
                         <h3 className="font-semibold text-white text-lg leading-snug">{awd.title}</h3>
-                        <span className="flex items-center gap-1 shrink-0 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
-                          <FiTag className="text-[9px]" /> {awd.category === 'trophy award' ? 'Trophy' : 'Certificate'}
-                        </span>
+                        <div className="flex flex-col items-end gap-1">
+                          <span className="flex items-center gap-1 shrink-0 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+                            <FiTag className="text-[9px]" /> {awd.category === 'trophy award' ? 'Trophy' : 'Certificate'}
+                          </span>
+                          {/* 🔴 ORDER BADGE */}
+                          <span className="text-[10px] text-zinc-500 bg-zinc-800 px-2 py-0.5 rounded-full">
+                            Order: {awd.order || 999}
+                          </span>
+                        </div>
                       </div>
 
-                      {/* Display Box */}
                       <div className="mt-3 overflow-hidden rounded-lg border border-zinc-800 h-40 w-full relative bg-zinc-950">
                         {awd.image_url ? (
                           <img src={awd.image_url} alt={awd.title} className="object-cover w-full h-full" />
@@ -276,15 +348,28 @@ export default function AwardManagement() {
 
                       <p className="mt-3 text-sm text-zinc-400 line-clamp-3">{awd.description}</p>
 
-                      {/* Metadata row */}
                       <div className="mt-4 flex items-center gap-2 border-t border-zinc-800/50 pt-3 text-xs text-zinc-500">
                         <FiCalendar className="text-emerald-500 text-sm" />
                         <span>Conferred Session: <strong className="text-zinc-300">{awd.year}</strong></span>
                       </div>
                     </div>
 
-                    {/* Form Actions */}
+                    {/* Action Buttons */}
                     <div className="mt-5 flex justify-end gap-2 border-t border-zinc-800/60 pt-3">
+                      <button 
+                        onClick={() => moveUp(idx)}
+                        disabled={idx === 0}
+                        className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium py-1.5 px-3 rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <FiArrowUp className="w-3 h-3" /> Up
+                      </button>
+                      <button 
+                        onClick={() => moveDown(idx)}
+                        disabled={idx === awards.length - 1}
+                        className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium py-1.5 px-3 rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <FiArrowDown className="w-3 h-3" /> Down
+                      </button>
                       <button 
                         onClick={() => handleEdit(awd)}
                         className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium py-1.5 px-3 rounded-md transition-colors cursor-pointer"
@@ -303,7 +388,6 @@ export default function AwardManagement() {
               </div>
             )}
           </div>
-
         </div>
       </div>
     </div>

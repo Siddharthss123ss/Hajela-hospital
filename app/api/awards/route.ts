@@ -7,16 +7,16 @@ import { upload_image } from "@/lib/cloudinary";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-// 1. GET: Fetch all awards (Optimized)
+// 1. GET: Fetch all awards (sorted by order then year)
 export async function GET() {
   try {
     await db_connect();
 
+    // 🔴 Sort by order first, then by year
     const awards = await Award.find({})
-      .sort({ year: -1 })
-      .lean(); // 🔴 .lean() for faster response (2-3x speed)
+      .sort({ order: 1, year: -1 })  // order ascending, phir year descending
+      .lean();
 
-    // 🔴 Cache headers for Vercel CDN
     return NextResponse.json(awards, { 
       status: 200,
       headers: {
@@ -24,7 +24,7 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error("GET Awards Error:", error); // 🔴 Log error for debugging
+    console.error("GET Awards Error:", error);
     return NextResponse.json(
       { error: "Failed to fetch awards catalog" },
       { status: 500 }
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     await db_connect();
 
     const body = await request.json();
-    const { title, description, image, year, category } = body;
+    const { title, description, image, year, category, order } = body;  // 🔴 order add kiya
 
     // 🔴 Better validation with error messages
     const missingFields = [];
@@ -78,7 +78,6 @@ export async function POST(request: Request) {
     try {
       uploadedImage = await upload_image(image, "awards");
       
-      // 🔴 Verify upload success
       if (!uploadedImage?.url || !uploadedImage?.public_id) {
         throw new Error("Invalid upload response");
       }
@@ -90,14 +89,15 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create entry in MongoDB
+    // 🔴 Create entry in MongoDB with order field
     const newAward = await Award.create({
       title: title.trim(),
       description: description.trim(),
       image_url: uploadedImage.url,
       image_id: uploadedImage.public_id,
-      year: Number(year), // 🔴 Ensure number type
+      year: Number(year),
       category: category.toLowerCase(),
+      order: order !== undefined ? Number(order) : 999,  // 🔴 order add kiya
     });
 
     return NextResponse.json(newAward, { status: 201 });

@@ -12,6 +12,7 @@ interface IAward {
   image_id: string;
   year: string;
   category: "trophy award" | "certifications";
+  order: number;  // 🔴 ADD ORDER FIELD
 }
 
 export default function AwardsPage() {
@@ -22,14 +23,17 @@ export default function AwardsPage() {
   useEffect(() => {
     async function getAwards() {
       try {
-        // 🔴 Better caching strategy
         const res = await fetch("/api/awards", { 
           cache: "force-cache",
-          next: { revalidate: 3600 } // Revalidate every hour
+          next: { revalidate: 3600 }
         });
         if (res.ok) {
           const data = await res.json();
-          setAwards(data);
+          // 🔴 SORT BY ORDER (chhoti order number pehle)
+          const sorted = data.sort((a: IAward, b: IAward) => 
+            (a.order || 999) - (b.order || 999)
+          );
+          setAwards(sorted);
         }
       } catch (error) {
         console.error("Failed to load awards from API cluster", error);
@@ -40,10 +44,15 @@ export default function AwardsPage() {
     getAwards();
   }, []);
 
-  const trophies = awards.filter((item) => item.category === "trophy award");
-  const certifications = awards.filter((item) => item.category === "certifications");
+  // 🔴 AB ORDER KE HISAB SE FILTER HONGE
+  const trophies = awards
+    .filter((item) => item.category === "trophy award")
+    .sort((a, b) => (a.order || 999) - (b.order || 999));
+    
+  const certifications = awards
+    .filter((item) => item.category === "certifications")
+    .sort((a, b) => (a.order || 999) - (b.order || 999));
 
-  // 🔴 Handle image load
   const handleImageLoad = (id: string) => {
     setLoadedImages(prev => ({ ...prev, [id]: true }));
   };
@@ -60,72 +69,22 @@ export default function AwardsPage() {
   }
 
   return (
-    <main
-      className="
-      min-h-screen
-      bg-gradient-to-b
-      from-[#020617]
-      via-black
-      to-[#020617]
-      pt-32
-      pb-24
-      overflow-hidden
-      "
-    >
+    <main className="min-h-screen bg-gradient-to-b from-[#020617] via-black to-[#020617] pt-32 pb-24 overflow-hidden">
+      
       {/* PREMIUM GLOW */}
-      <div
-        className="
-        fixed
-        top-0
-        left-1/2
-        -translate-x-1/2
-        w-[900px]
-        h-[900px]
-        bg-cyan-500/10
-        blur-[180px]
-        rounded-full
-        pointer-events-none
-        "
-      ></div>
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-cyan-500/10 blur-[180px] rounded-full pointer-events-none" />
 
       <div className="container-custom relative z-10 mx-auto px-4 max-w-7xl">
-        {/* TOP */}
+        
+        {/* HEADER */}
         <div className="text-center mb-24">
-          <p
-            className="
-            text-cyan-400
-            uppercase
-            tracking-[5px]
-            text-sm
-            font-semibold
-            mb-5
-            "
-          >
+          <p className="text-cyan-400 uppercase tracking-[5px] text-sm font-semibold mb-5">
             Recognition & Excellence
           </p>
-          <h1
-            className="
-            text-4xl
-            md:text-6xl
-            lg:text-7xl
-            font-black
-            text-white
-            leading-tight
-            "
-          >
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight">
             Awards & Certifications
           </h1>
-          <p
-            className="
-            mt-7
-            max-w-3xl
-            mx-auto
-            text-slate-300
-            text-base
-            sm:text-lg
-            leading-relaxed
-            "
-          >
+          <p className="mt-7 max-w-3xl mx-auto text-slate-300 text-base sm:text-lg leading-relaxed">
             Hajela Hospital has been nationally recognized for excellence in healthcare, patient safety, leadership,
             hospital operations, nursing services, and medical innovation.
           </p>
@@ -135,56 +94,20 @@ export default function AwardsPage() {
         {trophies.length > 0 && (
           <div className="mb-28">
             <div className="mb-14">
-              <h2
-                className="
-                text-3xl
-                md:text-5xl
-                font-black
-                text-white
-                "
-              >
+              <h2 className="text-3xl md:text-5xl font-black text-white">
                 Trophy Awards
               </h2>
-              <p
-                className="
-                mt-4
-                text-slate-400
-                max-w-2xl
-                leading-relaxed
-                "
-              >
+              <p className="mt-4 text-slate-400 max-w-2xl leading-relaxed">
                 Prestigious awards and honors recognizing excellence in hospital operations, patient care, and healthcare leadership.
               </p>
             </div>
 
-            {/* GRID */}
-            <div
-              className="
-              grid
-              md:grid-cols-2
-              xl:grid-cols-3
-              gap-8
-              "
-            >
-              {trophies.map((item) => (
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+              {trophies.map((item, index) => (
                 <div
                   key={item._id}
-                  className="
-                  group
-                  overflow-hidden
-                  rounded-[34px]
-                  border
-                  border-white/10
-                  bg-white/[0.05]
-                  backdrop-blur-2xl
-                  hover:-translate-y-3
-                  hover:border-cyan-400/30
-                  transition-all
-                  duration-500
-                  shadow-[0_20px_80px_rgba(0,0,0,0.45)]
-                  "
+                  className="group overflow-hidden rounded-[34px] border border-white/10 bg-white/[0.05] backdrop-blur-2xl hover:-translate-y-3 hover:border-cyan-400/30 transition-all duration-500 shadow-2xl"
                 >
-                  {/* IMAGE with optimized loading */}
                   <div className="relative overflow-hidden h-[320px] w-full bg-slate-800/50">
                     {!loadedImages[item._id] && (
                       <div className="absolute inset-0 bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 animate-pulse" />
@@ -195,80 +118,32 @@ export default function AwardsPage() {
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className={`
-                        object-cover
-                        transition-all duration-700
+                        object-cover transition-all duration-700
                         ${loadedImages[item._id] ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}
                         group-hover:scale-110
                       `}
                       onLoad={() => handleImageLoad(item._id)}
-                      priority={trophies.indexOf(item) < 3} // 🔴 First 3 images priority
+                      priority={index < 3}
                       quality={85}
                     />
-                    <div
-                      className="
-                      absolute
-                      inset-0
-                      bg-gradient-to-t
-                      from-black/90
-                      via-black/20
-                      to-transparent
-                      "
-                    ></div>
-                    {/* BADGE */}
-                    <div
-                      className="
-                      absolute
-                      top-4
-                      left-4
-                      px-4
-                      py-1.5
-                      rounded-full
-                      bg-yellow-400/15
-                      border
-                      border-yellow-300/20
-                      backdrop-blur-xl
-                      text-yellow-200
-                      text-xs
-                      font-semibold
-                      "
-                    >
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                    <div className="absolute top-4 left-4 px-4 py-1.5 rounded-full bg-yellow-400/15 border border-yellow-300/20 backdrop-blur-xl text-yellow-200 text-xs font-semibold">
                       TROPHY AWARD • {item.year}
+                    </div>
+                    {/* 🔴 ORDER BADGE (optional, admin ke liye helpful) */}
+                    <div className="absolute top-4 right-4 px-2 py-0.5 rounded-full bg-black/50 backdrop-blur-sm text-white/60 text-[10px] font-mono">
+                      #{item.order || 999}
                     </div>
                   </div>
 
-                  {/* CONTENT */}
                   <div className="p-7">
-                    <h3
-                      className="
-                      text-white
-                      text-2xl
-                      font-bold
-                      leading-snug
-                      "
-                    >
+                    <h3 className="text-white text-2xl font-bold leading-snug">
                       {item.title}
                     </h3>
-                    <p
-                      className="
-                      mt-3
-                      text-slate-400
-                      text-sm
-                      leading-relaxed
-                      "
-                    >
+                    <p className="mt-3 text-slate-400 text-sm leading-relaxed">
                       {item.description}
                     </p>
-                    <div
-                      className="
-                      mt-5
-                      w-20
-                      h-[3px]
-                      rounded-full
-                      bg-gradient-to-r
-                      from-yellow-400
-                      to-orange-500
-                      "
-                    ></div>
+                    <div className="mt-5 w-20 h-[3px] rounded-full bg-gradient-to-r from-yellow-400 to-orange-500" />
                   </div>
                 </div>
               ))}
@@ -280,56 +155,20 @@ export default function AwardsPage() {
         {certifications.length > 0 && (
           <div>
             <div className="mb-14">
-              <h2
-                className="
-                text-3xl
-                md:text-5xl
-                font-black
-                text-white
-                "
-              >
+              <h2 className="text-3xl md:text-5xl font-black text-white">
                 Certifications & Recognition
               </h2>
-              <p
-                className="
-                mt-4
-                text-slate-400
-                max-w-2xl
-                leading-relaxed
-                "
-              >
+              <p className="mt-4 text-slate-400 max-w-2xl leading-relaxed">
                 Nationally recognized certifications and healthcare quality acknowledgements awarded for medical excellence.
               </p>
             </div>
 
-            {/* GRID */}
-            <div
-              className="
-              grid
-              md:grid-cols-2
-              xl:grid-cols-4
-              gap-8
-              "
-            >
-              {certifications.map((item) => (
+            <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
+              {certifications.map((item, index) => (
                 <div
                   key={item._id}
-                  className="
-                  group
-                  overflow-hidden
-                  rounded-[30px]
-                  border
-                  border-white/10
-                  bg-white/[0.05]
-                  backdrop-blur-2xl
-                  hover:-translate-y-2
-                  hover:border-cyan-400/30
-                  transition-all
-                  duration-500
-                  shadow-[0_15px_60px_rgba(0,0,0,0.4)]
-                  "
+                  className="group overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.05] backdrop-blur-2xl hover:-translate-y-2 hover:border-cyan-400/30 transition-all duration-500 shadow-lg"
                 >
-                  {/* IMAGE with optimized loading */}
                   <div className="relative overflow-hidden h-[250px] w-full bg-slate-800/50">
                     {!loadedImages[item._id] && (
                       <div className="absolute inset-0 bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 animate-pulse" />
@@ -340,79 +179,27 @@ export default function AwardsPage() {
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                       className={`
-                        object-cover
-                        transition-all duration-700
+                        object-cover transition-all duration-700
                         ${loadedImages[item._id] ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}
                         group-hover:scale-105
                       `}
                       onLoad={() => handleImageLoad(item._id)}
                       quality={80}
                     />
-                    <div
-                      className="
-                      absolute
-                      inset-0
-                      bg-gradient-to-t
-                      from-black/80
-                      via-black/10
-                      to-transparent
-                      "
-                    ></div>
-                    {/* BADGE */}
-                    <div
-                      className="
-                      absolute
-                      top-4
-                      left-4
-                      px-4
-                      py-1.5
-                      rounded-full
-                      bg-cyan-500/15
-                      border
-                      border-cyan-300/20
-                      backdrop-blur-xl
-                      text-cyan-200
-                      text-xs
-                      font-semibold
-                      "
-                    >
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                    <div className="absolute top-4 left-4 px-4 py-1.5 rounded-full bg-cyan-500/15 border border-cyan-300/20 backdrop-blur-xl text-cyan-200 text-xs font-semibold">
                       CERTIFICATION • {item.year}
                     </div>
                   </div>
 
-                  {/* CONTENT */}
                   <div className="p-6">
-                    <h3
-                      className="
-                      text-white
-                      text-xl
-                      font-bold
-                      leading-snug
-                      "
-                    >
+                    <h3 className="text-white text-xl font-bold leading-snug">
                       {item.title}
                     </h3>
-                    <p
-                      className="
-                      mt-3
-                      text-slate-400
-                      text-sm
-                      leading-relaxed
-                      "
-                    >
+                    <p className="mt-3 text-slate-400 text-sm leading-relaxed">
                       {item.description}
                     </p>
-                    <div
-                      className="
-                      mt-5
-                      w-16
-                      h-[3px]
-                      rounded-full
-                      bg-gradient-to-r
-                      from-cyan-400
-                      to-blue-600
-                      "
-                    ></div>
+                    <div className="mt-5 w-16 h-[3px] rounded-full bg-gradient-to-r from-cyan-400 to-blue-600" />
                   </div>
                 </div>
               ))}

@@ -1,142 +1,70 @@
 import { NextResponse } from "next/server";
 import db_connect from "@/lib/db";
 import { Award } from "@/app/api/models/award";
-import { upload_image, delete_image } from "@/lib/cloudinary";
+import { delete_image } from "@/lib/cloudinary";
 
-// 🔴 Vercel caching ke liye
 export const dynamic = 'force-dynamic';
 
-interface IParams {
-  params: Promise<{
-    id: string;
-  }>;
+// 🔴 GET by ID (already hoga)
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    await db_connect();
+    const { id } = await params;
+    const award = await Award.findById(id).lean();
+    
+    if (!award) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+    
+    return NextResponse.json(award);
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to fetch" }, { status: 500 });
+  }
 }
 
-// 🔴 GET by ID — Add this if needed
-export async function GET(request: Request, { params }: IParams) {
+// 🔴 DELETE — YEH ADD KARO
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     await db_connect();
     const { id } = await params;
 
-    const award = await Award.findById(id).lean();
+    if (!id) {
+      return NextResponse.json({ error: "ID required" }, { status: 400 });
+    }
 
+    const award = await Award.findById(id);
     if (!award) {
       return NextResponse.json({ error: "Award not found" }, { status: 404 });
     }
 
-    // 🔴 Cache headers for faster loading
-    return NextResponse.json(award, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
-      },
-    });
-  } catch (error) {
-    console.error("GET Award Error:", error);
-    return NextResponse.json({ error: "Failed to fetch award" }, { status: 500 });
-  }
-}
-
-export async function PUT(request: Request, { params }: IParams) {
-  try {
-    await db_connect();
-
-    const { id } = await params;
-
-    // 🔴 Validate ID
-    if (!id) {
-      return NextResponse.json({ error: "ID is required" }, { status: 400 });
-    }
-
-    const body = await request.json();
-    const { title, description, image, year, category } = body;
-
-    // 🔴 Validate required fields
-    if (!title || !category) {
-      return NextResponse.json({ error: "Title and category are required" }, { status: 400 });
-    }
-
-    // Pehle existing award fetch karo taaki purani image_id mil sake
-    const existingAward = await Award.findById(id);
-    if (!existingAward) {
-      return NextResponse.json({ error: "Award entry not found" }, { status: 404 });
-    }
-
-    let updatedImageData = {
-      image_url: existingAward.image_url,
-      image_id: existingAward.image_id
-    };
-
-    // Agar frontend se nayi image stream aayi hai
-    if (image && image.startsWith("data:image")) {
+    // Cloudinary delete (fail ho toh bhi continue)
+    if (award.image_id) {
       try {
-        // 1. Purani image Cloudinary se udao
-        if (existingAward.image_id) {
-          await delete_image(existingAward.image_id);
-        }
-        // 2. Nayi image upload karo
-        const uploadResult = await upload_image(image, "awards");
-        updatedImageData.image_url = uploadResult.url;
-        updatedImageData.image_id = uploadResult.public_id;
-      } catch (err) {
-        console.error("Image upload error:", err);
-        return NextResponse.json({ error: "Failed to cycle image asset on cloud" }, { status: 500 });
+        await delete_image(award.image_id);
+      } catch (cloudError) {
+        console.error("Cloudinary delete failed:", cloudError);
       }
     }
 
-    // DB Update parameters execution
-    const updatedAward = await Award.findByIdAndUpdate(
-      id,
-      {
-        title,
-        description,
-        year,
-        category,
-        image_url: updatedImageData.image_url,
-        image_id: updatedImageData.image_id
-      },
-      { new: true, runValidators: true }
-    );
-
-    return NextResponse.json(updatedAward, { status: 200 });
-    
-  } catch (error) {
-    console.error("PUT Award Error:", error);
-    return NextResponse.json({ error: "Failed to modify record" }, { status: 500 });
-  }
-}
-
-// DELETE: Removes completely from MongoDB AND Cloudinary Cloud storage
-export async function DELETE(request: Request, { params }: IParams) {
-  try {
-    await db_connect();
-
-    const { id } = await params;
-
-    // 🔴 Validate ID
-    if (!id) {
-      return NextResponse.json({ error: "ID is required" }, { status: 400 });
-    }
-
-    const targetAward = await Award.findById(id);
-    if (!targetAward) {
-      return NextResponse.json({ error: "Record already absent" }, { status: 404 });
-    }
-
-    // 1. Pehle Cloudinary se file completely destroy karo safely
-    if (targetAward.image_id) {
-      await delete_image(targetAward.image_id);
-    }
-
-    // 2. Fir MongoDB se data row saaf karo
+    // Database delete
     await Award.findByIdAndDelete(id);
 
-    return NextResponse.json(
-      { message: "Award and Cloudinary Asset sync-deleted successfully", success: true },
-      { status: 200 }
-    );
+    return NextResponse.json({ 
+      success: true, 
+      message: "Award deleted successfully" 
+    });
     
   } catch (error) {
-    console.error("DELETE Award Error:", error);
-    return NextResponse.json({ error: "Failed to execute destruction pipeline" }, { status: 500 });
+    console.error("DELETE Error:", error);
+    return NextResponse.json(
+      { error: "Delete failed" },
+      { status: 500 }
+    );
   }
 }
