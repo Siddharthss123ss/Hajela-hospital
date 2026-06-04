@@ -12,7 +12,7 @@ const technologies = [
   },
   {
     title: "Robotic Surgery",
-    image: "/hospital/joint.PNG",
+    image: "/hospital/joint.jpg",
     desc: "Modern robotic-assisted surgical procedures offering greater precision, smaller incisions, faster recovery and advanced minimally invasive treatment solutions.",
     features: ["Minimally Invasive Procedures", "Advanced Operation Theatres", "Faster Recovery Support"],
   },
@@ -30,7 +30,7 @@ const technologies = [
   },
   {
     title: "Cochlear Implantation Centre",
-    image: "/hospital/cochlear.jpeg",
+    image: "/hospital/cochlear.jpg",
     desc: "Advanced cochlear implant procedures helping patients restore hearing abilities with expert ENT surgeons, hearing rehabilitation and modern implant technologies.",
     features: ["Advanced Hearing Implants", "Hearing Rehabilitation", "Expert ENT Surgeons"],
   },
