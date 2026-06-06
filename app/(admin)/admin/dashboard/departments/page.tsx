@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { FiGrid, FiPlus, FiTrash2, FiEdit2, FiAlertCircle, FiCheck, FiLayers } from 'react-icons/fi';
+import { FiGrid, FiPlus, FiTrash2, FiEdit2, FiAlertCircle, FiLayers } from 'react-icons/fi';
 
 interface IDepartmentData {
   _id: string;
@@ -129,32 +129,33 @@ export default function DepartmentManagement() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[400px] items-center justify-center bg-zinc-950 text-zinc-400">
+      <div className="flex min-h-[400px] items-center justify-center bg-[#090b0f] text-zinc-400">
         <div className="flex items-center gap-3">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent"></div>
-          <p className="text-sm font-medium">Loading...</p>
+          <div className="h-5 w-5 animate-spin rounded-full border-2 border-blue-500 border-t-transparent"></div>
+          <p className="text-sm font-medium">Loading details...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 p-6 text-zinc-100 sm:p-8">
+    <div className="min-h-screen bg-[#090b0f] text-zinc-100 antialiased">
       <div className="mx-auto max-w-7xl">
         
         {error && (
-          <div className="mb-6 flex items-center gap-3 rounded-lg border border-rose-500/20 bg-rose-500/10 p-4 text-rose-400">
-            <FiAlertCircle className="h-5 w-5 shrink-0" />
+          <div className="mb-5 flex items-center gap-3 rounded-md border border-rose-500/20 bg-rose-500/10 p-3.5 text-rose-400">
+            <FiAlertCircle className="h-4 w-4 shrink-0" />
             <p className="text-sm font-medium">{error}</p>
           </div>
         )}
 
-        <div className="grid gap-8 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3">
           
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 h-fit">
-            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-              {editingId ? <FiEdit2 className="text-emerald-400" /> : <FiPlus className="text-emerald-400" />}
-              {editingId ? 'Update Department' : 'Add Department'}
+          {/* Action Form Panel */}
+          <div className="rounded-md border border-zinc-800/80 bg-[#11141a] p-5 h-fit">
+            <h2 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+              {editingId ? <FiEdit2 className="text-blue-500" /> : <FiPlus className="text-blue-500" />}
+              {editingId ? 'Modify Department' : 'Create New Department'}
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -165,79 +166,79 @@ export default function DepartmentManagement() {
                   value={name} 
                   onChange={(e) => setName(e.target.value)} 
                   required 
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                  className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none placeholder-zinc-600 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Slug</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Web Link Extension (Slug)</label>
                 <input 
                   type="text" 
                   value={slug} 
                   onChange={(e) => setSlug(e.target.value)} 
                   required 
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                  className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none placeholder-zinc-600 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Description</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Summary / Description</label>
                 <textarea 
                   value={description} 
                   onChange={(e) => setDescription(e.target.value)} 
                   required 
                   rows={3}
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none resize-none"
+                  className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none resize-none placeholder-zinc-600 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Facilities (Comma Separated)</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Available Facilities (Separate with commas)</label>
                 <input 
                   type="text" 
                   value={facilities} 
                   onChange={(e) => setFacilities(e.target.value)} 
-                  placeholder="ICU, Ventilator, 24/7 Pharmacy"
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                  placeholder="e.g. ICU, Emergency Ward, 24/7 Labs"
+                  className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none placeholder-zinc-600 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Department Image</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Upload Sector Cover Image</label>
                 <input 
                   type="file" 
                   accept="image/*"
                   onChange={handleImageChange} 
-                  className="w-full text-xs text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-zinc-800 file:text-zinc-200 file:cursor-pointer hover:file:bg-zinc-700"
+                  className="w-full text-xs text-zinc-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-zinc-800 file:text-zinc-200 file:cursor-pointer hover:file:bg-zinc-700"
                 />
               </div>
 
-              <div className="flex items-center gap-2 py-2">
+              <div className="flex items-center gap-2.5 py-1">
                 <input 
                   type="checkbox" 
                   id="emergency"
                   checked={isEmergency} 
                   onChange={(e) => setIsEmergency(e.target.checked)} 
-                  className="h-4 w-4 rounded border-zinc-800 bg-zinc-950 text-emerald-500 focus:ring-0 cursor-pointer"
+                  className="h-4 w-4 rounded-sm border-zinc-800 bg-[#090b0f] text-blue-600 focus:ring-0 cursor-pointer"
                 />
-                <label htmlFor="emergency" className="text-sm font-medium text-zinc-300 cursor-pointer select-none">
-                  Is Emergency Department
+                <label htmlFor="emergency" className="text-xs font-medium text-zinc-300 cursor-pointer select-none">
+                  Mark as Emergency Unit
                 </label>
               </div>
 
-              <div className="flex gap-2 pt-2">
+              <div className="flex gap-2 pt-1">
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm py-2.5 px-4 rounded-lg transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs py-2 px-3 rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? 'Saving...' : editingId ? 'Update' : 'Save'}
+                  {isSubmitting ? 'Saving changes...' : editingId ? 'Update Unit' : 'Save Unit'}
                 </button>
                 {editingId && (
                   <button 
                     type="button" 
                     onClick={resetForm}
-                    className="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-medium text-sm py-2.5 px-4 rounded-lg transition-colors cursor-pointer"
+                    className="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-medium text-xs py-2 px-3 rounded-md transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -246,63 +247,64 @@ export default function DepartmentManagement() {
             </form>
           </div>
 
+          {/* List Display Panel */}
           <div className="lg:col-span-2">
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">Departments</h1>
-              <p className="mt-1 text-sm text-zinc-400">View and manage clinical hospital sectors</p>
+            <div className="mb-5">
+              <h1 className="text-xl font-semibold tracking-wide text-white">Hospital Sectors</h1>
+              <p className="mt-0.5 text-xs text-zinc-400">View and adjust active clinical departments</p>
             </div>
 
             {departments.length === 0 ? (
-              <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-800 bg-zinc-900/50 py-16 text-center">
-                <FiGrid className="mx-auto h-12 w-12 text-zinc-600" />
-                <h3 className="mt-4 text-sm font-semibold text-zinc-200">No departments setup</h3>
+              <div className="flex flex-col items-center justify-center rounded-md border border-dashed border-zinc-800 bg-[#11141a]/50 py-12 text-center">
+                <FiGrid className="mx-auto h-8 w-8 text-zinc-600" />
+                <h3 className="mt-3 text-xs font-medium text-zinc-400">No departments added yet</h3>
               </div>
             ) : (
               <div className="grid gap-4 sm:grid-cols-2">
                 {departments.map((dept) => (
-                  <div key={dept._id} className="flex flex-col justify-between rounded-xl border border-zinc-800 bg-zinc-900 p-5 transition-all hover:border-zinc-700">
+                  <div key={dept._id} className="flex flex-col justify-between rounded-md border border-zinc-800 bg-[#11141a] p-4 transition-all hover:border-zinc-700">
                     <div>
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <h3 className="font-semibold text-white text-lg">{dept.name}</h3>
-                          <span className="text-xs text-zinc-500 font-mono">/{dept.slug}</span>
+                          <h3 className="font-semibold text-white text-base">{dept.name}</h3>
+                          <span className="text-xs text-zinc-500">Extension: /{dept.slug}</span>
                         </div>
                         {dept.is_emergency_dept && (
-                          <span className="bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+                          <span className="bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-sm">
                             Emergency
                           </span>
                         )}
                       </div>
 
                       {dept.image_url && (
-                        <div className="mt-3 overflow-hidden rounded-lg border border-zinc-800 h-32 w-full relative bg-zinc-950">
+                        <div className="mt-3 overflow-hidden rounded-md border border-zinc-800 h-28 w-full relative bg-[#090b0f]">
                           <img src={dept.image_url} alt={dept.name} className="object-cover w-full h-full" />
                         </div>
                       )}
 
-                      <p className="mt-3 text-sm text-zinc-400 line-clamp-3">{dept.description}</p>
+                      <p className="mt-2.5 text-xs text-zinc-400 line-clamp-3 leading-relaxed">{dept.description}</p>
 
                       {dept.facilities.length > 0 && (
-                        <div className="mt-4 flex flex-wrap gap-1.5">
+                        <div className="mt-3.5 flex flex-wrap gap-1.5">
                           {dept.facilities.map((fac, i) => (
-                            <span key={i} className="flex items-center gap-1 bg-zinc-950 text-zinc-300 text-xs px-2.5 py-1 rounded-md border border-zinc-800/60">
-                              <FiLayers className="text-emerald-400 text-[10px]" /> {fac}
+                            <span key={i} className="flex items-center gap-1.5 bg-[#090b0f] text-zinc-300 text-[11px] px-2 py-1 rounded-md border border-zinc-800/60">
+                              <FiLayers className="text-blue-500 text-[9px]" /> {fac}
                             </span>
                           ))}
                         </div>
                       )}
                     </div>
 
-                    <div className="mt-5 flex justify-end gap-2 border-t border-zinc-800/60 pt-3">
+                    <div className="mt-4 flex justify-end gap-2 border-t border-zinc-800/60 pt-2.5">
                       <button 
                         onClick={() => handleEdit(dept)}
-                        className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium py-1.5 px-3 rounded-md transition-colors cursor-pointer"
+                        className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium py-1.5 px-2.5 rounded-md transition-colors cursor-pointer"
                       >
                         <FiEdit2 className="w-3 h-3" /> Edit
                       </button>
                       <button 
                         onClick={() => handleDelete(dept._id)}
-                        className="flex items-center gap-1.5 bg-rose-950/40 hover:bg-rose-900/60 text-rose-400 text-xs font-medium py-1.5 px-3 rounded-md border border-rose-900/30 transition-colors cursor-pointer"
+                        className="flex items-center gap-1.5 bg-rose-950/40 hover:bg-rose-900/60 text-rose-400 text-xs font-medium py-1.5 px-2.5 rounded-md border border-rose-900/30 transition-colors cursor-pointer"
                       >
                         <FiTrash2 className="w-3 h-3" /> Delete
                       </button>

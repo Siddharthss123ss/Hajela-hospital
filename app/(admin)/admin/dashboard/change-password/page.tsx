@@ -5,10 +5,12 @@ import { FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 
 export default function ChangePasswordPage() {
   // Form Input States
+  const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   // Toggles and UI Feedbacks
+  const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,7 +37,7 @@ export default function ChangePasswordPage() {
       const response = await fetch("/api/admin/setup", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ newPassword }),
+        body: JSON.stringify({ oldPassword, newPassword }),
       });
 
       const data = await response.json();
@@ -44,8 +46,8 @@ export default function ChangePasswordPage() {
         throw new Error(data.error || "Something went wrong.");
       }
 
-      // Success state configuration - Multiple changes allowed: values cleared instantly
       setMessage({ type: "success", text: data.message || "Password updated successfully!" });
+      setOldPassword("");
       setNewPassword("");
       setConfirmPassword("");
     } catch (err: any) {
@@ -56,101 +58,34 @@ export default function ChangePasswordPage() {
   };
 
   return (
-    <main
-      className="
-      min-h-screen
-      bg-gradient-to-b
-      from-[#020617]
-      via-black
-      to-[#020617]
-      pt-32
-      pb-24
-      overflow-hidden
-      flex
-      items-center
-      justify-center
-      px-4
-      "
-    >
-      {/* PREMIUM CYAN GLOW (Same as Awards Page) */}
-      <div
-        className="
-        fixed
-        top-0
-        left-1/2
-        -translate-x-1/2
-        w-[900px]
-        h-[900px]
-        bg-cyan-500/10
-        blur-[180px]
-        rounded-full
-        pointer-events-none
-        "
-      ></div>
-
-      <div className="w-full max-w-2xl relative z-10 mx-auto">
-        {/* TOP / HEADER (Same as Awards Page Typography Style) */}
-        <div className="text-center mb-14">
-          <p
-            className="
-            text-cyan-400
-            uppercase
-            tracking-[5px]
-            text-sm
-            font-semibold
-            mb-5
-            "
-          >
+    <main className="min-h-screen bg-[#090b0f] pt-24 pb-16 flex items-center justify-center px-4 antialiased">
+      <div className="w-full max-w-lg relative z-10 mx-auto">
+        
+        {/* TOP / HEADER */}
+        <div className="text-center mb-8">
+          <p className="text-blue-500 uppercase tracking-wider text-xs font-semibold mb-2">
             Security & Authentication
           </p>
 
-          <h1
-            className="
-            text-4xl
-            md:text-5xl
-            font-black
-            text-white
-            leading-tight
-            "
-          >
-            Account Security
+          <h1 className="text-xl font-semibold text-white tracking-wide">
+            Account Security Configuration
           </h1>
 
-          <p
-            className="
-            mt-6
-            max-w-lg
-            mx-auto
-            text-slate-300
-            text-sm
-            md:text-base
-            leading-relaxed
-            "
-          >
-            Update your administrative credentials securely below. Multiple system overrides are fully permitted.
+          <p className="mt-2 max-w-sm mx-auto text-zinc-400 text-xs leading-relaxed">
+            Update administrative access keys down into the encrypted security directory.
           </p>
         </div>
 
-        {/* CONTAINER CARD (Exactly matching Awards Grid Card Design) */}
-        <div
-          className="
-          rounded-[34px]
-          border
-          border-white/10
-          bg-white/[0.05]
-          backdrop-blur-2xl
-          shadow-[0_20px_80px_rgba(0,0,0,0.45)]
-          p-8
-          md:p-12
-          "
-        >
+        {/* CONTAINER CARD */}
+        <div className="rounded-md border border-zinc-800/80 bg-[#11141a] p-6 shadow-xl">
+          
           {/* STATUS ALERTS */}
           {message && (
             <div
-              className={`mb-8 p-4 rounded-xl text-sm font-medium border text-center transition-all ${
+              className={`mb-5 p-3 rounded-md text-xs font-medium border text-center transition-all ${
                 message.type === "success"
-                  ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300"
-                  : "bg-rose-500/15 border-rose-500/30 text-rose-300"
+                  ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+                  : "bg-rose-500/10 border-rose-500/20 text-rose-400"
               }`}
             >
               {message.text}
@@ -158,10 +93,36 @@ export default function ChangePasswordPage() {
           )}
 
           {/* FORM SETUP */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            
+            {/* OLD PASSWORD FIELD */}
+            <div>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">
+                Current Admin Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showOldPassword ? "text" : "password"}
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  required
+                  placeholder="••••••••"
+                  disabled={isSubmitting}
+                  className="w-full rounded-md border border-zinc-800 bg-[#090b0f] py-2 pl-3.5 pr-10 text-sm text-white placeholder-zinc-700 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-40"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowOldPassword(!showOldPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+                >
+                  {showOldPassword ? <FiEyeOff className="w-3.5 h-3.5" /> : <FiEye className="w-3.5 h-3.5" />}
+                </button>
+              </div>
+            </div>
+
             {/* NEW PASSWORD FIELD */}
             <div>
-              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-[2px] mb-3">
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">
                 New Admin Password
               </label>
               <div className="relative">
@@ -172,37 +133,21 @@ export default function ChangePasswordPage() {
                   required
                   placeholder="••••••••"
                   disabled={isSubmitting}
-                  className="
-                  w-full 
-                  rounded-xl 
-                  border 
-                  border-white/10 
-                  bg-black/50 
-                  py-3.5 
-                  pl-5 
-                  pr-12 
-                  text-sm 
-                  text-white 
-                  placeholder-slate-700 
-                  focus:border-cyan-400/40 
-                  focus:outline-none 
-                  transition-all 
-                  disabled:opacity-50
-                  "
+                  className="w-full rounded-md border border-zinc-800 bg-[#090b0f] py-2 pl-3.5 pr-10 text-sm text-white placeholder-zinc-700 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-40"
                 />
                 <button
                   type="button"
                   onClick={() => setShowNewPassword(!showNewPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
                 >
-                  {showNewPassword ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
+                  {showNewPassword ? <FiEyeOff className="w-3.5 h-3.5" /> : <FiEye className="w-3.5 h-3.5" />}
                 </button>
               </div>
             </div>
 
             {/* CONFIRM PASSWORD FIELD */}
             <div>
-              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-[2px] mb-3">
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">
                 Confirm New Password
               </label>
               <div className="relative">
@@ -213,91 +158,37 @@ export default function ChangePasswordPage() {
                   required
                   placeholder="••••••••"
                   disabled={isSubmitting}
-                  className="
-                  w-full 
-                  rounded-xl 
-                  border 
-                  border-white/10 
-                  bg-black/50 
-                  py-3.5 
-                  pl-5 
-                  pr-12 
-                  text-sm 
-                  text-white 
-                  placeholder-slate-700 
-                  focus:border-cyan-400/40 
-                  focus:outline-none 
-                  transition-all 
-                  disabled:opacity-50
-                  "
+                  className="w-full rounded-md border border-zinc-800 bg-[#090b0f] py-2 pl-3.5 pr-10 text-sm text-white placeholder-zinc-700 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-40"
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
                 >
-                  {showConfirmPassword ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
+                  {showConfirmPassword ? <FiEyeOff className="w-3.5 h-3.5" /> : <FiEye className="w-3.5 h-3.5" />}
                 </button>
               </div>
             </div>
 
-            {/* SUBMIT BUTTON WITH GRADIENT ACCENT STRIP */}
-            <div className="pt-4">
+            {/* SUBMIT BUTTON */}
+            <div className="pt-2">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="
-                w-full 
-                bg-gradient-to-r 
-                from-cyan-500 
-                to-blue-600 
-                hover:from-cyan-400 
-                hover:to-blue-500 
-                text-white 
-                font-bold 
-                text-sm 
-                py-4 
-                px-6 
-                rounded-xl 
-                transition-all 
-                duration-300 
-                transform 
-                active:scale-[0.99] 
-                disabled:opacity-50 
-                shadow-[0_4px_30px_rgba(6,182,212,0.2)]
-                flex 
-                items-center 
-                justify-center 
-                gap-2 
-                cursor-pointer
-                "
+                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs py-2.5 px-4 rounded-md transition-colors disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
               >
                 {isSubmitting ? (
                   <>
-                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-                    <span>Re-configuring Access Keys...</span>
+                    <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                    <span>Applying Overrides...</span>
                   </>
                 ) : (
                   <>
-                    <FiLock className="w-4 h-4" />
+                    <FiLock className="w-3.5 h-3.5" />
                     <span>Apply Security Changes</span>
                   </>
                 )}
               </button>
-
-              {/* AWARDS MATCHING DECORATIVE BOTTOM ACCENT LINE */}
-              <div
-                className="
-                mt-8 
-                mx-auto
-                w-24 
-                h-[3px] 
-                rounded-full 
-                bg-gradient-to-r 
-                from-cyan-400 
-                to-blue-600
-                "
-              ></div>
             </div>
           </form>
         </div>

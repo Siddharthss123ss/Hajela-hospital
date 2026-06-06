@@ -60,63 +60,59 @@ export default function DashboardHome() {
 
   const metricCards = [
     {
-      title: "Registered Specialists",
+      title: "Registered Doctors",
       val: stats.doctors,
-      icon: <Users className="text-blue-400" />,
-      border: "border-blue-900/40",
+      icon: <Users className="text-blue-500" />,
     },
     {
-      title: "Active Bookings",
+      title: "Active Appointments",
       val: stats.appointments,
-      icon: <BookmarkCheck className="text-emerald-400" />,
-      border: "border-emerald-900/40",
+      icon: <BookmarkCheck className="text-blue-500" />,
     },
     {
       title: "Pending Enquiries",
       val: stats.enquiries,
-      icon: <Inbox className="text-purple-400" />,
-      border: "border-purple-900/40",
+      icon: <Inbox className="text-blue-500" />,
     },
     {
       title: "Patient Reviews",
       val: stats.reviews,
-      icon: <Star className="text-amber-400" />,
-      border: "border-amber-900/40",
+      icon: <Star className="text-blue-500" />,
     },
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-zinc-800 pb-5">
+      <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
         <div>
-          <h2 className="text-xl font-bold tracking-wider text-white uppercase">
-            System Overview
+          <h2 className="text-lg font-semibold tracking-wide text-white">
+            Dashboard Overview
           </h2>
 
-          <p className="text-xs text-zinc-500">
-            Live operational data from central cluster
+          <p className="text-xs text-zinc-400">
+            Real-time summary of hospital activities
           </p>
         </div>
 
         <button
           onClick={fetchMetrics}
           disabled={loading}
-          className="p-2 border border-zinc-800 bg-[#111115] hover:bg-[#16161f] text-zinc-400 hover:text-white transition-all text-xs flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-3 py-1.5 border border-zinc-800 bg-[#11141a] hover:bg-zinc-800/40 text-zinc-300 hover:text-white transition-all text-xs font-medium flex items-center gap-2 rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <RefreshCw
-            size={14}
-            className={loading ? "animate-spin text-emerald-400" : ""}
+            size={13}
+            className={loading ? "animate-spin text-blue-500" : ""}
           />
 
-          {loading ? "Syncing..." : "Sync Metrics"}
+          {loading ? "Updating..." : "Refresh Data"}
         </button>
       </div>
 
       {/* Error */}
       {error && (
-        <div className="flex items-center gap-3 rounded-lg border border-rose-500/20 bg-rose-500/10 p-4 text-rose-400">
-          <AlertCircle className="h-5 w-5 shrink-0" />
+        <div className="flex items-center gap-3 rounded-md border border-rose-500/20 bg-rose-500/10 p-3.5 text-rose-400">
+          <AlertCircle className="h-4 w-4 shrink-0" />
 
           <p className="text-sm font-medium">{error}</p>
         </div>
@@ -127,19 +123,19 @@ export default function DashboardHome() {
         {metricCards.map((card, idx) => (
           <div
             key={idx}
-            className={`bg-[#111115] border ${card.border} p-6 rounded flex items-center justify-between relative overflow-hidden group`}
+            className="bg-[#11141a] border border-zinc-800/80 p-4 rounded-md flex items-center justify-between relative overflow-hidden transition-all hover:border-zinc-700"
           >
-            <div className="space-y-1">
-              <span className="text-[11px] text-zinc-500 uppercase tracking-widest">
+            <div className="space-y-0.5">
+              <span className="text-xs text-zinc-400 font-medium">
                 {card.title}
               </span>
 
-              <p className="text-3xl font-bold tracking-tight text-white">
+              <p className="text-2xl font-semibold tracking-tight text-white">
                 {loading ? "..." : card.val}
               </p>
             </div>
 
-            <div className="p-3 bg-zinc-900/50 rounded border border-zinc-800/60 group-hover:scale-105 transition-transform">
+            <div className="p-2 bg-[#090b0f] rounded-md border border-zinc-800/60">
               {card.icon}
             </div>
           </div>
