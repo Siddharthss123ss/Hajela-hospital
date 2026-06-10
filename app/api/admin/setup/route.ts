@@ -95,13 +95,38 @@ export async function PUT(req: NextRequest) {
       );
     }
 
-    // Request body se naya password lein
-    const { newPassword } = await req.json();
+    // Request body se old aur new password lein
+    const { oldPassword, newPassword } = await req.json();
 
-    if (!newPassword || newPassword.length < 6) {
+    if (!oldPassword || !newPassword) {
+      return NextResponse.json(
+        { error: "Both current password and new password are required" },
+        { status: 400 }
+      );
+    }
+
+    if (newPassword.length < 6) {
       return NextResponse.json(
         { error: "Password must be at least 6 characters long" },
         { status: 400 }
+      );
+    }
+
+    // Admin target user context load karein directly db se to get the password hash
+    const adminUser = await User.findById(decoded.userId);
+    if (!adminUser) {
+      return NextResponse.json(
+        { error: "Admin user not found within active registry" },
+        { status: 404 }
+      );
+    }
+
+    // Compare old password with existing password hash in database
+    const isOldPasswordMatch = await bcrypt.compare(oldPassword, adminUser.password_hash);
+    if (!isOldPasswordMatch) {
+      return NextResponse.json(
+        { error: "The current password provided is incorrect" },
+        { status: 401 }
       );
     }
 
@@ -110,21 +135,9 @@ export async function PUT(req: NextRequest) {
     const hashedNewPassword = await bcrypt.hash(newPassword, salt);
 
     // Database me user ka password update karein aur flag false kar dein
-    const updatedUser = await User.findByIdAndUpdate(
-      decoded.userId,
-      {
-        password_hash: hashedNewPassword,
-        must_change_password: false, // Ab password change ho chuka hai
-      },
-      { new: true }
-    );
-
-    if (!updatedUser) {
-      return NextResponse.json(
-        { error: "Admin user not found" },
-        { status: 404 }
-      );
-    }
+    adminUser.password_hash = hashedNewPassword;
+    adminUser.must_change_password = false;
+    await adminUser.save();
 
     return NextResponse.json({
       success: true,

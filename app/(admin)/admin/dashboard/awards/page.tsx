@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { 
   FiAward, FiPlus, FiTrash2, FiEdit2, FiAlertCircle, 
-  FiCheck, FiCamera, FiCalendar, FiTag, FiArrowUp, FiArrowDown 
+  FiCamera, FiCalendar, FiTag, FiArrowUp, FiArrowDown 
 } from 'react-icons/fi';
 
 interface IAwardData {
@@ -14,7 +14,7 @@ interface IAwardData {
   image_id: string;
   year: string;
   category: "trophy award" | "certifications";
-  order: number;  // 🔴 ADD ORDER FIELD
+  order: number;
 }
 
 export default function AwardManagement() {
@@ -22,12 +22,11 @@ export default function AwardManagement() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Form Field Controlled States
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [year, setYear] = useState('');
   const [category, setCategory] = useState<'trophy award' | 'certifications'>('trophy award');
-  const [order, setOrder] = useState<number>(999);  // 🔴 ADD ORDER STATE
+  const [order, setOrder] = useState<number>(999);
   const [image, setImage] = useState<string | null>(null);
   
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -42,11 +41,10 @@ export default function AwardManagement() {
       const res = await fetch('/api/awards');
       if (!res.ok) throw new Error();
       const data = await res.json();
-      // Sort by order before setting
       const sorted = data.sort((a: IAwardData, b: IAwardData) => (a.order || 999) - (b.order || 999));
       setAwards(sorted);
     } catch {
-      setError("Failed to fetch awards catalog from DB cluster.");
+      setError("Failed to fetch credentials and recognitions data.");
     } finally {
       setLoading(false);
     }
@@ -83,7 +81,7 @@ export default function AwardManagement() {
       description,
       year,
       category,
-      order,  // 🔴 ADD ORDER TO PAYLOAD
+      order,
       ...(image && { image })
     };
 
@@ -105,7 +103,7 @@ export default function AwardManagement() {
       resetForm();
       fetchAwards();
     } catch (err: any) {
-      setError(err.message || "Execution failure during pipeline transaction.");
+      setError(err.message || "An internal structural update error occurred.");
     } finally {
       setIsSubmitting(false);
     }
@@ -122,17 +120,16 @@ export default function AwardManagement() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to permanently remove this award record?")) return;
+    if (!confirm("Are you sure you want to permanently remove this recognition record?")) return;
     try {
       const res = await fetch(`/api/awards/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error();
       fetchAwards();
     } catch {
-      setError("Deletion execution pipeline dropped.");
+      setError("Failed to complete removal request.");
     }
   };
 
-  // 🔴 Move award up (decrease order)
   const moveUp = async (index: number) => {
     if (index === 0) return;
     const newAwards = [...awards];
@@ -140,14 +137,12 @@ export default function AwardManagement() {
     newAwards[index] = newAwards[index - 1];
     newAwards[index - 1] = temp;
     
-    // Update orders
     for (let i = 0; i < newAwards.length; i++) {
       newAwards[i].order = i + 1;
     }
     
     setAwards(newAwards);
     
-    // Save to database
     for (const award of newAwards) {
       await fetch(`/api/awards/${award._id}`, {
         method: 'PUT',
@@ -183,33 +178,33 @@ export default function AwardManagement() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[400px] items-center justify-center bg-zinc-950 text-zinc-400">
+      <div className="flex min-h-[400px] items-center justify-center bg-[#090b0f] text-zinc-400">
         <div className="flex items-center gap-3">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent"></div>
-          <p className="text-sm font-medium">Loading hospital recognition registry...</p>
+          <div className="h-5 w-5 animate-spin rounded-full border-2 border-blue-500 border-t-transparent"></div>
+          <p className="text-sm font-medium">Loading recognition logs...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 p-6 text-zinc-100 sm:p-8">
+    <div className="min-h-screen bg-[#090b0f] text-zinc-100 antialiased">
       <div className="mx-auto max-w-7xl">
         
         {error && (
-          <div className="mb-6 flex items-center gap-3 rounded-lg border border-rose-500/20 bg-rose-500/10 p-4 text-rose-400">
-            <FiAlertCircle className="h-5 w-5 shrink-0" />
+          <div className="mb-5 flex items-center gap-3 rounded-md border border-rose-500/20 bg-rose-500/10 p-3.5 text-rose-400">
+            <FiAlertCircle className="h-4 w-4 shrink-0" />
             <p className="text-sm font-medium">{error}</p>
           </div>
         )}
 
-        <div className="grid gap-8 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3">
           
           {/* Form Panel */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 h-fit">
-            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-              {editingId ? <FiEdit2 className="text-emerald-400" /> : <FiPlus className="text-emerald-400" />}
-              {editingId ? 'Edit Recognition Details' : 'Register New Honor'}
+          <div className="rounded-md border border-zinc-800/80 bg-[#11141a] p-5 h-fit">
+            <h2 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+              {editingId ? <FiEdit2 className="text-blue-500" /> : <FiPlus className="text-blue-500" />}
+              {editingId ? 'Modify Recognition Entry' : 'Register New Honor'}
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -220,8 +215,8 @@ export default function AwardManagement() {
                   value={title} 
                   onChange={(e) => setTitle(e.target.value)} 
                   required 
-                  placeholder="Best Multispeciality Hospital"
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                  placeholder="e.g. Excellence in Healthcare Delivery"
+                  className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none placeholder-zinc-600 transition-colors"
                 />
               </div>
 
@@ -233,71 +228,71 @@ export default function AwardManagement() {
                     value={year} 
                     onChange={(e) => setYear(e.target.value)} 
                     required 
-                    placeholder="e.g. 2026"
-                    className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                    placeholder="2026"
+                    className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none placeholder-zinc-600 transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">Strict Category</label>
+                  <label className="block text-xs font-medium text-zinc-400 mb-1">Classification</label>
                   <select 
                     value={category} 
                     onChange={(e) => setCategory(e.target.value as any)}
-                    className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none h-[42px] cursor-pointer"
+                    className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none h-[38px] cursor-pointer"
                   >
                     <option value="trophy award">Trophy Award</option>
                     <option value="certifications">Certifications</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">Display Order</label>
+                  <label className="block text-xs font-medium text-zinc-400 mb-1">Sequence Order</label>
                   <input 
                     type="number" 
                     value={order} 
                     onChange={(e) => setOrder(parseInt(e.target.value))} 
-                    placeholder="1,2,3..."
-                    className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                    placeholder="1"
+                    className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none placeholder-zinc-600 transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Honor Citation / Description</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Honor Citation / Context</label>
                 <textarea 
                   value={description} 
                   onChange={(e) => setDescription(e.target.value)} 
                   required 
                   rows={4}
-                  placeholder="Awarded for excellence in executing critical healthcare setups..."
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none resize-none"
+                  placeholder="Summarize the core impact and significance of the commendation..."
+                  className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none resize-none placeholder-zinc-600 transition-colors"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-medium text-zinc-400 mb-1">
-                  Award Certificate / Image {editingId && <span className="text-zinc-500">(Optional if keeping old)</span>}
+                  Document Check / Graphic Asset {editingId && <span className="text-zinc-500">(Optional)</span>}
                 </label>
                 <input 
                   type="file" 
                   accept="image/*"
                   onChange={handleImageChange} 
                   required={!editingId}
-                  className="w-full text-xs text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-zinc-800 file:text-zinc-200 file:cursor-pointer hover:file:bg-zinc-700"
+                  className="w-full text-xs text-zinc-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-zinc-800 file:text-zinc-200 file:cursor-pointer hover:file:bg-zinc-700"
                 />
               </div>
 
-              <div className="flex gap-2 pt-2">
+              <div className="flex gap-2 pt-1">
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm py-2.5 px-4 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                  className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs py-2 px-3 rounded-md transition-colors cursor-pointer disabled:opacity-50"
                 >
-                  {isSubmitting ? 'Syncing Assets...' : editingId ? 'Update Record' : 'Publish Award'}
+                  {isSubmitting ? 'Syncing assets...' : editingId ? 'Update Entry' : 'Publish Entry'}
                 </button>
                 {editingId && (
                   <button 
                     type="button" 
                     onClick={resetForm}
-                    className="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-medium text-sm py-2.5 px-4 rounded-lg transition-colors cursor-pointer"
+                    className="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-medium text-xs py-2 px-3 rounded-md transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -308,77 +303,76 @@ export default function AwardManagement() {
 
           {/* Awards List */}
           <div className="lg:col-span-2">
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">Accreditations & Honors</h1>
-              <p className="mt-1 text-sm text-zinc-400">Manage hospital recognition and dynamic certifications verified on core storage.</p>
+            <div className="mb-5">
+              <h1 className="text-xl font-semibold tracking-wide text-white">Accreditations & Distinctions</h1>
+              <p className="mt-0.5 text-xs text-zinc-400">Review sequence matrix and maintain verifiable organization credentials.</p>
             </div>
 
             {awards.length === 0 ? (
-              <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-800 bg-zinc-900/50 py-16 text-center">
-                <FiAward className="mx-auto h-12 w-12 text-zinc-600" />
-                <h3 className="mt-4 text-sm font-semibold text-zinc-200">No awards logged in database</h3>
+              <div className="flex flex-col items-center justify-center rounded-md border border-dashed border-zinc-800 bg-[#11141a]/50 py-12 text-center">
+                <FiAward className="mx-auto h-8 w-8 text-zinc-600" />
+                <h3 className="mt-3 text-xs font-medium text-zinc-400">No organizational records found</h3>
               </div>
             ) : (
               <div className="grid gap-4 sm:grid-cols-2">
                 {awards.map((awd, idx) => (
-                  <div key={awd._id} className="flex flex-col justify-between rounded-xl border border-zinc-800 bg-zinc-900 p-5 transition-all hover:border-zinc-700">
+                  <div key={awd._id} className="flex flex-col justify-between rounded-md border border-zinc-800 bg-[#11141a] p-4 transition-all hover:border-zinc-700">
                     <div>
                       <div className="flex items-start justify-between gap-2">
-                        <h3 className="font-semibold text-white text-lg leading-snug">{awd.title}</h3>
+                        <h3 className="font-semibold text-white text-base leading-snug">{awd.title}</h3>
                         <div className="flex flex-col items-end gap-1">
-                          <span className="flex items-center gap-1 shrink-0 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+                          <span className="flex items-center gap-1 shrink-0 bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
                             <FiTag className="text-[9px]" /> {awd.category === 'trophy award' ? 'Trophy' : 'Certificate'}
                           </span>
-                          {/* 🔴 ORDER BADGE */}
-                          <span className="text-[10px] text-zinc-500 bg-zinc-800 px-2 py-0.5 rounded-full">
-                            Order: {awd.order || 999}
+                          <span className="text-[10px] text-zinc-500 bg-[#090b0f] border border-zinc-800/60 px-2 py-0.5 rounded-full">
+                            Index: {awd.order || 999}
                           </span>
                         </div>
                       </div>
 
-                      <div className="mt-3 overflow-hidden rounded-lg border border-zinc-800 h-40 w-full relative bg-zinc-950">
+                      <div className="mt-3 overflow-hidden rounded-md border border-zinc-800 h-36 w-full relative bg-[#090b0f]">
                         {awd.image_url ? (
                           <img src={awd.image_url} alt={awd.title} className="object-cover w-full h-full" />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center text-zinc-600">
-                            <FiCamera className="w-6 h-6" />
+                            <FiCamera className="w-5 h-5" />
                           </div>
                         )}
                       </div>
 
-                      <p className="mt-3 text-sm text-zinc-400 line-clamp-3">{awd.description}</p>
+                      <p className="mt-2.5 text-xs text-zinc-400 line-clamp-3 leading-relaxed">{awd.description}</p>
 
-                      <div className="mt-4 flex items-center gap-2 border-t border-zinc-800/50 pt-3 text-xs text-zinc-500">
-                        <FiCalendar className="text-emerald-500 text-sm" />
-                        <span>Conferred Session: <strong className="text-zinc-300">{awd.year}</strong></span>
+                      <div className="mt-3.5 flex items-center gap-2 border-t border-zinc-800/50 pt-2.5 text-xs text-zinc-500">
+                        <FiCalendar className="text-blue-500 text-sm" />
+                        <span>Conferred Allocation: <strong className="text-zinc-300 font-normal">{awd.year}</strong></span>
                       </div>
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="mt-5 flex justify-end gap-2 border-t border-zinc-800/60 pt-3">
+                    <div className="mt-4 flex justify-end gap-1.5 border-t border-zinc-800/60 pt-2.5">
                       <button 
                         onClick={() => moveUp(idx)}
                         disabled={idx === 0}
-                        className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium py-1.5 px-3 rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium py-1.5 px-2.5 rounded-md transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         <FiArrowUp className="w-3 h-3" /> Up
                       </button>
                       <button 
                         onClick={() => moveDown(idx)}
                         disabled={idx === awards.length - 1}
-                        className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium py-1.5 px-3 rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium py-1.5 px-2.5 rounded-md transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         <FiArrowDown className="w-3 h-3" /> Down
                       </button>
                       <button 
                         onClick={() => handleEdit(awd)}
-                        className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium py-1.5 px-3 rounded-md transition-colors cursor-pointer"
+                        className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium py-1.5 px-2.5 rounded-md transition-colors cursor-pointer"
                       >
                         <FiEdit2 className="w-3 h-3" /> Edit
                       </button>
                       <button 
                         onClick={() => handleDelete(awd._id)}
-                        className="flex items-center gap-1.5 bg-rose-950/40 hover:bg-rose-900/60 text-rose-400 text-xs font-medium py-1.5 px-3 rounded-md border border-rose-900/30 transition-colors cursor-pointer"
+                        className="flex items-center gap-1 bg-rose-950/40 hover:bg-rose-900/60 text-rose-400 text-xs font-medium py-1.5 px-2.5 rounded-md border border-rose-900/30 transition-colors cursor-pointer"
                       >
                         <FiTrash2 className="w-3 h-3" /> Delete
                       </button>

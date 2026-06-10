@@ -19,7 +19,7 @@ export default function ServiceManagement() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Controlled States (Ab exact Database Model se mapped hain)
+  // Controlled States matched to the structural schema
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
   const [description, setDescription] = useState('');
@@ -35,7 +35,6 @@ export default function ServiceManagement() {
     fetchServices();
   }, []);
 
-  // Automatic Clean Slug Generation logic
   const generateSlug = (text: string) => {
     return text
       .toLowerCase()
@@ -49,7 +48,7 @@ export default function ServiceManagement() {
     const value = e.target.value;
     setName(value);
     if (!editingId) {
-      setSlug(generateSlug(value)); // Insert flow me auto URL slug banega
+      setSlug(generateSlug(value));
     }
   };
 
@@ -60,7 +59,7 @@ export default function ServiceManagement() {
       const data = await res.json();
       setServices(data);
     } catch {
-      setError("Failed to fetch medical services from database");
+      setError("Failed to fetch medical services from cluster database.");
     } finally {
       setLoading(false);
     }
@@ -95,7 +94,6 @@ export default function ServiceManagement() {
     
     const facilitiesArray = facilities.split(',').map(f => f.trim()).filter(Boolean);
     
-    // Strict schema payload structure
     const payload = {
       name,
       slug: slug.toLowerCase().trim() || generateSlug(name),
@@ -121,7 +119,7 @@ export default function ServiceManagement() {
       resetForm();
       fetchServices();
     } catch {
-      setError("Database sync operational failure");
+      setError("Database schema synchronization operational failure.");
     } finally {
       setIsSubmitting(false);
     }
@@ -139,146 +137,146 @@ export default function ServiceManagement() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to remove this service profile?")) return;
+    if (!confirm("Are you sure you want to remove this service profile configuration?")) return;
     try {
       const res = await fetch(`/api/services/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error();
       fetchServices();
     } catch {
-      setError("Failed to execute data deletion");
+      setError("Failed to execute remote data configuration deletion.");
     }
   };
 
   if (loading) {
     return (
-      <div className="flex min-h-[400px] items-center justify-center bg-zinc-950 text-zinc-400">
+      <div className="flex min-h-[400px] items-center justify-center bg-[#090b0f] text-zinc-400">
         <div className="flex items-center gap-3">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent"></div>
-          <p className="text-sm font-medium">Loading medical services...</p>
+          <div className="h-5 w-5 animate-spin rounded-full border-2 border-blue-500 border-t-transparent"></div>
+          <p className="text-sm font-medium">Parsing operational schema indices...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 p-6 text-zinc-100 sm:p-8">
+    <div className="min-h-screen bg-[#090b0f] p-6 text-zinc-100 antialiased sm:p-8">
       <div className="mx-auto max-w-7xl">
         
         {error && (
-          <div className="mb-6 flex items-center gap-3 rounded-lg border border-rose-500/20 bg-rose-500/10 p-4 text-rose-400">
-            <FiAlertCircle className="h-5 w-5 shrink-0" />
+          <div className="mb-5 flex items-center gap-3 rounded-md border border-rose-500/20 bg-rose-500/10 p-3.5 text-rose-400">
+            <FiAlertCircle className="h-4 w-4 shrink-0" />
             <p className="text-sm font-medium">{error}</p>
           </div>
         )}
 
-        <div className="grid gap-8 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3">
           
           {/* Form Setup Panel */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 h-fit max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-              {editingId ? <FiEdit2 className="text-emerald-400" /> : <FiPlus className="text-emerald-400" />}
-              {editingId ? 'Update Service Config' : 'Create New Service'}
+          <div className="rounded-md border border-zinc-800/80 bg-[#11141a] p-5 h-fit max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <h2 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+              {editingId ? <FiEdit2 className="text-blue-500" /> : <FiPlus className="text-blue-500" />}
+              {editingId ? 'Update System Config' : 'Register Offering'}
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Service Department Name</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Service Division Name</label>
                 <input 
                   type="text" 
                   value={name} 
                   onChange={handleNameChange} 
                   required 
-                  placeholder="24/7 Reception Services"
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                  placeholder="e.g. Outpatient Diagnostics"
+                  className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none placeholder-zinc-700 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Slug URL Identifier</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">URL Route Parameter Slug</label>
                 <input 
                   type="text" 
                   value={slug} 
                   onChange={(e) => setSlug(generateSlug(e.target.value))} 
                   required 
                   disabled={!!editingId}
-                  placeholder="reception-services"
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none disabled:opacity-50"
+                  placeholder="outpatient-diagnostics"
+                  className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none disabled:opacity-40 transition-colors"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">Timing Status</label>
+                  <label className="block text-xs font-medium text-zinc-400 mb-1">Operations Window</label>
                   <input 
                     type="text" 
                     value={timing} 
                     onChange={(e) => setTiming(e.target.value)} 
                     required 
-                    placeholder="24 Hours"
-                    className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                    placeholder="e.g. 24 Hours"
+                    className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none placeholder-zinc-700 transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-zinc-400 mb-1">Contact Number</label>
+                  <label className="block text-xs font-medium text-zinc-400 mb-1">Dedicated Line</label>
                   <input 
                     type="text" 
                     value={contactNumber} 
                     onChange={(e) => setContactNumber(e.target.value)} 
                     required 
-                    placeholder="7777802365"
-                    className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                    placeholder="e.g. +1 (555) 0192"
+                    className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none placeholder-zinc-700 transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Description Profile</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Division Profile Overview</label>
                 <textarea 
                   value={description} 
                   onChange={(e) => setDescription(e.target.value)} 
                   required 
                   rows={3}
-                  placeholder="Round-the-clock reception and patient assistance..."
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none resize-none"
+                  placeholder="Provide precise scope definition statements..."
+                  className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none resize-none placeholder-zinc-700 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Facilities Provided (Comma Separated)</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Integrated Core Facilities (Comma Separated)</label>
                 <input 
                   type="text" 
                   value={facilities} 
                   onChange={(e) => setFacilities(e.target.value)} 
-                  placeholder="24/7 Reception, Patient Assistance, Billing Support"
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
+                  placeholder="Imaging, Laboratory, Rapid Assessment"
+                  className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none placeholder-zinc-700 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Service Panel Cover Image</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Cover Asset File</label>
                 <input 
                   type="file" 
                   accept="image/*"
                   onChange={handleImageChange} 
-                  className="w-full text-xs text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-zinc-800 file:text-zinc-200 file:cursor-pointer hover:file:bg-zinc-700"
+                  className="w-full text-xs text-zinc-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-zinc-800 file:text-zinc-200 file:cursor-pointer hover:file:bg-zinc-700"
                 />
               </div>
 
-              <div className="flex gap-2 pt-2">
+              <div className="flex gap-2 pt-1">
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm py-2.5 px-4 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                  className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs py-2 px-3 rounded-md transition-colors cursor-pointer disabled:opacity-50"
                 >
-                  {isSubmitting ? 'Writing to DB...' : editingId ? 'Update Service' : 'Publish Service'}
+                  {isSubmitting ? 'Syncing to Cluster...' : editingId ? 'Apply Patch' : 'Publish Asset'}
                 </button>
                 {editingId && (
                   <button 
                     type="button" 
                     onClick={resetForm}
-                    className="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-medium text-sm py-2.5 px-4 rounded-lg transition-colors cursor-pointer"
+                    className="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-medium text-xs py-2 px-3 rounded-md transition-colors cursor-pointer"
                   >
-                    Cancel
+                    Abort
                   </button>
                 )}
               </div>
@@ -287,44 +285,44 @@ export default function ServiceManagement() {
 
           {/* Directory Monitoring Grid */}
           <div className="lg:col-span-2">
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">Clinical Offerings & Facilities</h1>
-              <p className="mt-1 text-sm text-zinc-400">Direct active state representation mapping from MongoDB cluster</p>
+            <div className="mb-5">
+              <h1 className="text-xl font-semibold tracking-wide text-white">Clinical Offerings & Facilities</h1>
+              <p className="mt-0.5 text-xs text-zinc-400">Direct mapping indexes retrieved from primary dataset aggregates</p>
             </div>
 
             {services.length === 0 ? (
-              <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-800 bg-zinc-900/50 py-16 text-center">
-                <FiActivity className="mx-auto h-12 w-12 text-zinc-600" />
-                <h3 className="mt-4 text-sm font-semibold text-zinc-200">No medical services registered</h3>
+              <div className="flex flex-col items-center justify-center rounded-md border border-dashed border-zinc-800 bg-[#11141a]/50 py-12 text-center">
+                <FiActivity className="mx-auto h-8 w-8 text-zinc-600" />
+                <h3 className="mt-3 text-xs font-medium text-zinc-400">No medical services registered inside system database</h3>
               </div>
             ) : (
               <div className="grid gap-4 sm:grid-cols-2">
                 {services.map((srv) => (
-                  <div key={srv._id} className="flex flex-col justify-between rounded-xl border border-zinc-800 bg-zinc-900 p-5 transition-all hover:border-zinc-700">
+                  <div key={srv._id} className="flex flex-col justify-between rounded-md border border-zinc-800 bg-[#11141a] p-4.5 transition-colors hover:border-zinc-700">
                     <div>
                       <div className="flex items-start justify-between gap-2">
-                        <h3 className="font-semibold text-white text-lg leading-snug">{srv.name}</h3>
+                        <h3 className="font-medium text-white text-base leading-snug">{srv.name}</h3>
                       </div>
 
-                      <div className="mt-3 overflow-hidden rounded-lg border border-zinc-800 h-36 w-full relative bg-zinc-950">
+                      <div className="mt-2.5 overflow-hidden rounded-md border border-zinc-800 h-32 w-full relative bg-[#090b0f]">
                         {srv.image_url ? (
                           <img src={srv.image_url} alt={srv.name} className="object-cover w-full h-full" />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center text-zinc-600">
-                            <FiCamera className="w-6 h-6" />
+                          <div className="flex h-full w-full items-center justify-center text-zinc-700">
+                            <FiCamera className="w-5 h-5" />
                           </div>
                         )}
                       </div>
 
-                      <p className="mt-3 text-xs text-zinc-400 line-clamp-3 italic">"{srv.description}"</p>
+                      <p className="mt-2.5 text-xs text-zinc-400 line-clamp-2 italic font-normal">"{srv.description}"</p>
 
                       {srv.facilities && srv.facilities.length > 0 && (
-                        <div className="mt-4 space-y-1.5 border-t border-zinc-800/50 pt-3">
-                          <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-1">Core Facilities:</span>
-                          <div className="grid grid-cols-1 gap-1.5">
+                        <div className="mt-3.5 space-y-1 border-t border-zinc-800/60 pt-2.5">
+                          <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider block mb-1">Core Facilities:</span>
+                          <div className="grid grid-cols-1 gap-1">
                             {srv.facilities.map((feat, i) => (
                               <div key={i} className="flex items-center gap-2 text-xs text-zinc-300">
-                                <FiCheck className="text-emerald-400 shrink-0 text-[11px]" />
+                                <FiCheck className="text-blue-400 shrink-0 text-[10px]" />
                                 <span className="truncate">{feat}</span>
                               </div>
                             ))}
@@ -332,30 +330,30 @@ export default function ServiceManagement() {
                         </div>
                       )}
 
-                      <div className="mt-4 grid grid-cols-2 gap-2 border-t border-zinc-800/40 pt-3 text-[11px] text-zinc-400">
+                      <div className="mt-3.5 grid grid-cols-2 gap-2 border-t border-zinc-800/40 pt-2.5 text-[10px] text-zinc-400">
                         <div className="flex items-center gap-1.5">
-                          <FiClock className="text-emerald-400 shrink-0" />
+                          <FiClock className="text-blue-500 shrink-0" />
                           <span className="truncate">{srv.timing || '24 Hours'}</span>
                         </div>
                         <div className="flex items-center gap-1.5 justify-end">
-                          <FiPhone className="text-emerald-400 shrink-0" />
+                          <FiPhone className="text-blue-500 shrink-0" />
                           <span className="truncate text-zinc-300 font-medium">{srv.contact_number}</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="mt-5 flex justify-end gap-2 border-t border-zinc-800/60 pt-3">
+                    <div className="mt-4 flex justify-end gap-2 border-t border-zinc-800/60 pt-2.5">
                       <button 
                         onClick={() => handleEdit(srv)}
-                        className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium py-1.5 px-3 rounded-md transition-colors cursor-pointer"
+                        className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium py-1 px-2.5 rounded-md transition-colors cursor-pointer"
                       >
-                        <FiEdit2 className="w-3 h-3" /> Edit
+                        <FiEdit2 className="w-3 h-3" /> Config
                       </button>
                       <button 
                         onClick={() => handleDelete(srv._id)}
-                        className="flex items-center gap-1.5 bg-rose-950/40 hover:bg-rose-900/60 text-rose-400 text-xs font-medium py-1.5 px-3 rounded-md border border-rose-900/30 transition-colors cursor-pointer"
+                        className="flex items-center gap-1.5 bg-rose-950/40 hover:bg-rose-900/60 text-rose-400 text-xs font-medium py-1 px-2.5 rounded-md border border-rose-900/20 transition-colors cursor-pointer"
                       >
-                        <FiTrash2 className="w-3 h-3" /> Delete
+                        <FiTrash2 className="w-3 h-3" /> Decom
                       </button>
                     </div>
                   </div>

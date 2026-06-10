@@ -36,42 +36,42 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] text-zinc-100 font-mono selection:bg-emerald-500 selection:text-black">
+    <div className="min-h-screen bg-[#090b0f] text-zinc-100 antialiased selection:bg-blue-600 selection:text-white">
       {/* Top Mobile Navbar */}
-      <header className="lg:hidden flex items-center justify-between px-6 py-4 bg-[#111115] border-b border-zinc-800">
+      <header className="lg:hidden flex items-center justify-between px-5 py-4 bg-[#11141a] border-b border-zinc-800/80">
         <div className="flex items-center gap-2">
-          <Activity className="text-emerald-500 animate-pulse" size={22} />
-          <span className="font-bold tracking-widest text-sm">HAJELA.ADM</span>
+          <Activity className="text-blue-500" size={20} />
+          <span className="font-semibold text-sm tracking-wide text-white">Hajela Hospital</span>
         </div>
-        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-zinc-400 hover:text-white cursor-pointer">
-          {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-zinc-400 hover:text-white cursor-pointer p-1">
+          {sidebarOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </header>
 
       <div className="flex">
         {/* Sidebar Navigation */}
-        <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#111115] border-r border-zinc-800 transform lg:transform-none lg:opacity-100 transition-all duration-300 ease-in-out flex flex-col justify-between
+        <aside className={`fixed inset-y-0 left-0 z-50 w-60 bg-[#11141a] border-r border-zinc-800/80 transform lg:transform-none lg:opacity-100 transition-all duration-200 ease-in-out flex flex-col justify-between
           ${sidebarOpen ? 'translate-x-0 opacity-100' : '-translate-x-full lg:translate-x-0'}`}>
 
           <div>
             {/* Header Identity */}
-            <div className="hidden lg:flex items-center gap-3 px-6 py-6 border-b border-zinc-800/60">
-              <Activity className="text-emerald-400" size={24} />
+            <div className="hidden lg:flex items-center gap-3 px-5 py-5 border-b border-zinc-800/60">
+              <Activity className="text-blue-500" size={22} />
               <div>
-                <h1 className="font-bold tracking-wider text-sm text-white">HAJELA HOSPITAL</h1>
-                <p className="text-[10px] text-zinc-500 uppercase tracking-widest">Core Engine v1.0</p>
+                <h1 className="font-semibold text-sm text-white tracking-wide">Hajela Hospital</h1>
+                <p className="text-[11px] text-zinc-400">Admin Dashboard</p>
               </div>
             </div>
 
             {/* Navigation Links */}
-            <nav className="p-4 space-y-1">
+            <nav className="p-3 space-y-1">
               {menuItems.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="flex items-center gap-3 px-4 py-3 rounded text-zinc-400 hover:text-emerald-400 hover:bg-[#16161f] border border-transparent hover:border-zinc-800/50 transition-all text-xs tracking-wide"
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800/40 border border-transparent hover:border-zinc-800/40 transition-all text-sm font-medium"
                 >
-                  {item.icon}
+                  <span className="text-zinc-500 transition-colors">{item.icon}</span>
                   {item.name}
                 </a>
               ))}
@@ -79,14 +79,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
 
           {/* User Status / Logout */}
-          <div className="p-4 border-t border-zinc-800/60 bg-[#0e0e12]">
-            <div className="flex items-center justify-between">
-              <div className="truncate pr-2">
-                <p className="text-xs font-semibold text-zinc-300 truncate">admin@hajela.com</p>
-                <span className="text-[9px] text-emerald-500 tracking-widest uppercase">Root Access</span>
+          <div className="p-4 border-t border-zinc-800/60 bg-[#141820]">
+            <div className="flex items-center justify-between gap-2">
+              <div className="truncate">
+                <p className="text-xs font-medium text-zinc-200 truncate">admin@hajela.com</p>
+                <span className="text-[10px] text-zinc-400">Authorized Session</span>
               </div>
-              <button className="p-2 text-zinc-500 hover:text-rose-400 hover:bg-rose-950/20 rounded transition-colors cursor-pointer">
-                <LogOut onClick={handleLogout} size={16} />
+              <button 
+                onClick={handleLogout}
+                className="p-2 text-zinc-400 hover:text-rose-400 hover:bg-rose-950/20 rounded-md transition-colors cursor-pointer flex-shrink-0"
+                title="Sign Out"
+              >
+                <LogOut size={16} />
               </button>
             </div>
           </div>
@@ -94,12 +98,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Backdrop for mobile active drawer */}
         {sidebarOpen && (
-          <div onClick={() => setSidebarOpen(false)} className="fixed inset-0 bg-black/60 z-40 lg:hidden" />
+          <div onClick={() => setSidebarOpen(false)} className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden" />
         )}
 
         {/* Main Operational View Space */}
-        <main className="flex-1 min-h-screen lg:pl-64 w-full bg-[#09090b]">
-          <div className="p-6 lg:p-10 max-w-7xl mx-auto space-y-8">
+        <main className="flex-1 min-h-screen lg:pl-60 w-full bg-[#090b0f]">
+          <div className="p-5 lg:p-8 max-w-7xl mx-auto space-y-6">
             {children}
           </div>
         </main>

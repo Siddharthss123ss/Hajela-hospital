@@ -45,31 +45,28 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-950 px-4 antialiased selection:bg-emerald-500 selection:text-black">
-      {/* Background Decorative Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
-
+    <div className="min-h-screen flex items-center justify-center bg-[#090b0f] px-4 antialiased selection:bg-blue-500/30 selection:text-white">
       <div className="w-full max-w-md z-10">
         <form
           onSubmit={handleLogin}
-          className="bg-zinc-900/80 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-8 shadow-2xl space-y-6"
+          className="bg-[#11141a] border border-zinc-800/80 rounded-md p-6 shadow-xl space-y-5"
         >
           {/* Header */}
-          <div className="text-center space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight text-white">
+          <div className="text-center space-y-1.5">
+            <h1 className="text-xl font-semibold text-white tracking-wide">
               Admin Portal
             </h1>
-            <p className="text-zinc-400 text-sm">
+            <p className="text-zinc-400 text-xs">
               Hajela Hospital Management System
             </p>
           </div>
 
-          <hr className="border-zinc-800" />
+          <hr className="border-zinc-800/80" />
 
           {/* Error Message */}
           {error && (
-            <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm p-3.5 rounded-xl flex items-center gap-3 animate-in fade-in duration-200">
-              <AlertCircle className="w-5 h-5 shrink-0" />
+            <div className="bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs p-3 rounded-md flex items-center gap-2.5 animate-in fade-in duration-200">
+              <AlertCircle className="w-4 h-4 shrink-0" />
               <p>{error}</p>
             </div>
           )}
@@ -77,36 +74,36 @@ export default function LoginPage() {
           {/* Input Fields */}
           <div className="space-y-4">
             {/* Email Field */}
-            <div className="space-y-2">
-              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 block">
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-zinc-400 block">
                 Email Address
               </label>
               <div className="relative group">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500 group-focus-within:text-emerald-500 transition-colors duration-200" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within:text-blue-500 transition-colors duration-200" />
                 <input
                   type="email"
                   placeholder="enter email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-zinc-950/50 border border-zinc-800 rounded-xl py-3 pl-11 pr-4 text-white placeholder-zinc-600 outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/10 transition-all duration-200"
+                  className="w-full bg-[#090b0f] border border-zinc-800 rounded-md py-2 pl-10 pr-4 text-sm text-white placeholder-zinc-700 outline-none focus:border-blue-500 transition-colors duration-200"
                   required
                 />
               </div>
             </div>
 
             {/* Password Field */}
-            <div className="space-y-2">
-              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 block">
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-zinc-400 block">
                 Password
               </label>
               <div className="relative group">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500 group-focus-within:text-emerald-500 transition-colors duration-200" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within:text-blue-500 transition-colors duration-200" />
                 <input
                   type="password"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-zinc-950/50 border border-zinc-800 rounded-xl py-3 pl-11 pr-4 text-white placeholder-zinc-600 outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/10 transition-all duration-200"
+                  className="w-full bg-[#090b0f] border border-zinc-800 rounded-md py-2 pl-10 pr-4 text-sm text-white placeholder-zinc-700 outline-none focus:border-blue-500 transition-colors duration-200"
                   required
                 />
               </div>
@@ -116,11 +113,11 @@ export default function LoginPage() {
           {/* Submit Button */}
           <button
             disabled={loading}
-            className="cursor-pointer w-full bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none text-white rounded-xl py-3 font-semibold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/20"
+            className="cursor-pointer w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none text-white rounded-md py-2.5 text-xs font-medium tracking-wide transition-colors duration-200 flex items-center justify-center gap-2 shadow-lg"
           >
             {loading ? (
               <>
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <Loader2 className="w-4 h-4 animate-spin" />
                 <span>Authenticating...</span>
               </>
             ) : (
@@ -130,7 +127,7 @@ export default function LoginPage() {
         </form>
 
         {/* Footer/Security Text */}
-        <p className="text-center text-zinc-600 text-xs mt-6 tracking-wide">
+        <p className="text-center text-zinc-600 text-xs mt-5 tracking-wide">
           Secured with SSL encryption • Authorized personnel only
         </p>
       </div>
