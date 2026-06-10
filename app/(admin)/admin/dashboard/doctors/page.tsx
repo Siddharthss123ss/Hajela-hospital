@@ -25,10 +25,7 @@ export default function DoctorManagement() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-<<<<<<< HEAD
   // Form States
-=======
->>>>>>> 408fa8aba05f26930a7d7a5c14ee38b6b68c6810
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
   const [role, setRole] = useState('');
@@ -170,7 +167,6 @@ export default function DoctorManagement() {
     setImageUrl(doc.image_url || null);
   };
 
-  // 🔴 FIXED: slug use kar raha hai ab
   const handleDelete = async (slug: string) => {
     if (!confirm("Are you sure you want to delete this doctor?")) return;
     try {
@@ -207,19 +203,11 @@ export default function DoctorManagement() {
 
         <div className="grid gap-6 lg:grid-cols-3">
           
-<<<<<<< HEAD
-          {/* Form Side */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 h-fit max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-              {editingId ? <FiEdit2 className="text-emerald-400" /> : <FiPlus className="text-emerald-400" />}
-              {editingId ? 'Update Doctor Profile' : 'Register New Doctor'}
-=======
           {/* Form Panel */}
-          <div className="rounded-md border border-zinc-800/80 bg-[#11141a] p-5 h-fit max-h-[90vh] overflow-y-auto custom-scrollbar">
+          <div className="rounded-md border border-zinc-800/80 bg-[#11141a] p-5 h-fit max-h-[90vh] overflow-y-auto">
             <h2 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
               {editingId ? <FiEdit2 className="text-blue-500" /> : <FiPlus className="text-blue-500" />}
               {editingId ? 'Modify Doctor Profile' : 'Register New Doctor'}
->>>>>>> 408fa8aba05f26930a7d7a5c14ee38b6b68c6810
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -236,11 +224,7 @@ export default function DoctorManagement() {
               </div>
 
               <div>
-<<<<<<< HEAD
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Slug URL (Unique Identifier)</label>
-=======
                 <label className="block text-xs font-medium text-zinc-400 mb-1">Profile URL Identifier (Slug)</label>
->>>>>>> 408fa8aba05f26930a7d7a5c14ee38b6b68c6810
                 <input 
                   type="text" 
                   value={slug} 
@@ -284,13 +268,8 @@ export default function DoctorManagement() {
                   value={department} 
                   onChange={(e) => setDepartment(e.target.value)} 
                   required 
-<<<<<<< HEAD
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
-                  placeholder="Paediatrics & Neonatology"
-=======
                   className="w-full rounded-md border border-zinc-800 bg-[#090b0f] p-2 text-sm text-white focus:border-blue-500 focus:outline-none placeholder-zinc-600 transition-colors"
                   placeholder="Cardiovascular Care Unit"
->>>>>>> 408fa8aba05f26930a7d7a5c14ee38b6b68c6810
                 />
               </div>
 
@@ -332,11 +311,7 @@ export default function DoctorManagement() {
               </div>
 
               <div>
-<<<<<<< HEAD
-                <label className="block text-xs font-medium text-zinc-400 mb-2">Expertise Badges</label>
-=======
                 <label className="block text-xs font-medium text-zinc-400 mb-2">Available Practice Days</label>
->>>>>>> 408fa8aba05f26930a7d7a5c14ee38b6b68c6810
                 <div className="flex flex-wrap gap-1.5">
                   {DAYS_OF_WEEK.map((day) => {
                     const isSelected = expertise.includes(day);
@@ -376,7 +351,7 @@ export default function DoctorManagement() {
                   type="file" 
                   accept="image/*"
                   onChange={handleImageChange} 
-                  className="w-full text-xs text-zinc-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-zinc-800 file:text-zinc-200 file:cursor-pointer hover:file:bg-zinc-700"
+                  className="w-full text-xs text-zinc-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:medium file:bg-zinc-800 file:text-zinc-200 file:cursor-pointer hover:file:bg-zinc-700"
                 />
               </div>
 
@@ -471,15 +446,9 @@ export default function DoctorManagement() {
                       >
                         <FiEdit2 className="w-3 h-3" /> Edit
                       </button>
-                      {/* 🔴 FIXED: slug pass kar raha hai */}
                       <button 
-<<<<<<< HEAD
                         onClick={() => handleDelete(doc.slug)}
-                        className="flex items-center gap-1.5 bg-rose-950/40 hover:bg-rose-900/60 text-rose-400 text-xs font-medium py-1.5 px-3 rounded-md border border-rose-900/30 transition-colors cursor-pointer"
-=======
-                        onClick={() => handleDelete(doc._id)}
                         className="flex items-center gap-1.5 bg-rose-950/40 hover:bg-rose-900/60 text-rose-400 text-xs font-medium py-1.5 px-2.5 rounded-md border border-rose-900/30 transition-colors cursor-pointer"
->>>>>>> 408fa8aba05f26930a7d7a5c14ee38b6b68c6810
                       >
                         <FiTrash2 className="w-3 h-3" /> Delete
                       </button>
