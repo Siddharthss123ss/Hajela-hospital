@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 
 import {
   Phone,
@@ -38,10 +39,10 @@ export default function Appointment() {
     },
 
     {
-      title: "ICCU & Critical Care",
-      number: "7777802365",
-      icon: "❤️",
-    },
+  title: "ICCU & Critical Care",
+  number: "9827014395",
+  icon: "/icons/iccu.png",
+},
 
     {
       title: "Cochlear Implant Centre",
@@ -49,17 +50,17 @@ export default function Appointment() {
       icon: "🦻",
     },
 
-    {
-      title: "Sonology & Imaging",
-      number: "7777802362",
-      icon: "📡",
-    },
+   {
+  title: "Sonology & Imaging",
+  number: "7777802362",
+  icon: "/icons/sonologys.png",
+},
 
     {
-      title: "ENT & Voice Disorders",
-      number: "7777802365",
-      icon: "🩺",
-    },
+  title: "ENT & Voice Disorders",
+  number: "7777802365",
+  icon: "/icons/ents.png",
+},
 
     {
       title: "Orthopaedics & Joint Replacement",
@@ -81,7 +82,7 @@ export default function Appointment() {
 
     {
       title: "Emergency & Trauma Care",
-      number: "7777802365",
+      number: "07552773393",
       icon: "🚨",
     },
 
@@ -173,7 +174,8 @@ export default function Appointment() {
             items-center
             gap-2
 
-            bg-white
+            bg-white/[0.08]
+backdrop-blur-2xl
 
             border
             border-slate-200
@@ -516,51 +518,61 @@ export default function Appointment() {
                 {departments.map((dept, index) => (
 
                   <div
-                    key={index}
+  key={index}
 
-                    className="
-                    group
+  className="
+  group
 
-                    bg-white/10
+  bg-white/[0.08]
 
-                    border
-                    border-white/10
+  border
+  border-white/10
 
-                    rounded-3xl
+  rounded-3xl
 
-                    p-6
+  p-6
 
-                    hover:bg-white/15
-                    hover:-translate-y-1
+  backdrop-blur-2xl
 
-                    transition-all
-                    duration-300
-                    "
-                  >
+  hover:bg-white/[0.12]
+  hover:border-cyan-400/40
+  hover:shadow-[0_20px_60px_rgba(34,211,238,0.18)]
+  hover:-translate-y-2
 
-                    <div
-                      className="
-                      text-4xl
-                      "
-                    >
+  transition-all
+  duration-300
+  "
+>
+<div className="mb-3">
+  {typeof dept.icon === "string" &&
+  dept.icon.startsWith("/icons") ? (
+    <Image
+      src={dept.icon}
+      alt={dept.title}
+      width={52}
+      height={52}
+      className="object-contain"
+    />
+  ) : (
+    <div className="text-4xl">{dept.icon}</div>
+  )}
+</div>
 
-                      {dept.icon}
+                   <h4
+  className="
+  mt-4
 
-                    </div>
+  text-xl
+  font-bold
 
-                    <h4
-                      className="
-                      mt-4
+  bg-gradient-to-r
+  from-white
+  to-cyan-200
 
-                      text-white
-
-                      text-xl
-
-                      font-bold
-
-                      leading-snug
-                      "
-                    >
+  bg-clip-text
+  text-transparent
+  "
+>
 
                       {dept.title}
 
@@ -584,39 +596,39 @@ export default function Appointment() {
 
                     <a
                       href={`tel:+91${dept.number}`}
+className="
+mt-6
 
-                      className="
-                      mt-6
+inline-flex
+items-center
+justify-center
+gap-2
 
-                      inline-flex
+w-full
 
-                      items-center
-                      justify-center
-                      gap-2
+bg-gradient-to-r
+from-cyan-500
+to-blue-600
 
-                      w-full
+hover:from-cyan-400
+hover:to-blue-500
 
-                      bg-gradient-to-r
-                      from-cyan-500
-                      to-blue-600
+text-white
 
-                      hover:from-cyan-400
-                      hover:to-blue-500
+py-3.5
 
-                      text-white
+rounded-2xl
 
-                      py-3.5
+font-semibold
 
-                      rounded-2xl
+shadow-[0_10px_30px_rgba(6,182,212,0.35)]
 
-                      font-semibold
+hover:shadow-[0_15px_40px_rgba(6,182,212,0.5)]
 
-                      shadow-lg
-
-                      transition-all
-                      duration-300
-                      "
-                    >
+transition-all
+duration-300
+"
+>
 
                       <Phone
                         className="

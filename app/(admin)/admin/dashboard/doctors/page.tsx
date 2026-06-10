@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { FiUser, FiActivity, FiClock, FiCalendar, FiAward, FiPlus, FiEdit2, FiTrash2, FiAlertCircle, FiCamera } from 'react-icons/fi';
 
-// Aapke Mongoose Model ke exact data types se sync kiya hai
 interface IDoctorData {
   _id: string;
   name: string;
@@ -26,7 +25,7 @@ export default function DoctorManagement() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Form States (Ab ye MongoDB keys se 100% match karti hain)
+  // Form States
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
   const [role, setRole] = useState('');
@@ -43,10 +42,9 @@ export default function DoctorManagement() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    fetchDoctors().finally(() => setLoading(false));
+    fetchDoctors();
   }, []);
 
-  // Automatic slug generate karne ke liye utility function
   const generateSlug = (text: string) => {
     return text
       .toLowerCase()
@@ -60,12 +58,13 @@ export default function DoctorManagement() {
     const value = e.target.value;
     setName(value);
     if (!editingId) {
-      setSlug(generateSlug(value)); // Naya doctor banate waqt auto-slug
+      setSlug(generateSlug(value));
     }
   };
 
   async function fetchDoctors() {
     try {
+      setLoading(true);
       setError(null);
       const res = await fetch('/api/doctors');
       if (!res.ok) throw new Error();
@@ -73,6 +72,8 @@ export default function DoctorManagement() {
       setDoctors(data);
     } catch {
       setError("Failed to load doctors directory");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -113,7 +114,6 @@ export default function DoctorManagement() {
     setIsSubmitting(true);
     setError(null);
 
-    // Exact database format object payload
     const payload = {
       name,
       slug: slug.toLowerCase().trim() || generateSlug(name),
@@ -167,11 +167,12 @@ export default function DoctorManagement() {
     setImageUrl(doc.image_url || null);
   };
 
-  const handleDelete = async (id: string) => {
+  // 🔴 FIXED: slug use kar raha hai ab
+  const handleDelete = async (slug: string) => {
     if (!confirm("Are you sure you want to delete this doctor?")) return;
     try {
       setError(null);
-      const res = await fetch(`/api/doctors/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/doctors/${slug}`, { method: 'DELETE' });
       if (!res.ok) throw new Error();
       fetchDoctors();
     } catch {
@@ -204,7 +205,7 @@ export default function DoctorManagement() {
         <div className="grid gap-8 lg:grid-cols-3">
           
           {/* Form Side */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 h-fit max-h-[90vh] overflow-y-auto custom-scrollbar">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 h-fit max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
               {editingId ? <FiEdit2 className="text-emerald-400" /> : <FiPlus className="text-emerald-400" />}
               {editingId ? 'Update Doctor Profile' : 'Register New Doctor'}
@@ -224,7 +225,7 @@ export default function DoctorManagement() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Slug URL (Unique Identifer)</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Slug URL (Unique Identifier)</label>
                 <input 
                   type="text" 
                   value={slug} 
@@ -269,7 +270,7 @@ export default function DoctorManagement() {
                   onChange={(e) => setDepartment(e.target.value)} 
                   required 
                   className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"
-                  placeholder="Paediatricians & Neonatology"
+                  placeholder="Paediatrics & Neonatology"
                 />
               </div>
 
@@ -311,7 +312,7 @@ export default function DoctorManagement() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-2">Expertise Badges (Select Schedule Days / Areas)</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-2">Expertise Badges</label>
                 <div className="flex flex-wrap gap-1.5">
                   {DAYS_OF_WEEK.map((day) => {
                     const isSelected = expertise.includes(day);
@@ -346,7 +347,7 @@ export default function DoctorManagement() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-400 mb-1">Cloudinary/Profile Image</label>
+                <label className="block text-xs font-medium text-zinc-400 mb-1">Profile Image</label>
                 <input 
                   type="file" 
                   accept="image/*"
@@ -446,8 +447,9 @@ export default function DoctorManagement() {
                       >
                         <FiEdit2 className="w-3 h-3" /> Edit
                       </button>
+                      {/* 🔴 FIXED: slug pass kar raha hai */}
                       <button 
-                        onClick={() => handleDelete(doc._id)}
+                        onClick={() => handleDelete(doc.slug)}
                         className="flex items-center gap-1.5 bg-rose-950/40 hover:bg-rose-900/60 text-rose-400 text-xs font-medium py-1.5 px-3 rounded-md border border-rose-900/30 transition-colors cursor-pointer"
                       >
                         <FiTrash2 className="w-3 h-3" /> Delete

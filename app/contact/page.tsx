@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 
 import {
@@ -20,21 +21,15 @@ export default function ContactPage() {
   const departments = [
 
     {
-      department: "ENT & Voice Disorders",
-
-      slug: "ent-voice-disorders",
-
-      doctor: "Dr. Anupriya Hajela Shah",
-
-      number: "7777802365",
-
-      icon: "🩺",
-
-      emergency: false,
-
-      description:
-        "Advanced diagnosis and treatment for sinus problems, ear infections, hearing disorders, allergies, throat diseases and professional voice complications.",
-    },
+  department: "ENT & Voice Disorders",
+  slug: "ent-voice-disorders",
+  doctor: "Dr. Anupriya Hajela Shah",
+  number: "7777802365",
+  icon: "/icons/ents.png",
+  emergency: false,
+  description:
+    "Advanced diagnosis and treatment for sinus problems, ear infections, hearing disorders, allergies, throat diseases and professional voice complications.",
+},
 
     {
       department: "IVF & Infertility Centre",
@@ -138,23 +133,16 @@ export default function ContactPage() {
         "Advanced diagnostic imaging facilities including digital X-rays, ultrasound scanning and precision radiology evaluations.",
     },
 
-    {
-      department: "Sonology & Imaging Services",
-
-      slug: "sonology-imaging-services",
-
-      doctor: "Imaging & Sonography Team",
-
-      number: "7777802362",
-
-      icon: "📡",
-
-      emergency: false,
-
-      description:
-        "Advanced ultrasound scanning, pregnancy sonography, abdominal imaging and diagnostic radiology support.",
-    },
-
+   {
+  department: "Sonology & Imaging Services",
+  slug: "sonology-imaging-services",
+  doctor: "Imaging & Sonography Team",
+  number: "7777802362",
+  icon: "/icons/sonologys.png",
+  emergency: false,
+  description:
+    "Advanced ultrasound scanning, pregnancy sonography, abdominal imaging and diagnostic radiology support.",
+},
     {
       department: "Pathology",
 
@@ -172,23 +160,16 @@ export default function ContactPage() {
         "Fast and accurate pathology testing, laboratory services and modern diagnostic evaluations with advanced technology.",
     },
 
-    {
-      department: "ICCU & Critical Care",
-
-      slug: "iccu-critical-care",
-
-      doctor: "Critical Care Unit",
-
-      number: "7777802365",
-
-      icon: "❤️",
-
-      emergency: true,
-
-      description:
-        "Round-the-clock ICU monitoring, ventilator support and emergency intensive care management for critical patients.",
-    },
-
+   {
+  department: "ICCU & Critical Care",
+  slug: "iccu-critical-care",
+  doctor: "Critical Care Unit",
+  number: "9827014395",
+  icon: "/icons/iccu.png",
+  emergency: true,
+  description:
+    "Round-the-clock ICU monitoring, ventilator support and emergency intensive care management for critical patients.",
+},
     {
       department: "Cochlear Implant Centre",
 
@@ -213,7 +194,7 @@ export default function ContactPage() {
 
       doctor: "Emergency Response Team",
 
-      number: "7777802365",
+      number: "07552773393",
 
       icon: "🚨",
 
@@ -415,30 +396,29 @@ export default function ContactPage() {
 
             <div
               key={index}
+className="
+group
 
-              className="
-              group
+relative
 
-              relative
+bg-white
 
-              bg-white
+border
+border-slate-100
 
-              border
-              border-slate-100
+rounded-[35px]
 
-              rounded-[35px]
+p-7
 
-              p-7
+shadow-lg
 
-              shadow-lg
+hover:shadow-[0_20px_50px_rgba(6,182,212,0.15)]
+hover:-translate-y-1
 
-              hover:shadow-2xl
-              hover:-translate-y-1
-
-              transition-all
-              duration-300
-              "
-            >
+transition-all
+duration-300
+"
+>
 
               {dept.emergency && (
 
@@ -468,15 +448,25 @@ export default function ContactPage() {
 
               )}
 
-              <div
-                className="
-                text-5xl
-                "
-              >
-
-                {dept.icon}
-
-              </div>
+              <div className="h-16 flex items-center">
+  {typeof dept.icon === "string" &&
+  dept.icon.startsWith("/icons") ? (
+    <Image
+      src={dept.icon}
+      alt={dept.department}
+      width={64}
+      height={64}
+      className="
+        object-contain
+        transition-all
+        duration-300
+        group-hover:scale-110
+      "
+    />
+  ) : (
+    <div className="text-5xl">{dept.icon}</div>
+  )}
+</div>
 
               <h3
                 className="
