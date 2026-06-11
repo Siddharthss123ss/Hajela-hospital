@@ -95,33 +95,28 @@ export default function Footer() {
   ];
 
   const socialIcons = [
+  {
+    Icon: FaFacebookF,
+    href: "https://facebook.com",
+  },
+  {
+    Icon: FaInstagram,
+    href: "https://instagram.com",
+  },
+  {
+    Icon: FaLinkedinIn,
+    href: "https://linkedin.com",
+  },
+  {
+    Icon: FaTwitter,
+    href: "https://twitter.com",
+  },
+  {
+    Icon: FaYoutube,
+    href: "https://www.youtube.com/@hajelahospital370",
+  },
+];
 
-    {
-      Icon: FaFacebookF,
-      href: "https://facebook.com",
-    },
-
-    {
-      Icon: FaInstagram,
-      href: "https://instagram.com",
-    },
-
-    {
-      Icon: FaLinkedinIn,
-      href: "https://linkedin.com",
-    },
-
-    {
-      Icon: FaTwitter,
-      href: "https://twitter.com",
-    },
-
-    {
-      Icon: FaYoutube,
-      href: "https://youtube.com",
-    },
-
-  ];
 
   return (
 

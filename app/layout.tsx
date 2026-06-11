@@ -190,27 +190,27 @@ export default function RootLayout({
                 "07552773393",
 
               address: {
+  "@type": "PostalAddress",
+  streetAddress:
+    "Geetanjali Complex, Near Mata Mandir Square, Kotra Sultanabad",
+  addressLocality: "Bhopal",
+  addressRegion: "Madhya Pradesh",
+  postalCode: "462003",
+  addressCountry: "IN",
+  
+},
 
-                "@type":
-                  "PostalAddress",
+hasMap: "https://maps.app.goo.gl/6gbCpFzNFFMkpHPV7",
 
-                streetAddress:
-                  "Hajela Hospital",
+areaServed: {
+  "@type": "City",
+  name: "Bhopal",
+},
 
-                addressLocality:
-                  "Bhopal",
-
-                addressRegion:
-                  "Madhya Pradesh",
-
-                postalCode:
-                  "462001",
-
-                addressCountry:
-                  "IN",
-
-              },
-
+sameAs: [
+  "https://www.facebook.com/HajelaOfficial/",
+  "https://www.instagram.com/hajela.hospital.bhopal/",
+],
               geo: {
 
                 "@type":

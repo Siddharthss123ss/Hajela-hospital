@@ -140,6 +140,9 @@ export default function Emergency() {
                   <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight">
                     <a href="tel:07552772233" className="hover:text-red-200 transition-colors">0755 277 2233</a>
                   </h3>
+                   <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight">
+                    <a href="tel:+919575052525" className="hover:text-red-200 transition-colors">+919575052525</a>
+                  </h3>
                 </div>
                 <p className="mt-3 text-sm text-white/70">📞 Available 24/7 • Immediate Assistance</p>
               </div>

@@ -73,15 +73,15 @@ export default async function DoctorDetailPage({
       <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-14 items-start">
         
         <div className="relative w-full h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl bg-slate-100">
-          <Image
-            src={getOptimizedImageUrl(doctor.image_url)}
-            alt={doctor.name}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover"
-            priority
-            quality={85}
-          />
+         <Image
+  src={getOptimizedImageUrl(doctor.image_url)}
+  alt={doctor.name}
+  fill
+  sizes="(max-width: 768px) 100vw, 50vw"
+  className="object-cover object-[center_25%]"
+  priority
+  quality={85}
+/>
         </div>
 
         <div>

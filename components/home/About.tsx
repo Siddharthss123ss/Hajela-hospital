@@ -90,14 +90,13 @@ export default function About() {
               </p>
             </div>
 
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.15] tracking-tight text-slate-900">
-              Leading Bhopal’s
-              <span className="bg-gradient-to-r from-blue-900 via-cyan-600 to-cyan-500 bg-clip-text text-transparent">
-                {" "}Future Of
-              </span>
-              <br />
-              Premium Healthcare
-            </h2>
+<h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.15] tracking-tight text-slate-900">
+  Best Multispeciality Hospital In Bhopal
+</h1>
+
+<h2 className="mt-4 text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-900 via-cyan-600 to-cyan-500 bg-clip-text text-transparent">
+  Leading Bhopal’s Future Of Premium Healthcare
+</h2>
 
             <p className="border-l-4 border-cyan-500 pl-6 text-lg leading-relaxed text-slate-600">
               Established in 1995, Hajela Hospital has become one
